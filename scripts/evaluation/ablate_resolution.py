@@ -33,15 +33,15 @@ EXAMPLES
     R=512; IDX=assets/eval_index/re10k/c3g_re10k_ctx_12v_trg_3v.json
     CK=globalsplat-re10k-32k.ckpt   # Tables 2/3 in the paper use the 32K model
 
-    python ablate_resolution.py --ckpt $CK --mode plain       --resolution $R --overrides dataset.eval_index_path=$IDX
-    python ablate_resolution.py --ckpt $CK --mode render-only  --resolution $R --context-resolution 256 --overrides dataset.eval_index_path=$IDX
-    python ablate_resolution.py --ckpt $CK --mode virtual      --resolution $R --phase 2 --overrides dataset.eval_index_path=$IDX
-    python ablate_resolution.py --ckpt $CK --mode duplicate    --resolution $R --duplicate 4 --overrides dataset.eval_index_path=$IDX
+    python scripts/evaluation/ablate_resolution.py --ckpt $CK --mode plain       --resolution $R --overrides dataset.eval_index_path=$IDX
+    python scripts/evaluation/ablate_resolution.py --ckpt $CK --mode render-only  --resolution $R --context-resolution 256 --overrides dataset.eval_index_path=$IDX
+    python scripts/evaluation/ablate_resolution.py --ckpt $CK --mode virtual      --resolution $R --phase 2 --overrides dataset.eval_index_path=$IDX
+    python scripts/evaluation/ablate_resolution.py --ckpt $CK --mode duplicate    --resolution $R --duplicate 4 --overrides dataset.eval_index_path=$IDX
 
     # sweep all of them, logging each:
     for M in plain render-only virtual duplicate; do
       echo "=== $M ==="
-      python ablate_resolution.py --ckpt $CK --mode $M --resolution $R \
+      python scripts/evaluation/ablate_resolution.py --ckpt $CK --mode $M --resolution $R \
           --overrides dataset.eval_index_path=$IDX 2>&1 | tee ablate_${M}.log
     done
 

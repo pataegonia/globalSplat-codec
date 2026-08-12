@@ -17,7 +17,10 @@ venv/
 .env
 
 # logs / experiment outputs
-logs/
+logs/*
+!logs/slurm/
+logs/slurm/*
+!logs/slurm/.gitkeep
 checkpoints/
 checkpoint/
 outputs/

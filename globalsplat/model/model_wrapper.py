@@ -762,6 +762,7 @@ class GlobalSplatModule(pl.LightningModule):
         ) = self._load_eval_utils()
         self.benchmarker = Benchmarker()
         self.test_step_outputs = {"psnr": [], "ssim": [], "lpips": []}
+        self.codec_step_outputs = []
         self.time_skip_steps_dict = {"encoder": 0, "decoder": 0}
 
     @torch.no_grad()
@@ -775,6 +776,8 @@ class GlobalSplatModule(pl.LightningModule):
         # Encode -> Gaussians (timed like the upstream encoder).
         with self.benchmarker.time("encoder"):
             preds = self.model(inputs)
+        if self.model.last_codec_stats is not None:
+            self.codec_step_outputs.append(dict(self.model.last_codec_stats))
         # Decode/render to the target views (timed like the upstream decoder).
         with self.benchmarker.time("decoder", num_calls=T):
             out = render_static_batched(preds, trg, render_depth=False)
@@ -844,6 +847,27 @@ class GlobalSplatModule(pl.LightningModule):
         with (out_dir / "scores_all_avg.json").open("w") as f:
             json.dump(saved, f)
 
+        if self.codec_step_outputs:
+            codec_summary = {
+                "scenes": len(self.codec_step_outputs),
+                "texture_bits": self.codec_step_outputs[0]["texture_bits"],
+                "geometry_bits": self.codec_step_outputs[0]["geometry_bits"],
+                "backend": self.codec_step_outputs[0]["backend"],
+                "scale_mode": self.codec_step_outputs[0]["scale_mode"],
+                "clip_percentile": self.codec_step_outputs[0]["clip_percentile"],
+            }
+            for key in (
+                "bytes", "texture_payload_bytes", "geometry_payload_bytes",
+                "bits_per_value", "texture_mse", "geometry_mse",
+            ):
+                values = [float(row[key]) for row in self.codec_step_outputs]
+                codec_summary[f"mean_{key}"] = sum(values) / len(values)
+            with (out_dir / "codec_summary.json").open("w") as f:
+                json.dump(codec_summary, f, indent=2)
+            with (out_dir / "codec_per_scene.json").open("w") as f:
+                json.dump(self.codec_step_outputs, f)
+            print(json.dumps(codec_summary, indent=2))
+
     def configure_optimizers(self):
         # Optimizer + LR schedule (and the weight-decay param-group policy) live
         # in model.optim so they can be reused / tested without a LightningModule.
@@ -857,6 +881,9 @@ class GlobalSplatModule(pl.LightningModule):
             min_lr_floor=self.min_lr_floor,
             warmup_epochs_fallback=self.warmup_epochs_fallback,
             max_epochs=int(getattr(getattr(self, "trainer", None), "max_epochs", 100)),
+            # Lightning 2.4 cannot apply gradient clipping to fused AdamW.
+            # Keep the configured clipping policy and use the standard kernel.
+            fused=False,
         )
 
 

@@ -1,0 +1,81 @@
+[rank: 0] Seed set to 0
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+Restoring states from the checkpoint path at /ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt
+/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/pytorch_lightning/utilities/migration/utils.py:56: The loaded checkpoint was produced with Lightning v2.5.5, which is newer than your current Lightning version: v2.4.0
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loaded model weights from the checkpoint at /ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt
+SLURM auto-requeueing enabled. Setting signal handlers.
+/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/pytorch_lightning/utilities/data.py:122: Your `IterableDataset` has `__len__` defined. In combination with multi-process data loading (when num_workers > 1), `__len__` could be inaccurate if each worker is not configured independently to avoid having duplicate data.
+/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /home/clue9986/.cache/torch/hub/checkpoints/vgg16-397923af.pth
+
+  0%|          | 0.00/528M [00:00<?, ?B/s][A
+  1%|          | 4.00M/528M [00:00<00:13, 41.5MB/s][A
+  2%|▏         | 8.75M/528M [00:00<00:11, 46.2MB/s][A
+  3%|▎         | 14.5M/528M [00:00<00:10, 52.6MB/s][A
+  4%|▍         | 20.9M/528M [00:00<00:09, 57.0MB/s][A
+  5%|▌         | 27.8M/528M [00:00<00:08, 62.1MB/s][A
+  7%|▋         | 35.8M/528M [00:00<00:07, 69.2MB/s][A
+  8%|▊         | 43.5M/528M [00:00<00:06, 73.1MB/s][A
+ 10%|▉         | 50.5M/528M [00:00<00:06, 72.6MB/s][A
+ 11%|█         | 57.5M/528M [00:00<00:06, 71.6MB/s][A
+ 12%|█▏        | 64.4M/528M [00:01<00:07, 67.3MB/s][A
+ 13%|█▎        | 70.9M/528M [00:01<00:07, 65.9MB/s][A
+ 15%|█▍        | 77.2M/528M [00:01<00:07, 65.1MB/s][A
+ 16%|█▌        | 85.4M/528M [00:01<00:06, 69.1MB/s][A
+ 18%|█▊        | 93.1M/528M [00:01<00:06, 71.9MB/s][A
+ 19%|█▉        | 101M/528M [00:01<00:05, 75.3MB/s] [A
+ 21%|██        | 108M/528M [00:01<00:05, 74.0MB/s][A
+ 22%|██▏       | 118M/528M [00:01<00:05, 79.4MB/s][A
+ 24%|██▎       | 125M/528M [00:01<00:05, 79.7MB/s][A
+ 26%|██▌       | 135M/528M [00:01<00:04, 87.0MB/s][A
+ 27%|██▋       | 145M/528M [00:02<00:04, 89.9MB/s][A
+ 29%|██▉       | 154M/528M [00:02<00:04, 93.8MB/s][A
+ 31%|███       | 164M/528M [00:02<00:04, 94.5MB/s][A
+ 33%|███▎      | 173M/528M [00:02<00:03, 95.6MB/s][A
+ 35%|███▍      | 184M/528M [00:02<00:03, 99.4MB/s][A
+ 37%|███▋      | 194M/528M [00:02<00:03, 101MB/s] [A
+ 39%|███▊      | 204M/528M [00:02<00:03, 103MB/s][A
+ 41%|████      | 214M/528M [00:02<00:03, 104MB/s][A
+ 42%|████▏     | 224M/528M [00:02<00:03, 102MB/s][A
+ 44%|████▍     | 234M/528M [00:02<00:02, 103MB/s][A
+ 46%|████▋     | 245M/528M [00:03<00:02, 104MB/s][A
+ 48%|████▊     | 255M/528M [00:03<00:02, 105MB/s][A
+ 50%|█████     | 266M/528M [00:03<00:02, 106MB/s][A
+ 52%|█████▏    | 277M/528M [00:03<00:02, 110MB/s][A
+ 54%|█████▍    | 288M/528M [00:03<00:02, 109MB/s][A
+ 56%|█████▋    | 298M/528M [00:03<00:02, 109MB/s][A
+ 58%|█████▊    | 308M/528M [00:03<00:02, 106MB/s][A
+ 60%|██████    | 319M/528M [00:03<00:02, 101MB/s][A
+ 62%|██████▏   | 328M/528M [00:03<00:02, 93.8MB/s][A
+ 64%|██████▍   | 338M/528M [00:04<00:02, 92.6MB/s][A
+ 66%|██████▌   | 347M/528M [00:04<00:02, 93.7MB/s][A
+ 68%|██████▊   | 357M/528M [00:04<00:01, 96.7MB/s][A
+ 69%|██████▉   | 366M/528M [00:04<00:01, 94.2MB/s][A
+ 71%|███████   | 375M/528M [00:04<00:01, 86.9MB/s][A
+ 73%|███████▎  | 384M/528M [00:04<00:01, 85.8MB/s][A
+ 74%|███████▍  | 392M/528M [00:04<00:01, 83.3MB/s][A
+ 76%|███████▌  | 401M/528M [00:04<00:01, 86.2MB/s][A
+ 78%|███████▊  | 411M/528M [00:04<00:01, 89.8MB/s][A
+ 80%|███████▉  | 420M/528M [00:05<00:01, 90.9MB/s][A
+ 82%|████████▏ | 430M/528M [00:05<00:01, 96.1MB/s][A
+ 83%|████████▎ | 440M/528M [00:05<00:00, 96.3MB/s][A
+ 85%|████████▌ | 449M/528M [00:05<00:00, 95.9MB/s][A
+ 87%|████████▋ | 458M/528M [00:05<00:00, 96.5MB/s][A
+ 89%|████████▊ | 468M/528M [00:05<00:00, 96.6MB/s][A
+ 91%|█████████ | 478M/528M [00:05<00:00, 100MB/s] [A
+ 93%|█████████▎| 489M/528M [00:05<00:00, 104MB/s][A
+ 95%|█████████▍| 499M/528M [00:05<00:00, 103MB/s][A
+ 97%|█████████▋| 510M/528M [00:05<00:00, 106MB/s][A
+ 99%|█████████▊| 520M/528M [00:06<00:00, 104MB/s][A100%|██████████| 528M/528M [00:06<00:00, 90.3MB/s]

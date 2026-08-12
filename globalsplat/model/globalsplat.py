@@ -16,6 +16,8 @@ gsplat renderer consumes directly. The rasterizer itself lives in
 from __future__ import annotations
 
 from typing import Tuple
+import tempfile
+from pathlib import Path
 
 import torch
 import torch.nn as nn
@@ -46,6 +48,12 @@ class GlobalSplat(nn.Module):
         slot_calib_layers_per_round: int = 2,
         num_heads: int = 8,
         M_max: int = 16,
+        latent_codec_bits: int = 0,
+        latent_codec_backend: str = "compressai",
+        latent_codec_texture_bits: int = 0,
+        latent_codec_geometry_bits: int = 0,
+        latent_codec_scale_mode: str = "global",
+        latent_codec_clip_percentile: float | None = None,
     ):
         super().__init__()
 
@@ -59,6 +67,22 @@ class GlobalSplat(nn.Module):
         self.dim_rays = dim_rays
         self.dim_rgb_feat = dim_rgb_feat
         self.dim_latents = dim_latents
+        self.latent_codec_bits = int(latent_codec_bits)
+        self.latent_codec_backend = str(latent_codec_backend)
+        self.latent_codec_texture_bits = int(latent_codec_texture_bits)
+        self.latent_codec_geometry_bits = int(latent_codec_geometry_bits)
+        self.latent_codec_scale_mode = str(latent_codec_scale_mode)
+        self.latent_codec_clip_percentile = latent_codec_clip_percentile
+        self.last_codec_stats = None
+        codec_bit_values = (
+            self.latent_codec_bits,
+            self.latent_codec_texture_bits,
+            self.latent_codec_geometry_bits,
+        )
+        if any(v != 0 and not 2 <= v <= 12 for v in codec_bit_values):
+            raise ValueError("latent codec bit depths must be 0 or in [2, 12]")
+        if bool(self.latent_codec_texture_bits) != bool(self.latent_codec_geometry_bits):
+            raise ValueError("set both latent_codec_texture_bits and latent_codec_geometry_bits")
 
         ph, pw = self.patch_size
 
@@ -181,6 +205,40 @@ class GlobalSplat(nn.Module):
         # The encoder also returns aggregate auxiliary tokens; they shape the
         # scene tokens via attention but are not decoded here.
         _aux, encoded_patch, _global = self.slot_encoder(content_tokens, state=scene_state)
+
+        # Optional evaluation-only transform-free codec round-trip.  Geometry
+        # and texture are flattened and arithmetic-coded independently, then
+        # restored to their original shape before the unchanged decoder.
+        self.last_codec_stats = None
+        codec_enabled = self.latent_codec_bits or self.latent_codec_texture_bits
+        if codec_enabled:
+            from ..compression import decode_scene_latents, encode_scene_latents
+
+            texture, geometry = encoded_patch
+            if texture.shape[0] != 1:
+                raise ValueError("latent codec currently expects evaluation batch size 1")
+            with tempfile.TemporaryDirectory(prefix="globalsplat-codec-") as tmp:
+                bitstream = Path(tmp) / "scene.gsac"
+                stats = encode_scene_latents(
+                    texture,
+                    geometry,
+                    bitstream,
+                    bits=self.latent_codec_bits,
+                    texture_bits=(self.latent_codec_texture_bits or self.latent_codec_bits),
+                    geometry_bits=(self.latent_codec_geometry_bits or self.latent_codec_bits),
+                    backend=self.latent_codec_backend,
+                    scale_mode=self.latent_codec_scale_mode,
+                    clip_percentile=self.latent_codec_clip_percentile,
+                )
+                texture_hat, geometry_hat = decode_scene_latents(
+                    bitstream, device=texture.device
+                )
+            stats.update({
+                "texture_mse": torch.mean((texture.float() - texture_hat) ** 2).item(),
+                "geometry_mse": torch.mean((geometry.float() - geometry_hat) ** 2).item(),
+            })
+            self.last_codec_stats = stats
+            encoded_patch = (texture_hat.to(texture.dtype), geometry_hat.to(geometry.dtype))
 
         means, rotations, scales, sh, opacities, reg = self.gaussian_decoder(encoded_patch)
 

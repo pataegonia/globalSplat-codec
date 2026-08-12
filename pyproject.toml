@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "GlobalSplat: efficient feed-forward 3D Gaussian Splatting via global scene tokens (align first, decode later)."
 readme = "README.md"
 # Source-available, noncommercial: PolyForm Noncommercial 1.0.0 plus the
-# additional terms in ADDITIONAL_TERMS.md (commercial use by separate license;
+# additional terms in ADDITIONAL_TERMS.md (commercial use by separate license;1
 # no military/surveillance use). Not an OSI open-source license. The table form
 # below is compatible with setuptools>=61 (the PEP 639 SPDX-string form needs
 # setuptools>=77).
@@ -84,6 +84,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+codec = [
+    "compressai>=1.2.8",
+]
 # gsplat must be compiled against your CUDA toolchain + the installed torch.
 # Installing it from source builds the CUDA kernels ahead-of-time, so there is no
 # first-call JIT compilation (and therefore no multi-rank DDP/NFS build race).

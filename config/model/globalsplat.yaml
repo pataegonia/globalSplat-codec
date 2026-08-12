@@ -19,3 +19,14 @@ slot_calib_layers_per_round: 2
 M_max: 16
 
 use_camera_diff_as_input: false
+
+# 0 disables the codec. 4/6/8 runs transform-free scalar quantization followed
+# by static arithmetic encode/decode between the slot encoder and decoder.
+latent_codec_bits: 0
+latent_codec_backend: compressai
+# When both are non-zero they override latent_codec_bits and allow asymmetric
+# allocation between the two streams.
+latent_codec_texture_bits: 0
+latent_codec_geometry_bits: 0
+latent_codec_scale_mode: global       # global | channel
+latent_codec_clip_percentile: null    # null=max; e.g. 99.9 enables clipping
