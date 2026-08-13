@@ -80,3 +80,37 @@ times, CDF construction, and group-dispatch time. The relevant output files are:
 | `module_profile_summary.json` | aggregated module timing and memory |
 | `module_profile_per_scene.json` | raw per-scene module measurements |
 | `peak_memory.json` | largest absolute CUDA allocator peak |
+
+## Decoder-only QAT fine-tuning
+
+The first fine-tuning experiment keeps the codec at its current location after
+the final Mixer/PairAdapter and before the Gaussian decoder. During training,
+actual file I/O and rANS are replaced by a straight-through G9/T7 Q/DQ surrogate
+whose forward values exactly match the production scalar quantizer.
+
+```text
+frozen tokenizer + frozen slot encoder
+    -> fixed Geo/Tex latent
+    -> G9/T7 STE Q/DQ
+    -> trainable Gaussian decoder
+    -> rendering loss
+```
+
+Only 63,612 Gaussian-decoder parameters are trainable; the remaining 82.8M
+parameters are frozen. Since the representation is unchanged, the G32/T32 CDF
+profile, integer symbols, and the measured 3,331,072-byte mean scene bitstream
+remain unchanged. Fine-tuning only attempts to improve reconstruction quality.
+
+The default run is 10,000 steps, LR 2e-5, four GPUs, final 32K Gaussian stage
+throughout, with checkpoints every 1,000 steps:
+
+```bash
+bash slurm/submit.sh slurm/training/finetune_codec_qat_decoder_re10k.sbatch
+```
+
+After selecting a checkpoint, pass it to the final evaluation/profile job:
+
+```bash
+CHECKPOINT=<qat-checkpoint.ckpt> \
+bash slurm/submit.sh slurm/evaluation/eval_latent_codec_final_re10k.sbatch
+```

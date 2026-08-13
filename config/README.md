@@ -28,6 +28,7 @@ config/
     re10k_2k.yaml      `+experiment=` overlays: pick a dataset + the Gaussian
     re10k_16k.yaml     budget (latents × 2**final_stage) + the experiment name
     re10k_32k.yaml
+    re10k_32k_codec_qat_decoder.yaml   decoder-only G9/T7 QAT fine-tuning
     dl3dv.yaml
 ```
 

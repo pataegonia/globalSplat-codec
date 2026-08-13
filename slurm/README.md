@@ -14,6 +14,8 @@
 - `evaluation/eval_latent_codec_final_re10k.sbatch`: full rendered evaluation
   of the selected G9/T7 + fixed G32/T32 codec on `ariel-v10`, including
   synchronized per-module time and CUDA peak-memory profiling.
+- `training/finetune_codec_qat_decoder_re10k.sbatch`: decoder-only QAT of the
+  current post-Mixer G9/T7 codec; the representation and bitstream stay fixed.
 - `training/`: model training jobs.
 
 Submit jobs from the repository root so relative output paths resolve correctly:
@@ -28,6 +30,8 @@ bash slurm/submit.sh slurm/analysis/grouped_cdf_re10k.sbatch
 bash slurm/submit.sh slurm/analysis/fixed_grouped_codec_re10k.sbatch
 
 bash slurm/submit.sh slurm/evaluation/eval_latent_codec_final_re10k.sbatch
+
+bash slurm/submit.sh slurm/training/finetune_codec_qat_decoder_re10k.sbatch
 ```
 
 Additional `sbatch` options go after the job path:

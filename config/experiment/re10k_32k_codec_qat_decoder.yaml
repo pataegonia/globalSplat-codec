@@ -1,0 +1,55 @@
+# @package _global_
+# Decoder-only quantization-aware fine-tuning at the current post-Mixer codec
+# location. The encoder/latents/profile stay fixed, so rate is unchanged.
+defaults:
+  - override /dataset: re10k
+
+experiment_name: globalsplat_re10k_32k_codec_qat_decoder
+
+model:
+  latent_rep_token_amount: 4096
+  latent_codec_bits: 0
+  latent_codec_geometry_bits: 9
+  latent_codec_texture_bits: 7
+  latent_codec_backend: compressai
+  latent_codec_scale_mode: channel
+  latent_codec_clip_percentile: null
+  latent_codec_cdf_mode: fixed_grouped
+  latent_codec_profile_path: ${oc.env:GLOBALSPLAT_CDF_PROFILE}
+  latent_codec_geometry_groups: 32
+  latent_codec_texture_groups: 32
+  latent_codec_cdf_precision: 16
+  latent_codec_cdf_alpha: 0.5
+  latent_codec_qat: true
+  latent_codec_qat_scope: decoder
+
+# Small learning rate: only the Gaussian decoder is trainable.
+optimizer:
+  lr: 2.0e-5
+  weight_decay: 1.0e-6
+  batch_size: 1
+  warmup_pct: 0.05
+  min_lr_ratio: 0.05
+  min_lr_floor: 1.0e-6
+
+# Keep the pretrained 32K capacity for the entire fine-tuning run.
+curriculum:
+  boundaries: [0, 0, 0]
+  ramp_iters: 0
+  final_stage: 3
+
+# Decoder-only QAT uses the ordinary rendering objective. The two-subset path
+# would double frozen-encoder work without changing the fixed representation.
+loss:
+  subset_consistency: false
+
+trainer:
+  max_steps: 10000
+  limit_val_batches: 50
+  check_val_every_n_epoch: 1
+
+checkpointing:
+  resume: false
+  auto_resume: false
+  every_n_train_steps: 1000
+  save_top_k: -1

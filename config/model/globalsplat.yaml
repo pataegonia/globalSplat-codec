@@ -38,3 +38,6 @@ latent_codec_texture_groups: 1
 latent_codec_geometry_groups: 1
 latent_codec_cdf_precision: 16
 latent_codec_cdf_alpha: 0.5
+# Training-only Q/DQ surrogate. Evaluation always uses the actual rANS path.
+latent_codec_qat: false
+latent_codec_qat_scope: decoder

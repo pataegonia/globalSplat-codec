@@ -239,6 +239,47 @@ def _quantize(
     return (signed + qmax).reshape(-1), scale
 
 
+def ste_quantize_dequantize(
+    x: torch.Tensor,
+    bits: int,
+    *,
+    scale_mode: str = "channel",
+    clip_percentile: float | None = None,
+) -> torch.Tensor:
+    """Differentiable training surrogate for the production scalar Q/DQ.
+
+    Forward values use hard round/clamp exactly like the codec. Backward uses a
+    straight-through estimator for the normalized latent. Scale is detached so
+    the model cannot exploit gradients through the per-scene range estimator.
+    ``channel`` computes an independent scale for every scene and channel.
+    """
+    bits = int(bits)
+    if not 2 <= bits <= 12:
+        raise ValueError("bits must be in [2, 12]")
+    if clip_percentile is not None:
+        raise ValueError(
+            "QAT currently supports max scaling only; clip_percentile must be None"
+        )
+    qmax = (1 << (bits - 1)) - 1
+    work = x.float()
+    if scale_mode == "global":
+        # One scale per scene, retaining broadcast dimensions.
+        reduce_axes = tuple(range(1, work.ndim)) if work.ndim > 1 else (0,)
+    elif scale_mode == "channel":
+        # Preserve batch and final channel axes.
+        reduce_axes = tuple(range(1, work.ndim - 1))
+        if not reduce_axes:
+            raise ValueError("channel QAT expects shape [B, ..., C]")
+    else:
+        raise ValueError("scale_mode must be 'global' or 'channel'")
+    threshold = work.detach().abs().amax(dim=reduce_axes, keepdim=True)
+    scale = (threshold / qmax).clamp_min(torch.finfo(torch.float32).tiny)
+    normalized = work / scale
+    hard = normalized.round().clamp(-qmax, qmax)
+    quantized_ste = normalized + (hard - normalized).detach()
+    return (quantized_ste * scale).to(dtype=x.dtype)
+
+
 def _compressai_cdf(symbols: np.ndarray, alphabet: int) -> np.ndarray:
     try:
         from compressai.entropy_models.entropy_models import pmf_to_quantized_cdf

@@ -9,7 +9,9 @@ from globalsplat.compression import (
     decode_scene_latents,
     encode_scene_latents,
     load_grouped_cdf_profile,
+    ste_quantize_dequantize,
 )
+from globalsplat.compression.arithmetic_codec import _quantize
 
 
 def test_arithmetic_codec_roundtrip(tmp_path):
@@ -225,3 +227,23 @@ def test_fixed_grouped_compressai_roundtrip_and_zero_cdf_side_info(tmp_path):
     assert "counts" not in header["geometry"]
     assert header["fixed_cdf"]["profile_id"] == profile["profile_id"]
     assert encoded["bytes"] == encoded["payload_bytes"] + encoded["header_bytes"]
+
+
+def test_ste_qdq_matches_production_quantizer_and_passes_gradient():
+    generator = torch.Generator().manual_seed(19)
+    latent = torch.randn(1, 17, 6, generator=generator, requires_grad=True)
+    bits = 7
+
+    actual = ste_quantize_dequantize(latent, bits, scale_mode="channel")
+    symbols, scales = _quantize(latent, bits, "channel", None)
+    qmax = (1 << (bits - 1)) - 1
+    expected = torch.from_numpy(
+        ((symbols.reshape(latent.shape) - qmax) * scales.reshape(1, 1, -1)).astype(
+            np.float32
+        )
+    )
+
+    assert torch.equal(actual.detach(), expected)
+    actual.sum().backward()
+    assert latent.grad is not None
+    assert torch.all(torch.isfinite(latent.grad))
