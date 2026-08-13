@@ -1,0 +1,179 @@
+Actual fixed-CDF codec: adaptive_k1, G9/T7, 5601 test scenes
+Node constraint: ariel-v10
+Output: /ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/adaptive_k1
+Wed Aug 12 19:49:24 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.07             Driver Version: 535.161.07   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA RTX A5000               On  | 00000000:20:00.0 Off |                  Off |
+| 30%   35C    P8              28W / 230W |      1MiB / 24564MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+[adaptive_k1] 1 scenes: mean total=3445825.0 B, exact=1/1
+[adaptive_k1] 50 scenes: mean total=3443042.7 B, exact=50/50
+[adaptive_k1] 100 scenes: mean total=3435706.2 B, exact=100/100
+[adaptive_k1] 150 scenes: mean total=3433833.0 B, exact=150/150
+[adaptive_k1] 200 scenes: mean total=3433113.3 B, exact=200/200
+[adaptive_k1] 250 scenes: mean total=3433189.4 B, exact=250/250
+[adaptive_k1] 300 scenes: mean total=3432305.5 B, exact=300/300
+[adaptive_k1] 350 scenes: mean total=3432194.0 B, exact=350/350
+[adaptive_k1] 400 scenes: mean total=3432092.9 B, exact=400/400
+[adaptive_k1] 450 scenes: mean total=3431961.4 B, exact=450/450
+[adaptive_k1] 500 scenes: mean total=3430655.7 B, exact=500/500
+[adaptive_k1] 550 scenes: mean total=3430022.7 B, exact=550/550
+[adaptive_k1] 600 scenes: mean total=3429790.8 B, exact=600/600
+[adaptive_k1] 650 scenes: mean total=3429826.2 B, exact=650/650
+[adaptive_k1] 700 scenes: mean total=3430862.0 B, exact=700/700
+[adaptive_k1] 750 scenes: mean total=3430766.2 B, exact=750/750
+[adaptive_k1] 800 scenes: mean total=3430767.3 B, exact=800/800
+[adaptive_k1] 850 scenes: mean total=3431034.2 B, exact=850/850
+[adaptive_k1] 900 scenes: mean total=3430798.1 B, exact=900/900
+[adaptive_k1] 950 scenes: mean total=3430314.3 B, exact=950/950
+[adaptive_k1] 1000 scenes: mean total=3430660.5 B, exact=1000/1000
+[adaptive_k1] 1050 scenes: mean total=3430253.9 B, exact=1050/1050
+[adaptive_k1] 1100 scenes: mean total=3430410.0 B, exact=1100/1100
+[adaptive_k1] 1150 scenes: mean total=3430059.7 B, exact=1150/1150
+[adaptive_k1] 1200 scenes: mean total=3429936.4 B, exact=1200/1200
+[adaptive_k1] 1250 scenes: mean total=3429657.7 B, exact=1250/1250
+[adaptive_k1] 1300 scenes: mean total=3429572.8 B, exact=1300/1300
+[adaptive_k1] 1350 scenes: mean total=3428966.0 B, exact=1350/1350
+[adaptive_k1] 1400 scenes: mean total=3429285.5 B, exact=1400/1400
+[adaptive_k1] 1450 scenes: mean total=3429650.8 B, exact=1450/1450
+[adaptive_k1] 1500 scenes: mean total=3429598.8 B, exact=1500/1500
+[adaptive_k1] 1550 scenes: mean total=3429717.3 B, exact=1550/1550
+[adaptive_k1] 1600 scenes: mean total=3429912.1 B, exact=1600/1600
+[adaptive_k1] 1650 scenes: mean total=3430101.7 B, exact=1650/1650
+[adaptive_k1] 1700 scenes: mean total=3430165.6 B, exact=1700/1700
+[adaptive_k1] 1750 scenes: mean total=3430531.7 B, exact=1750/1750
+[adaptive_k1] 1800 scenes: mean total=3430521.1 B, exact=1800/1800
+[adaptive_k1] 1850 scenes: mean total=3430394.2 B, exact=1850/1850
+[adaptive_k1] 1900 scenes: mean total=3430615.5 B, exact=1900/1900
+[adaptive_k1] 1950 scenes: mean total=3430767.2 B, exact=1950/1950
+[adaptive_k1] 2000 scenes: mean total=3430867.8 B, exact=2000/2000
+[adaptive_k1] 2050 scenes: mean total=3431150.3 B, exact=2050/2050
+[adaptive_k1] 2100 scenes: mean total=3431084.8 B, exact=2100/2100
+[adaptive_k1] 2150 scenes: mean total=3431071.7 B, exact=2150/2150
+[adaptive_k1] 2200 scenes: mean total=3431225.0 B, exact=2200/2200
+[adaptive_k1] 2250 scenes: mean total=3431383.4 B, exact=2250/2250
+[adaptive_k1] 2300 scenes: mean total=3431197.9 B, exact=2300/2300
+[adaptive_k1] 2350 scenes: mean total=3431065.4 B, exact=2350/2350
+[adaptive_k1] 2400 scenes: mean total=3430912.6 B, exact=2400/2400
+[adaptive_k1] 2450 scenes: mean total=3431082.6 B, exact=2450/2450
+[adaptive_k1] 2500 scenes: mean total=3430827.3 B, exact=2500/2500
+[adaptive_k1] 2550 scenes: mean total=3430940.9 B, exact=2550/2550
+[adaptive_k1] 2600 scenes: mean total=3430920.4 B, exact=2600/2600
+[adaptive_k1] 2650 scenes: mean total=3430882.8 B, exact=2650/2650
+[adaptive_k1] 2700 scenes: mean total=3430636.7 B, exact=2700/2700
+[adaptive_k1] 2750 scenes: mean total=3430635.5 B, exact=2750/2750
+[adaptive_k1] 2800 scenes: mean total=3430524.8 B, exact=2800/2800
+[adaptive_k1] 2850 scenes: mean total=3430442.9 B, exact=2850/2850
+[adaptive_k1] 2900 scenes: mean total=3430698.2 B, exact=2900/2900
+[adaptive_k1] 2950 scenes: mean total=3430598.4 B, exact=2950/2950
+[adaptive_k1] 3000 scenes: mean total=3430499.2 B, exact=3000/3000
+[adaptive_k1] 3050 scenes: mean total=3430507.4 B, exact=3050/3050
+[adaptive_k1] 3100 scenes: mean total=3430606.6 B, exact=3100/3100
+[adaptive_k1] 3150 scenes: mean total=3430550.3 B, exact=3150/3150
+[adaptive_k1] 3200 scenes: mean total=3430314.9 B, exact=3200/3200
+[adaptive_k1] 3250 scenes: mean total=3430359.3 B, exact=3250/3250
+[adaptive_k1] 3300 scenes: mean total=3430475.4 B, exact=3300/3300
+[adaptive_k1] 3350 scenes: mean total=3430482.2 B, exact=3350/3350
+[adaptive_k1] 3400 scenes: mean total=3430410.5 B, exact=3400/3400
+[adaptive_k1] 3450 scenes: mean total=3430336.0 B, exact=3450/3450
+[adaptive_k1] 3500 scenes: mean total=3430270.9 B, exact=3500/3500
+[adaptive_k1] 3550 scenes: mean total=3430253.5 B, exact=3550/3550
+[adaptive_k1] 3600 scenes: mean total=3430075.5 B, exact=3600/3600
+[adaptive_k1] 3650 scenes: mean total=3430042.9 B, exact=3650/3650
+[adaptive_k1] 3700 scenes: mean total=3429976.5 B, exact=3700/3700
+[adaptive_k1] 3750 scenes: mean total=3429979.4 B, exact=3750/3750
+[adaptive_k1] 3800 scenes: mean total=3430045.5 B, exact=3800/3800
+[adaptive_k1] 3850 scenes: mean total=3430054.1 B, exact=3850/3850
+[adaptive_k1] 3900 scenes: mean total=3429967.0 B, exact=3900/3900
+[adaptive_k1] 3950 scenes: mean total=3429964.6 B, exact=3950/3950
+[adaptive_k1] 4000 scenes: mean total=3429930.3 B, exact=4000/4000
+[adaptive_k1] 4050 scenes: mean total=3430018.0 B, exact=4050/4050
+[adaptive_k1] 4100 scenes: mean total=3430160.3 B, exact=4100/4100
+[adaptive_k1] 4150 scenes: mean total=3430166.4 B, exact=4150/4150
+[adaptive_k1] 4200 scenes: mean total=3430038.7 B, exact=4200/4200
+[adaptive_k1] 4250 scenes: mean total=3429965.9 B, exact=4250/4250
+[adaptive_k1] 4300 scenes: mean total=3429978.3 B, exact=4300/4300
+[adaptive_k1] 4350 scenes: mean total=3429961.2 B, exact=4350/4350
+[adaptive_k1] 4400 scenes: mean total=3430060.2 B, exact=4400/4400
+[adaptive_k1] 4450 scenes: mean total=3429990.2 B, exact=4450/4450
+[adaptive_k1] 4500 scenes: mean total=3429923.9 B, exact=4500/4500
+[adaptive_k1] 4550 scenes: mean total=3429890.5 B, exact=4550/4550
+[adaptive_k1] 4600 scenes: mean total=3429814.1 B, exact=4600/4600
+[adaptive_k1] 4650 scenes: mean total=3429848.6 B, exact=4650/4650
+[adaptive_k1] 4700 scenes: mean total=3429871.6 B, exact=4700/4700
+[adaptive_k1] 4750 scenes: mean total=3429893.3 B, exact=4750/4750
+[adaptive_k1] 4800 scenes: mean total=3429794.3 B, exact=4800/4800
+[adaptive_k1] 4850 scenes: mean total=3429801.3 B, exact=4850/4850
+[adaptive_k1] 4900 scenes: mean total=3429771.9 B, exact=4900/4900
+[adaptive_k1] 4950 scenes: mean total=3429804.6 B, exact=4950/4950
+[adaptive_k1] 5000 scenes: mean total=3429950.9 B, exact=5000/5000
+[adaptive_k1] 5050 scenes: mean total=3429976.3 B, exact=5050/5050
+[adaptive_k1] 5100 scenes: mean total=3430033.8 B, exact=5100/5100
+[adaptive_k1] 5150 scenes: mean total=3430097.6 B, exact=5150/5150
+[adaptive_k1] 5200 scenes: mean total=3430111.8 B, exact=5200/5200
+[adaptive_k1] 5250 scenes: mean total=3430007.2 B, exact=5250/5250
+[adaptive_k1] 5300 scenes: mean total=3430073.5 B, exact=5300/5300
+[adaptive_k1] 5350 scenes: mean total=3430151.7 B, exact=5350/5350
+[adaptive_k1] 5400 scenes: mean total=3430226.0 B, exact=5400/5400
+[adaptive_k1] 5450 scenes: mean total=3430161.2 B, exact=5450/5450
+[adaptive_k1] 5500 scenes: mean total=3430163.1 B, exact=5500/5500
+[adaptive_k1] 5550 scenes: mean total=3430127.2 B, exact=5550/5550
+[adaptive_k1] 5600 scenes: mean total=3430130.1 B, exact=5600/5600
+{
+  "mode": "adaptive_k1",
+  "scenes": 5601,
+  "texture_bits": 7,
+  "geometry_bits": 9,
+  "scale_mode": "channel",
+  "format_version": 2,
+  "cdf_mode": "adaptive_scene_k1",
+  "texture_groups": 1,
+  "geometry_groups": 1,
+  "shared_profile_bytes_raw": 0,
+  "shared_profile_is_not_charged_per_scene": true,
+  "symbol_exact_scenes": 5601,
+  "symbol_exact_match": true,
+  "mean_bytes": 3430127.948044992,
+  "mean_payload_bytes": 3423595.662917336,
+  "mean_texture_payload_bytes": 1412581.324049277,
+  "mean_geometry_payload_bytes": 2011014.3388680592,
+  "mean_header_bytes": 6532.285127655776,
+  "mean_json_header_bytes": 2424.285127655776,
+  "mean_scale_side_info_bytes": 4096.0,
+  "mean_cdf_side_info_bytes": 2006.2851276557758,
+  "mean_other_metadata_bytes": 418.0,
+  "mean_framing_bytes": 12.0,
+  "mean_container_bytes": 430.0,
+  "mean_bits_per_value": 6.542449852075562,
+  "mean_rans_encode_seconds": 0.3384369473083457,
+  "mean_rans_decode_seconds": 0.5800623744349561,
+  "mean_texture_rans_encode_seconds": 0.15304219682666512,
+  "mean_geometry_rans_encode_seconds": 0.1853947504816806,
+  "mean_texture_rans_decode_seconds": 0.19969021614991464,
+  "mean_geometry_rans_decode_seconds": 0.3803721582850415,
+  "mean_group_dispatch_encode_seconds": 0.0,
+  "mean_group_dispatch_decode_seconds": 0.0,
+  "mean_cdf_build_seconds": 0.008607349009481716,
+  "mean_total_encode_seconds": 0.5963764797332963,
+  "mean_total_decode_seconds": 0.648207193942715,
+  "mean_latent_extract_seconds": 0.2468329949054712
+}
+wrote actual codec results to /ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/adaptive_k1
+Completed: /ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/adaptive_k1
+/ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/adaptive_k1/per_scene.jsonl
+/ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/adaptive_k1/summary.json

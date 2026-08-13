@@ -1,0 +1,367 @@
+Phase-1 CDF analysis: ctx12_g9_t7_cal1000_eval5601
+Calibration=train (1000), evaluation=fixed test (5601)
+Output: /ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601
+Wed Aug 12 16:53:54 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.07             Driver Version: 535.161.07   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA RTX A5000               On  | 00000000:22:00.0 Off |                  Off |
+| 30%   33C    P8              13W / 230W |      1MiB / 24564MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+collecting train calibration histograms
+processed 1 scenes
+processed 50 scenes
+processed 100 scenes
+Skipped bad example e9981ddb7af7c779. Context shape was torch.Size([12, 3, 338, 640]) and target shape was torch.Size([3, 3, 338, 640]).
+processed 150 scenes
+processed 200 scenes
+processed 250 scenes
+Skipped bad example bcadf53155b9877b. Context shape was torch.Size([12, 3, 270, 480]) and target shape was torch.Size([3, 3, 270, 480]).
+processed 300 scenes
+processed 350 scenes
+processed 400 scenes
+Skipped bad example d5e95d3ffe873f32. Context shape was torch.Size([12, 3, 338, 640]) and target shape was torch.Size([3, 3, 338, 640]).
+processed 450 scenes
+processed 500 scenes
+processed 550 scenes
+processed 600 scenes
+Skipped bad example ff7f39afbb090353. Context shape was torch.Size([12, 3, 338, 640]) and target shape was torch.Size([3, 3, 338, 640]).
+processed 650 scenes
+processed 700 scenes
+Skipped bad example 80c56d006ce7466c. Context shape was torch.Size([12, 3, 270, 480]) and target shape was torch.Size([3, 3, 270, 480]).
+processed 750 scenes
+processed 800 scenes
+processed 850 scenes
+processed 900 scenes
+processed 950 scenes
+processed 1000 scenes
+collecting deterministic test histograms
+processed 1 scenes
+processed 50 scenes
+processed 100 scenes
+processed 150 scenes
+processed 200 scenes
+processed 250 scenes
+processed 300 scenes
+processed 350 scenes
+processed 400 scenes
+processed 450 scenes
+processed 500 scenes
+processed 550 scenes
+processed 600 scenes
+processed 650 scenes
+processed 700 scenes
+processed 750 scenes
+processed 800 scenes
+processed 850 scenes
+processed 900 scenes
+processed 950 scenes
+processed 1000 scenes
+processed 1050 scenes
+processed 1100 scenes
+processed 1150 scenes
+processed 1200 scenes
+processed 1250 scenes
+processed 1300 scenes
+processed 1350 scenes
+processed 1400 scenes
+processed 1450 scenes
+processed 1500 scenes
+processed 1550 scenes
+processed 1600 scenes
+processed 1650 scenes
+processed 1700 scenes
+processed 1750 scenes
+processed 1800 scenes
+processed 1850 scenes
+processed 1900 scenes
+processed 1950 scenes
+processed 2000 scenes
+processed 2050 scenes
+processed 2100 scenes
+processed 2150 scenes
+processed 2200 scenes
+processed 2250 scenes
+processed 2300 scenes
+processed 2350 scenes
+processed 2400 scenes
+processed 2450 scenes
+processed 2500 scenes
+processed 2550 scenes
+processed 2600 scenes
+processed 2650 scenes
+processed 2700 scenes
+processed 2750 scenes
+processed 2800 scenes
+processed 2850 scenes
+processed 2900 scenes
+processed 2950 scenes
+processed 3000 scenes
+processed 3050 scenes
+processed 3100 scenes
+processed 3150 scenes
+processed 3200 scenes
+processed 3250 scenes
+processed 3300 scenes
+processed 3350 scenes
+processed 3400 scenes
+processed 3450 scenes
+processed 3500 scenes
+processed 3550 scenes
+processed 3600 scenes
+processed 3650 scenes
+processed 3700 scenes
+processed 3750 scenes
+processed 3800 scenes
+processed 3850 scenes
+processed 3900 scenes
+processed 3950 scenes
+processed 4000 scenes
+processed 4050 scenes
+processed 4100 scenes
+processed 4150 scenes
+processed 4200 scenes
+processed 4250 scenes
+processed 4300 scenes
+processed 4350 scenes
+processed 4400 scenes
+processed 4450 scenes
+processed 4500 scenes
+processed 4550 scenes
+processed 4600 scenes
+processed 4650 scenes
+processed 4700 scenes
+processed 4750 scenes
+processed 4800 scenes
+processed 4850 scenes
+processed 4900 scenes
+processed 4950 scenes
+processed 5000 scenes
+processed 5050 scenes
+processed 5100 scenes
+processed 5150 scenes
+processed 5200 scenes
+processed 5250 scenes
+processed 5300 scenes
+processed 5350 scenes
+processed 5400 scenes
+processed 5450 scenes
+processed 5500 scenes
+processed 5550 scenes
+processed 5600 scenes
+{
+  "config": {
+    "checkpoint": "/ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt",
+    "dataset_root": "/data3/local_datasets/re10k",
+    "experiment": "re10k_32k",
+    "context_views": 12,
+    "target_views_for_normalization": 3,
+    "geometry_bits": 9,
+    "texture_bits": 7,
+    "scale_mode": "channel",
+    "clip_percentile": null,
+    "smoothing_alpha": 0.5,
+    "cdf_precision": 16,
+    "seed": 0
+  },
+  "calibration_scenes": 1000,
+  "evaluation_scenes": 5601,
+  "header_breakdown": {
+    "mean_bytes": 3453187.77,
+    "mean_payload_bytes": 3429172.0,
+    "mean_texture_payload_bytes": 1415674.48,
+    "mean_geometry_payload_bytes": 2013497.52,
+    "mean_header_bytes": 24015.77,
+    "mean_json_header_bytes": 24003.77,
+    "mean_scale_side_info_bytes": 21691.56,
+    "mean_cdf_side_info_bytes": 2008.21,
+    "mean_other_metadata_bytes": 304.0,
+    "mean_framing_bytes": 12.0,
+    "mean_container_bytes": 316.0,
+    "scenes": 100
+  },
+  "streams": {
+    "texture": {
+      "channels": 512,
+      "alphabet": 127,
+      "calibration_values": 2097152000,
+      "evaluation_values": 11746148352,
+      "smoothing_alpha": 0.5,
+      "out_of_calibration_support": {
+        "bins": 91,
+        "values": 573
+      },
+      "rates": {
+        "scene_adaptive_global_ideal": {
+          "total_bits": 63269807647.293495,
+          "bits_per_value": 5.386430151507548,
+          "bytes_per_scene": 1412020.3456367946
+        },
+        "empirical_test_global": {
+          "total_bits": 63371793207.15295,
+          "bits_per_value": 5.395112619734853,
+          "bytes_per_scene": 1414296.4025877733
+        },
+        "fixed_global_ideal": {
+          "total_bits": 63371814641.278145,
+          "bits_per_value": 5.395114444513883,
+          "bytes_per_scene": 1414296.8809426473
+        },
+        "empirical_test_per_channel": {
+          "total_bits": 62486917921.90007,
+          "bits_per_value": 5.319779390600027,
+          "bytes_per_scene": 1394548.2485694534
+        },
+        "fixed_per_channel_ideal": {
+          "total_bits": 62491679865.86086,
+          "bits_per_value": 5.320184795318075,
+          "bytes_per_scene": 1394654.5229838614
+        },
+        "fixed_global_cdf_quantized": {
+          "total_bits": 63371930530.82397,
+          "bits_per_value": 5.395124310688083,
+          "bytes_per_scene": 1414299.467301017
+        },
+        "fixed_per_channel_cdf_quantized": {
+          "total_bits": 62505052880.42622,
+          "bits_per_value": 5.321323297418049,
+          "bytes_per_scene": 1394952.974478357
+        }
+      },
+      "fixed_per_channel_saving_vs_fixed_global": {
+        "bits": 880134775.4172821,
+        "percent": 1.3888426272773853
+      },
+      "empirical_channel_information": {
+        "bits": 884875285.2528763,
+        "percent": 1.3963235699522512
+      },
+      "fixed_per_channel_mismatch_penalty_bits": 4761943.9607925415,
+      "cdf_quantization_error": null
+    },
+    "geometry": {
+      "channels": 512,
+      "alphabet": 511,
+      "calibration_values": 2097152000,
+      "evaluation_values": 11746148352,
+      "smoothing_alpha": 0.5,
+      "out_of_calibration_support": {
+        "bins": 3581,
+        "values": 14375
+      },
+      "rates": {
+        "scene_adaptive_global_ideal": {
+          "total_bits": 89987651051.07872,
+          "bits_per_value": 7.661034779605576,
+          "bytes_per_scene": 2008294.3012649242
+        },
+        "empirical_test_global": {
+          "total_bits": 90043442230.39595,
+          "bits_per_value": 7.665784522044146,
+          "bytes_per_scene": 2009539.4177467406
+        },
+        "fixed_global_ideal": {
+          "total_bits": 90046448346.45566,
+          "bits_per_value": 7.6660404456005,
+          "bytes_per_scene": 2009606.5065714975
+        },
+        "empirical_test_per_channel": {
+          "total_bits": 86070780222.54324,
+          "bits_per_value": 7.32757476265725,
+          "bytes_per_scene": 1920879.758582022
+        },
+        "fixed_per_channel_ideal": {
+          "total_bits": 86091093774.02605,
+          "bits_per_value": 7.329304142439802,
+          "bytes_per_scene": 1921333.1051157394
+        },
+        "fixed_global_cdf_quantized": {
+          "total_bits": 90171846413.37198,
+          "bits_per_value": 7.6767161209928485,
+          "bytes_per_scene": 2012405.0708215493
+        },
+        "fixed_per_channel_cdf_quantized": {
+          "total_bits": 86153518620.86157,
+          "bits_per_value": 7.334618637452534,
+          "bytes_per_scene": 1922726.2680963571
+        }
+      },
+      "fixed_per_channel_saving_vs_fixed_global": {
+        "bits": 3955354572.429611,
+        "percent": 4.3925714395878215
+      },
+      "empirical_channel_information": {
+        "bits": 3972662007.852707,
+        "percent": 4.411939292244933
+      },
+      "fixed_per_channel_mismatch_penalty_bits": 20313551.482803345,
+      "cdf_quantization_error": null
+    }
+  },
+  "combined": {
+    "rates": {
+      "empirical_test_global": {
+        "total_bits": 153415235437.5489,
+        "bits_per_value": 6.530448570889499,
+        "bytes_per_scene": 3423835.8203345137
+      },
+      "empirical_test_per_channel": {
+        "total_bits": 148557698144.4433,
+        "bits_per_value": 6.323677076628638,
+        "bytes_per_scene": 3315428.007151475
+      },
+      "fixed_global_cdf_quantized": {
+        "total_bits": 153543776944.19595,
+        "bits_per_value": 6.535920215840466,
+        "bytes_per_scene": 3426704.5381225664
+      },
+      "fixed_global_ideal": {
+        "total_bits": 153418262987.7338,
+        "bits_per_value": 6.530577445057191,
+        "bytes_per_scene": 3423903.3875141446
+      },
+      "fixed_per_channel_cdf_quantized": {
+        "total_bits": 148658571501.28778,
+        "bits_per_value": 6.3279709674352915,
+        "bytes_per_scene": 3317679.242574714
+      },
+      "fixed_per_channel_ideal": {
+        "total_bits": 148582773639.8869,
+        "bits_per_value": 6.324744468878938,
+        "bytes_per_scene": 3315987.628099601
+      },
+      "scene_adaptive_global_ideal": {
+        "total_bits": 153257458698.37222,
+        "bits_per_value": 6.523732465556562,
+        "bytes_per_scene": 3420314.646901719
+      }
+    },
+    "fixed_per_channel_saving_vs_fixed_global": {
+      "bytes_per_scene": 107915.75941454413,
+      "percent": 3.1518342429893784
+    },
+    "empirical_channel_information": {
+      "bytes_per_scene": 108407.81318303854,
+      "percent": 3.1662678607190617
+    }
+  }
+}
+wrote Phase-1 CDF analysis to /ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601
+Completed: /ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601
+/ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601/histograms.npz
+/ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601/report.json
+/ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601/scene_ids.json
+/ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601/header_breakdown_per_scene.json

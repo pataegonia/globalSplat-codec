@@ -17,6 +17,7 @@ from .rendering import render_static_batched
 from .types import Gaussians
 from ..loss.rendering_loss import LossComputer
 from ..loss.frustum_loss import frustum_soft_loss_w2c
+from ..misc.module_profiler import profile_call, summarize_module_profiles
 
 
 @torch.no_grad()
@@ -764,6 +765,14 @@ class GlobalSplatModule(pl.LightningModule):
         self.test_step_outputs = {"psnr": [], "ssim": [], "lpips": []}
         self.codec_step_outputs = []
         self.time_skip_steps_dict = {"encoder": 0, "decoder": 0}
+        self.module_profile_enabled = bool(
+            self.test_cfg.get("profile_modules", False)
+        )
+        self.module_profile_warmup_steps = int(
+            self.test_cfg.get("profile_warmup_steps", 5)
+        )
+        self.module_profile_outputs = []
+        self.model.profile_modules = self.module_profile_enabled
 
     @torch.no_grad()
     def test_step(self, batch, batch_idx):
@@ -778,9 +787,17 @@ class GlobalSplatModule(pl.LightningModule):
             preds = self.model(inputs)
         if self.model.last_codec_stats is not None:
             self.codec_step_outputs.append(dict(self.model.last_codec_stats))
+        scene_profile = dict(self.model.last_module_profile or {})
         # Decode/render to the target views (timed like the upstream decoder).
         with self.benchmarker.time("decoder", num_calls=T):
-            out = render_static_batched(preds, trg, render_depth=False)
+            if self.module_profile_enabled:
+                out, render_profile = profile_call(
+                    lambda: render_static_batched(preds, trg, render_depth=False),
+                    device=trg["images"].device,
+                )
+                scene_profile["rasterizer"] = render_profile
+            else:
+                out = render_static_batched(preds, trg, render_depth=False)
 
         pred = out["img"].view(B, T, 3, H, W)[0].clamp(0, 1)   # [T,3,H,W]
         gt = trg["images"][0].float().clamp(0, 1)              # [T,3,H,W]
@@ -805,9 +822,25 @@ class GlobalSplatModule(pl.LightningModule):
             if batch_idx < int(self.test_cfg.get("eval_time_skip_steps", 0)):
                 self.time_skip_steps_dict["encoder"] += 1
                 self.time_skip_steps_dict["decoder"] += T
-            self.test_step_outputs["psnr"].append(self._compute_psnr(gt, pred).mean().item())
-            self.test_step_outputs["ssim"].append(self._compute_ssim(gt, pred).mean().item())
-            self.test_step_outputs["lpips"].append(self._compute_lpips(gt, pred).mean().item())
+            for metric_name, metric_function in (
+                ("psnr", self._compute_psnr),
+                ("ssim", self._compute_ssim),
+                ("lpips", self._compute_lpips),
+            ):
+                if self.module_profile_enabled:
+                    score, metric_profile = profile_call(
+                        lambda fn=metric_function: fn(gt, pred).mean().item(),
+                        device=pred.device,
+                    )
+                    scene_profile[f"metric_{metric_name}"] = metric_profile
+                else:
+                    score = metric_function(gt, pred).mean().item()
+                self.test_step_outputs[metric_name].append(score)
+
+        if self.module_profile_enabled:
+            self.module_profile_outputs.append(
+                {"scene": str(scene), "modules": scene_profile}
+            )
 
     def _test_out_dir(self):
         from pathlib import Path
@@ -820,6 +853,17 @@ class GlobalSplatModule(pl.LightningModule):
         out_dir = self._test_out_dir()
         out_dir.mkdir(parents=True, exist_ok=True)
         saved = {}
+        module_profile_summary = None
+        if self.module_profile_outputs:
+            module_profile_summary = summarize_module_profiles(
+                [row["modules"] for row in self.module_profile_outputs],
+                warmup_steps=self.module_profile_warmup_steps,
+            )
+            with (out_dir / "module_profile_summary.json").open("w") as f:
+                json.dump(module_profile_summary, f, indent=2)
+            with (out_dir / "module_profile_per_scene.json").open("w") as f:
+                json.dump(self.module_profile_outputs, f)
+            print(json.dumps(module_profile_summary, indent=2))
 
         if self.test_cfg.get("compute_scores", True):
             for name, scores in self.test_step_outputs.items():
@@ -840,7 +884,45 @@ class GlobalSplatModule(pl.LightningModule):
                     print(f"{tag}: {len(times)} calls, avg. {saved[tag][1]:.4f} s/call")
             self.benchmarker.dump(out_dir / "benchmark.json")
             if torch.cuda.is_available():
-                self.benchmarker.dump_memory(out_dir / "peak_memory.json")
+                if module_profile_summary is None:
+                    self.benchmarker.dump_memory(out_dir / "peak_memory.json")
+                else:
+                    modules = module_profile_summary["modules"]
+                    peak_allocated = max(
+                        (
+                            int(row["max_cuda_peak_allocated_bytes"])
+                            for row in modules.values()
+                        ),
+                        default=0,
+                    )
+                    peak_reserved = max(
+                        (
+                            int(row["max_cuda_peak_reserved_bytes"])
+                            for row in modules.values()
+                        ),
+                        default=0,
+                    )
+                    process_peak_rss = max(
+                        (
+                            int(row["max_process_peak_rss_bytes"])
+                            for row in modules.values()
+                        ),
+                        default=0,
+                    )
+                    with (out_dir / "peak_memory.json").open("w") as f:
+                        json.dump(
+                            {
+                                "source": "module profiler absolute peaks",
+                                "peak_allocated_bytes": peak_allocated,
+                                "peak_reserved_bytes": peak_reserved,
+                                "peak_allocated_mib": peak_allocated / (1024 ** 2),
+                                "peak_reserved_mib": peak_reserved / (1024 ** 2),
+                                "process_peak_rss_bytes": process_peak_rss,
+                                "process_peak_rss_mib": process_peak_rss / (1024 ** 2),
+                            },
+                            f,
+                            indent=2,
+                        )
         except Exception as exc:  # benchmarker is best-effort
             print(f"[test] benchmark dump skipped: {exc}")
 
@@ -853,12 +935,34 @@ class GlobalSplatModule(pl.LightningModule):
                 "texture_bits": self.codec_step_outputs[0]["texture_bits"],
                 "geometry_bits": self.codec_step_outputs[0]["geometry_bits"],
                 "backend": self.codec_step_outputs[0]["backend"],
+                "format_version": self.codec_step_outputs[0]["format_version"],
                 "scale_mode": self.codec_step_outputs[0]["scale_mode"],
                 "clip_percentile": self.codec_step_outputs[0]["clip_percentile"],
+                "cdf_mode": self.codec_step_outputs[0]["cdf_mode"],
+                "texture_groups": self.codec_step_outputs[0]["texture_groups"],
+                "geometry_groups": self.codec_step_outputs[0]["geometry_groups"],
+                "shared_profile_bytes_raw": self.codec_step_outputs[0][
+                    "shared_profile_bytes_raw"
+                ],
+                "shared_profile_is_not_charged_per_scene": True,
+                "symbol_exact_scenes": sum(
+                    bool(row["symbol_exact_match"]) for row in self.codec_step_outputs
+                ),
+                "symbol_exact_match": all(
+                    bool(row["symbol_exact_match"]) for row in self.codec_step_outputs
+                ),
             }
             for key in (
-                "bytes", "texture_payload_bytes", "geometry_payload_bytes",
+                "bytes", "payload_bytes", "texture_payload_bytes", "geometry_payload_bytes",
+                "header_bytes", "json_header_bytes", "scale_side_info_bytes",
+                "cdf_side_info_bytes", "other_metadata_bytes", "framing_bytes",
+                "container_bytes",
                 "bits_per_value", "texture_mse", "geometry_mse",
+                "rans_encode_seconds", "rans_decode_seconds",
+                "texture_rans_encode_seconds", "geometry_rans_encode_seconds",
+                "texture_rans_decode_seconds", "geometry_rans_decode_seconds",
+                "group_dispatch_encode_seconds", "group_dispatch_decode_seconds",
+                "cdf_build_seconds",
             ):
                 values = [float(row[key]) for row in self.codec_step_outputs]
                 codec_summary[f"mean_{key}"] = sum(values) / len(values)

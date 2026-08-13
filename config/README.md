@@ -10,6 +10,8 @@ config: it composes one file from each group (`model`, `dataset`, `loss`,
 ```
 config/
   main.yaml            root: composes the groups + mode / optimizer / checkpointing / curriculum / test
+  codec/
+    final_g9_t7_g32_t32.yaml   selected fixed grouped-CDF codec preset
   model/
     globalsplat.yaml   architecture: latents, dim, patch size, encoder rounds, M_max, ...
   dataset/
@@ -61,6 +63,12 @@ python -m globalsplat.main +experiment=re10k_16k dataset=re10k_eval_ctx24 \
 
 # override any leaf from the CLI (dotted path)
 python -m globalsplat.main +experiment=re10k_16k optimizer.lr=3e-4 trainer.devices=1
+
+# selected scene-latent codec (profile path is shared codec state)
+GLOBALSPLAT_CDF_PROFILE=<grouped_cdf_profiles.npz> \
+python -m globalsplat.main +experiment=re10k_32k \
+    +codec=final_g9_t7_g32_t32 dataset=re10k_eval_ctx12 mode=test \
+    checkpointing.load=<ckpt>
 ```
 
 Before training/eval, point the dataset config's `dataset_roots` at your `*.torch`

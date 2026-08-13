@@ -1,0 +1,546 @@
+Grouped fixed-CDF analysis from /ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601
+Output: /ceph_data/clue9986/globalSplat/outputs/grouped_cdf/ctx12_g9_t7
+building texture hierarchy for K=(1, 4, 8, 16, 32, 512)
+building geometry hierarchy for K=(1, 4, 8, 16, 32, 512)
+{
+  "config": {
+    "histograms": "/ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601/histograms.npz",
+    "phase1_report": "/ceph_data/clue9986/globalSplat/outputs/cdf_phase1/ctx12_g9_t7_cal1000_eval5601/report.json",
+    "groups": [
+      1,
+      4,
+      8,
+      16,
+      32,
+      512
+    ],
+    "alpha": 0.5,
+    "cdf_precision": 16,
+    "evaluation_scenes": 5601,
+    "baseline_total_bytes_per_scene": 3447609.138189609,
+    "binary_scale_bytes_per_scene": 4096,
+    "estimated_container_bytes_per_scene": 430.0,
+    "v1_container_bytes_from_phase1": 316.0,
+    "v2_binary_scale_descriptor_bytes": 114,
+    "recovery_definition": "eta_K=(R_K1-R_K)/(R_K1-R_K512)",
+    "profile_bytes_are_one_time_not_per_scene": true
+  },
+  "streams": {
+    "texture": {
+      "1": {
+        "groups": 1,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 63371793207.15295,
+          "bits_per_value": 5.395112619734853,
+          "bytes_per_scene": 1414296.4025877733
+        },
+        "fixed_ideal": {
+          "total_bits": 63371814641.278145,
+          "bits_per_value": 5.395114444513883,
+          "bytes_per_scene": 1414296.8809426473
+        },
+        "mismatch_penalty_bytes_per_scene": 0.4783548740931141,
+        "profile_bytes_raw": 1536,
+        "fixed_cdf_quantized": {
+          "total_bits": 63371930530.82397,
+          "bits_per_value": 5.395124310688083,
+          "bytes_per_scene": 1414299.467301017
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 2.58635836953543,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 0.0,
+        "fixed_ideal_recovery_percent": 0.0,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 0.0,
+        "fixed_cdf_quantized_recovery_percent": 0.0
+      },
+      "4": {
+        "groups": 4,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 62882293978.62398,
+          "bits_per_value": 5.353439450466084,
+          "bytes_per_scene": 1403372.031302981
+        },
+        "fixed_ideal": {
+          "total_bits": 62882444168.82469,
+          "bits_per_value": 5.353452236802184,
+          "bytes_per_scene": 1403375.3831642717
+        },
+        "mismatch_penalty_bytes_per_scene": 3.3518612907095013,
+        "profile_bytes_raw": 3072,
+        "fixed_cdf_quantized": {
+          "total_bits": 62891600896.98787,
+          "bits_per_value": 5.354231788352937,
+          "bytes_per_scene": 1403579.7379259923
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 204.35476172061888,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 10921.497778375582,
+        "fixed_ideal_recovery_percent": 55.60176533434176,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 10719.729375024499,
+        "fixed_cdf_quantized_recovery_percent": 55.40916109853698
+      },
+      "8": {
+        "groups": 8,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 62730992237.86643,
+          "bits_per_value": 5.340558484193273,
+          "bytes_per_scene": 1399995.3632803613
+        },
+        "fixed_ideal": {
+          "total_bits": 62731262194.12204,
+          "bits_per_value": 5.340581466727421,
+          "bytes_per_scene": 1400001.3880137932
+        },
+        "mismatch_penalty_bytes_per_scene": 6.024733431699808,
+        "profile_bytes_raw": 5120,
+        "fixed_cdf_quantized": {
+          "total_bits": 62731593657.181244,
+          "bits_per_value": 5.340609685599622,
+          "bytes_per_scene": 1400008.7854218273
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 7.3974080343711295,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 14295.492928854335,
+        "fixed_ideal_recovery_percent": 72.77890444135805,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 14290.681879189498,
+        "fixed_cdf_quantized_recovery_percent": 73.86704148491104
+      },
+      "16": {
+        "groups": 16,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 62632836059.97656,
+          "bits_per_value": 5.332202027681028,
+          "bytes_per_scene": 1397804.7683444154
+        },
+        "fixed_ideal": {
+          "total_bits": 62633311738.484344,
+          "bits_per_value": 5.332242524233049,
+          "bytes_per_scene": 1397815.3842725484
+        },
+        "mismatch_penalty_bytes_per_scene": 10.615928132966935,
+        "profile_bytes_raw": 9216,
+        "fixed_cdf_quantized": {
+          "total_bits": 62646879262.73555,
+          "bits_per_value": 5.333397585777022,
+          "bytes_per_scene": 1398118.1767259317
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 302.7924533834459,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 16481.4966700991,
+        "fixed_ideal_recovery_percent": 83.90793358252066,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 16181.290575085186,
+        "fixed_cdf_quantized_recovery_percent": 83.63940029550271
+      },
+      "32": {
+        "groups": 32,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 62578218350.2768,
+          "bits_per_value": 5.32755218774516,
+          "bytes_per_scene": 1396585.8407042671
+        },
+        "fixed_ideal": {
+          "total_bits": 62578893720.033775,
+          "bits_per_value": 5.327609684869897,
+          "bytes_per_scene": 1396600.9132305342
+        },
+        "mismatch_penalty_bytes_per_scene": 15.07252626703416,
+        "profile_bytes_raw": 17408,
+        "fixed_cdf_quantized": {
+          "total_bits": 62592244603.23146,
+          "bits_per_value": 5.328746302831598,
+          "bytes_per_scene": 1396898.8708094864
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 297.9575789520898,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 17695.967712113226,
+        "fixed_ideal_recovery_percent": 90.09085237751644,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 17400.596491530672,
+        "fixed_cdf_quantized_recovery_percent": 89.94186517956355
+      },
+      "512": {
+        "groups": 512,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 62486917921.90007,
+          "bits_per_value": 5.319779390600027,
+          "bytes_per_scene": 1394548.2485694534
+        },
+        "fixed_ideal": {
+          "total_bits": 62491679865.86086,
+          "bits_per_value": 5.320184795318075,
+          "bytes_per_scene": 1394654.5229838614
+        },
+        "mismatch_penalty_bytes_per_scene": 106.27441440797494,
+        "profile_bytes_raw": 263168,
+        "fixed_cdf_quantized": {
+          "total_bits": 62505052880.42622,
+          "bits_per_value": 5.321323297418049,
+          "bytes_per_scene": 1394952.974478357
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 298.4514944956486,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 19642.35795878598,
+        "fixed_ideal_recovery_percent": 100.0,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 19346.492822659864,
+        "fixed_cdf_quantized_recovery_percent": 100.0
+      }
+    },
+    "geometry": {
+      "1": {
+        "groups": 1,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 90043442230.39595,
+          "bits_per_value": 7.665784522044146,
+          "bytes_per_scene": 2009539.4177467406
+        },
+        "fixed_ideal": {
+          "total_bits": 90046448346.45566,
+          "bits_per_value": 7.6660404456005,
+          "bytes_per_scene": 2009606.5065714975
+        },
+        "mismatch_penalty_bytes_per_scene": 67.08882475691041,
+        "profile_bytes_raw": 3072,
+        "fixed_cdf_quantized": {
+          "total_bits": 90171846413.37198,
+          "bits_per_value": 7.6767161209928485,
+          "bytes_per_scene": 2012405.0708215493
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 2798.5642500517943,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 0.0,
+        "fixed_ideal_recovery_percent": 0.0,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 0.0,
+        "fixed_cdf_quantized_recovery_percent": 0.0
+      },
+      "4": {
+        "groups": 4,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 87499328800.57709,
+          "bits_per_value": 7.449193231556513,
+          "bytes_per_scene": 1952761.3104931505
+        },
+        "fixed_ideal": {
+          "total_bits": 87504113783.34497,
+          "bits_per_value": 7.449600597667045,
+          "bytes_per_scene": 1952868.0990748298
+        },
+        "mismatch_penalty_bytes_per_scene": 106.7885816792381,
+        "profile_bytes_raw": 9216,
+        "fixed_cdf_quantized": {
+          "total_bits": 87610107439.34167,
+          "bits_per_value": 7.458624292313184,
+          "bytes_per_scene": 1955233.6064841473
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 2365.507409317624,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 56738.40749666772,
+        "fixed_ideal_recovery_percent": 64.27576887371278,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 57171.46433740189,
+        "fixed_cdf_quantized_recovery_percent": 63.75136888546082
+      },
+      "8": {
+        "groups": 8,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 86890647568.99973,
+          "bits_per_value": 7.397373587079289,
+          "bytes_per_scene": 1939177.1016113132
+        },
+        "fixed_ideal": {
+          "total_bits": 86896550746.11694,
+          "bits_per_value": 7.397876149871816,
+          "bytes_per_scene": 1939308.8454319974
+        },
+        "mismatch_penalty_bytes_per_scene": 131.74382068420857,
+        "profile_bytes_raw": 17408,
+        "fixed_cdf_quantized": {
+          "total_bits": 87008870294.15991,
+          "bits_per_value": 7.407438394845833,
+          "bytes_per_scene": 1941815.5305784661
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 2506.685146468683,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 70297.66113949996,
+        "fixed_ideal_recovery_percent": 79.6362890521813,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 70589.54024308309,
+        "fixed_cdf_quantized_recovery_percent": 78.71374070346889
+      },
+      "16": {
+        "groups": 16,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 86575042619.57858,
+          "bits_per_value": 7.37050478379473,
+          "bytes_per_scene": 1932133.6060430857
+        },
+        "fixed_ideal": {
+          "total_bits": 86582014317.26062,
+          "bits_per_value": 7.3710983143268765,
+          "bytes_per_scene": 1932289.1965109047
+        },
+        "mismatch_penalty_bytes_per_scene": 155.59046781908037,
+        "profile_bytes_raw": 33792,
+        "fixed_cdf_quantized": {
+          "total_bits": 86656552123.64735,
+          "bits_per_value": 7.377444037550613,
+          "bytes_per_scene": 1933952.6897796679
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 1663.4932687630335,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 77317.3100605927,
+        "fixed_ideal_recovery_percent": 87.58845675539472,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 78452.38104188147,
+        "fixed_cdf_quantized_recovery_percent": 87.48152144970938
+      },
+      "32": {
+        "groups": 32,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 86372778775.80524,
+          "bits_per_value": 7.353285195065553,
+          "bytes_per_scene": 1927619.5941752642
+        },
+        "fixed_ideal": {
+          "total_bits": 86380645450.67206,
+          "bits_per_value": 7.353954918844878,
+          "bytes_per_scene": 1927795.1582456718
+        },
+        "mismatch_penalty_bytes_per_scene": 175.56407040754527,
+        "profile_bytes_raw": 66560,
+        "fixed_cdf_quantized": {
+          "total_bits": 86440460610.27084,
+          "bits_per_value": 7.359047239987629,
+          "bytes_per_scene": 1929130.079679317
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 1334.9214336454518,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 81811.34832582575,
+        "fixed_ideal_recovery_percent": 92.67950138618922,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 83274.99114223209,
+        "fixed_cdf_quantized_recovery_percent": 92.85916918116808
+      },
+      "512": {
+        "groups": 512,
+        "scenes": 5601,
+        "empirical": {
+          "total_bits": 86070780222.54324,
+          "bits_per_value": 7.32757476265725,
+          "bytes_per_scene": 1920879.758582022
+        },
+        "fixed_ideal": {
+          "total_bits": 86091093774.02605,
+          "bits_per_value": 7.329304142439802,
+          "bytes_per_scene": 1921333.1051157394
+        },
+        "mismatch_penalty_bytes_per_scene": 453.346533717268,
+        "profile_bytes_raw": 1049600,
+        "fixed_cdf_quantized": {
+          "total_bits": 86153518620.86157,
+          "bits_per_value": 7.334618637452534,
+          "bytes_per_scene": 1922726.2680963571
+        },
+        "cdf_quantization_penalty_bytes_per_scene": 1393.1629806178698,
+        "fixed_ideal_gain_vs_k1_bytes_per_scene": 88273.40145575815,
+        "fixed_ideal_recovery_percent": 100.0,
+        "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 89678.80272519207,
+        "fixed_cdf_quantized_recovery_percent": 100.0
+      }
+    }
+  },
+  "combined_symmetric": {
+    "1": {
+      "groups_per_stream": 1,
+      "scenes": 5601,
+      "fixed_ideal": {
+        "total_bits": 153418262987.7338,
+        "bits_per_value": 6.530577445057191,
+        "bytes_per_scene": 3423903.3875141446
+      },
+      "profile_bytes_raw": 4608,
+      "fixed_cdf_quantized": {
+        "total_bits": 153543776944.19595,
+        "bits_per_value": 6.535920215840466,
+        "bytes_per_scene": 3426704.5381225664
+      },
+      "estimated_total_with_binary_scale_bytes_per_scene": 3431230.5381225664,
+      "saving_vs_measured_baseline_bytes_per_scene": 16378.600067042746,
+      "saving_vs_measured_baseline_percent": 0.4750712569361442,
+      "fixed_ideal_gain_vs_k1_bytes_per_scene": 0.0,
+      "fixed_ideal_recovery_percent": 0.0,
+      "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 0.0,
+      "fixed_cdf_quantized_recovery_percent": 0.0
+    },
+    "4": {
+      "groups_per_stream": 4,
+      "scenes": 5601,
+      "fixed_ideal": {
+        "total_bits": 150386557952.16968,
+        "bits_per_value": 6.401526417234615,
+        "bytes_per_scene": 3356243.482239102
+      },
+      "profile_bytes_raw": 12288,
+      "fixed_cdf_quantized": {
+        "total_bits": 150501708336.32953,
+        "bits_per_value": 6.4064280403330605,
+        "bytes_per_scene": 3358813.3444101396
+      },
+      "estimated_total_with_binary_scale_bytes_per_scene": 3363339.3444101396,
+      "saving_vs_measured_baseline_bytes_per_scene": 84269.79377946956,
+      "saving_vs_measured_baseline_percent": 2.4442966241736115,
+      "fixed_ideal_gain_vs_k1_bytes_per_scene": 67659.9052750428,
+      "fixed_ideal_recovery_percent": 62.69696441196898,
+      "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 67891.1937124269,
+      "fixed_cdf_quantized_recovery_percent": 62.271047623648656
+    },
+    "8": {
+      "groups_per_stream": 8,
+      "scenes": 5601,
+      "fixed_ideal": {
+        "total_bits": 149627812940.23898,
+        "bits_per_value": 6.369228808299619,
+        "bytes_per_scene": 3339310.2334457906
+      },
+      "profile_bytes_raw": 22528,
+      "fixed_cdf_quantized": {
+        "total_bits": 149740463951.34116,
+        "bits_per_value": 6.374024040222728,
+        "bytes_per_scene": 3341824.3160002935
+      },
+      "estimated_total_with_binary_scale_bytes_per_scene": 3346350.3160002935,
+      "saving_vs_measured_baseline_bytes_per_scene": 101258.82218931569,
+      "saving_vs_measured_baseline_percent": 2.9370737264749276,
+      "fixed_ideal_gain_vs_k1_bytes_per_scene": 84593.15406835414,
+      "fixed_ideal_recovery_percent": 78.38813768005905,
+      "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 84880.22212227275,
+      "fixed_cdf_quantized_recovery_percent": 77.85369596638043
+    },
+    "16": {
+      "groups_per_stream": 16,
+      "scenes": 5601,
+      "fixed_ideal": {
+        "total_bits": 149215326055.74496,
+        "bits_per_value": 6.351670419279962,
+        "bytes_per_scene": 3330104.580783453
+      },
+      "profile_bytes_raw": 43008,
+      "fixed_cdf_quantized": {
+        "total_bits": 149303431386.3829,
+        "bits_per_value": 6.355420811663818,
+        "bytes_per_scene": 3332070.8665055996
+      },
+      "estimated_total_with_binary_scale_bytes_per_scene": 3336596.8665055996,
+      "saving_vs_measured_baseline_bytes_per_scene": 111012.27168400958,
+      "saving_vs_measured_baseline_percent": 3.21997846143034,
+      "fixed_ideal_gain_vs_k1_bytes_per_scene": 93798.80673069163,
+      "fixed_ideal_recovery_percent": 86.91854390828675,
+      "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 94633.67161696682,
+      "fixed_cdf_quantized_recovery_percent": 86.79973866746458
+    },
+    "32": {
+      "groups_per_stream": 32,
+      "scenes": 5601,
+      "fixed_ideal": {
+        "total_bits": 148959539170.70584,
+        "bits_per_value": 6.340782301857388,
+        "bytes_per_scene": 3324396.071476206
+      },
+      "profile_bytes_raw": 83968,
+      "fixed_cdf_quantized": {
+        "total_bits": 149032705213.50232,
+        "bits_per_value": 6.343896771409614,
+        "bytes_per_scene": 3326028.950488804
+      },
+      "estimated_total_with_binary_scale_bytes_per_scene": 3330554.950488804,
+      "saving_vs_measured_baseline_bytes_per_scene": 117054.18770080525,
+      "saving_vs_measured_baseline_percent": 3.3952279103852288,
+      "fixed_ideal_gain_vs_k1_bytes_per_scene": 99507.31603793862,
+      "fixed_ideal_recovery_percent": 92.2083267335352,
+      "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 100675.58763376258,
+      "fixed_cdf_quantized_recovery_percent": 92.34149481353612
+    },
+    "512": {
+      "groups_per_stream": 512,
+      "scenes": 5601,
+      "fixed_ideal": {
+        "total_bits": 148582773639.8869,
+        "bits_per_value": 6.324744468878938,
+        "bytes_per_scene": 3315987.628099601
+      },
+      "profile_bytes_raw": 1312768,
+      "fixed_cdf_quantized": {
+        "total_bits": 148658571501.28778,
+        "bits_per_value": 6.3279709674352915,
+        "bytes_per_scene": 3317679.242574714
+      },
+      "estimated_total_with_binary_scale_bytes_per_scene": 3322205.242574714,
+      "saving_vs_measured_baseline_bytes_per_scene": 125403.89561489504,
+      "saving_vs_measured_baseline_percent": 3.6374162669944217,
+      "fixed_ideal_gain_vs_k1_bytes_per_scene": 107915.75941454413,
+      "fixed_ideal_recovery_percent": 100.0,
+      "fixed_cdf_quantized_gain_vs_k1_bytes_per_scene": 109025.29554785245,
+      "fixed_cdf_quantized_recovery_percent": 100.0
+    }
+  },
+  "asymmetric_candidates": [
+    {
+      "geometry_groups": 32,
+      "texture_groups": 16,
+      "rate": "fixed_cdf_quantized",
+      "payload_bytes_per_scene": 3327248.256405249,
+      "estimated_total_with_binary_scale_bytes_per_scene": 3331774.256405249,
+      "saving_vs_measured_baseline_bytes_per_scene": 115834.88178436039,
+      "saving_vs_measured_baseline_percent": 3.3598612006576536,
+      "profile_bytes_raw": 75776
+    },
+    {
+      "geometry_groups": 32,
+      "texture_groups": 8,
+      "rate": "fixed_cdf_quantized",
+      "payload_bytes_per_scene": 3329138.8651011446,
+      "estimated_total_with_binary_scale_bytes_per_scene": 3333664.8651011446,
+      "saving_vs_measured_baseline_bytes_per_scene": 113944.27308846451,
+      "saving_vs_measured_baseline_percent": 3.3050229455041515,
+      "profile_bytes_raw": 71680
+    },
+    {
+      "geometry_groups": 32,
+      "texture_groups": 4,
+      "rate": "fixed_cdf_quantized",
+      "payload_bytes_per_scene": 3332709.817605309,
+      "estimated_total_with_binary_scale_bytes_per_scene": 3337235.817605309,
+      "saving_vs_measured_baseline_bytes_per_scene": 110373.32058429997,
+      "saving_vs_measured_baseline_percent": 3.2014452961526447,
+      "profile_bytes_raw": 69632
+    },
+    {
+      "geometry_groups": 16,
+      "texture_groups": 8,
+      "rate": "fixed_cdf_quantized",
+      "payload_bytes_per_scene": 3333961.475201495,
+      "estimated_total_with_binary_scale_bytes_per_scene": 3338487.475201495,
+      "saving_vs_measured_baseline_bytes_per_scene": 109121.66298811417,
+      "saving_vs_measured_baseline_percent": 3.165140206276851,
+      "profile_bytes_raw": 38912
+    },
+    {
+      "geometry_groups": 16,
+      "texture_groups": 4,
+      "rate": "fixed_cdf_quantized",
+      "payload_bytes_per_scene": 3337532.4277056605,
+      "estimated_total_with_binary_scale_bytes_per_scene": 3342058.4277056605,
+      "saving_vs_measured_baseline_bytes_per_scene": 105550.7104839487,
+      "saving_vs_measured_baseline_percent": 3.0615625569253173,
+      "profile_bytes_raw": 36864
+    },
+    {
+      "geometry_groups": 8,
+      "texture_groups": 4,
+      "rate": "fixed_cdf_quantized",
+      "payload_bytes_per_scene": 3345395.2685044585,
+      "estimated_total_with_binary_scale_bytes_per_scene": 3349921.2685044585,
+      "saving_vs_measured_baseline_bytes_per_scene": 97687.86968515068,
+      "saving_vs_measured_baseline_percent": 2.833496077123407,
+      "profile_bytes_raw": 20480
+    }
+  ]
+}
+wrote grouped CDF analysis to /ceph_data/clue9986/globalSplat/outputs/grouped_cdf/ctx12_g9_t7
+Completed: /ceph_data/clue9986/globalSplat/outputs/grouped_cdf/ctx12_g9_t7
+/ceph_data/clue9986/globalSplat/outputs/grouped_cdf/ctx12_g9_t7/grouped_cdf_report.json
+/ceph_data/clue9986/globalSplat/outputs/grouped_cdf/ctx12_g9_t7/grouped_cdf_profiles.npz

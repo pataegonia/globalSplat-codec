@@ -1,0 +1,182 @@
+Actual fixed-CDF codec: fixed_g32_t16, G9/T7, 5601 test scenes
+Node constraint: ariel-v10
+Output: /ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/fixed_g32_t16
+Wed Aug 12 19:49:24 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.07             Driver Version: 535.161.07   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA RTX A5000               On  | 00000000:23:00.0 Off |                  Off |
+| 30%   34C    P8              19W / 230W |      1MiB / 24564MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+loaded fixed profile 6ac21baee0cfaacb: G32/T16, 75776 shared raw bytes
+[fixed_g32_t16] 1 scenes: mean total=3340690.0 B, exact=1/1
+[fixed_g32_t16] 50 scenes: mean total=3341258.3 B, exact=50/50
+[fixed_g32_t16] 100 scenes: mean total=3336042.0 B, exact=100/100
+[fixed_g32_t16] 150 scenes: mean total=3335214.2 B, exact=150/150
+[fixed_g32_t16] 200 scenes: mean total=3334634.7 B, exact=200/200
+[fixed_g32_t16] 250 scenes: mean total=3335547.7 B, exact=250/250
+[fixed_g32_t16] 300 scenes: mean total=3334898.7 B, exact=300/300
+[fixed_g32_t16] 350 scenes: mean total=3334287.1 B, exact=350/350
+[fixed_g32_t16] 400 scenes: mean total=3334368.2 B, exact=400/400
+[fixed_g32_t16] 450 scenes: mean total=3334488.8 B, exact=450/450
+[fixed_g32_t16] 500 scenes: mean total=3333447.4 B, exact=500/500
+[fixed_g32_t16] 550 scenes: mean total=3332820.3 B, exact=550/550
+[fixed_g32_t16] 600 scenes: mean total=3332827.0 B, exact=600/600
+[fixed_g32_t16] 650 scenes: mean total=3332405.9 B, exact=650/650
+[fixed_g32_t16] 700 scenes: mean total=3333394.7 B, exact=700/700
+[fixed_g32_t16] 750 scenes: mean total=3333563.7 B, exact=750/750
+[fixed_g32_t16] 800 scenes: mean total=3333334.4 B, exact=800/800
+[fixed_g32_t16] 850 scenes: mean total=3333935.0 B, exact=850/850
+[fixed_g32_t16] 900 scenes: mean total=3333871.9 B, exact=900/900
+[fixed_g32_t16] 950 scenes: mean total=3333360.9 B, exact=950/950
+[fixed_g32_t16] 1000 scenes: mean total=3333749.4 B, exact=1000/1000
+[fixed_g32_t16] 1050 scenes: mean total=3333231.4 B, exact=1050/1050
+[fixed_g32_t16] 1100 scenes: mean total=3333397.8 B, exact=1100/1100
+[fixed_g32_t16] 1150 scenes: mean total=3332906.4 B, exact=1150/1150
+[fixed_g32_t16] 1200 scenes: mean total=3332727.3 B, exact=1200/1200
+[fixed_g32_t16] 1250 scenes: mean total=3332381.7 B, exact=1250/1250
+[fixed_g32_t16] 1300 scenes: mean total=3332204.7 B, exact=1300/1300
+[fixed_g32_t16] 1350 scenes: mean total=3331597.2 B, exact=1350/1350
+[fixed_g32_t16] 1400 scenes: mean total=3331920.4 B, exact=1400/1400
+[fixed_g32_t16] 1450 scenes: mean total=3332093.5 B, exact=1450/1450
+[fixed_g32_t16] 1500 scenes: mean total=3332079.5 B, exact=1500/1500
+[fixed_g32_t16] 1550 scenes: mean total=3332113.9 B, exact=1550/1550
+[fixed_g32_t16] 1600 scenes: mean total=3332240.8 B, exact=1600/1600
+[fixed_g32_t16] 1650 scenes: mean total=3332556.0 B, exact=1650/1650
+[fixed_g32_t16] 1700 scenes: mean total=3332565.7 B, exact=1700/1700
+[fixed_g32_t16] 1750 scenes: mean total=3332990.1 B, exact=1750/1750
+[fixed_g32_t16] 1800 scenes: mean total=3332981.2 B, exact=1800/1800
+[fixed_g32_t16] 1850 scenes: mean total=3332761.1 B, exact=1850/1850
+[fixed_g32_t16] 1900 scenes: mean total=3332974.1 B, exact=1900/1900
+[fixed_g32_t16] 1950 scenes: mean total=3333049.0 B, exact=1950/1950
+[fixed_g32_t16] 2000 scenes: mean total=3333178.9 B, exact=2000/2000
+[fixed_g32_t16] 2050 scenes: mean total=3333405.7 B, exact=2050/2050
+[fixed_g32_t16] 2100 scenes: mean total=3333378.1 B, exact=2100/2100
+[fixed_g32_t16] 2150 scenes: mean total=3333373.4 B, exact=2150/2150
+[fixed_g32_t16] 2200 scenes: mean total=3333629.4 B, exact=2200/2200
+[fixed_g32_t16] 2250 scenes: mean total=3333759.7 B, exact=2250/2250
+[fixed_g32_t16] 2300 scenes: mean total=3333617.9 B, exact=2300/2300
+[fixed_g32_t16] 2350 scenes: mean total=3333526.7 B, exact=2350/2350
+[fixed_g32_t16] 2400 scenes: mean total=3333434.7 B, exact=2400/2400
+[fixed_g32_t16] 2450 scenes: mean total=3333634.8 B, exact=2450/2450
+[fixed_g32_t16] 2500 scenes: mean total=3333332.4 B, exact=2500/2500
+[fixed_g32_t16] 2550 scenes: mean total=3333410.8 B, exact=2550/2550
+[fixed_g32_t16] 2600 scenes: mean total=3333371.7 B, exact=2600/2600
+[fixed_g32_t16] 2650 scenes: mean total=3333294.2 B, exact=2650/2650
+[fixed_g32_t16] 2700 scenes: mean total=3333082.9 B, exact=2700/2700
+[fixed_g32_t16] 2750 scenes: mean total=3333068.0 B, exact=2750/2750
+[fixed_g32_t16] 2800 scenes: mean total=3332899.7 B, exact=2800/2800
+[fixed_g32_t16] 2850 scenes: mean total=3332746.6 B, exact=2850/2850
+[fixed_g32_t16] 2900 scenes: mean total=3333006.4 B, exact=2900/2900
+[fixed_g32_t16] 2950 scenes: mean total=3332882.7 B, exact=2950/2950
+[fixed_g32_t16] 3000 scenes: mean total=3332785.8 B, exact=3000/3000
+[fixed_g32_t16] 3050 scenes: mean total=3332794.3 B, exact=3050/3050
+[fixed_g32_t16] 3100 scenes: mean total=3332871.9 B, exact=3100/3100
+[fixed_g32_t16] 3150 scenes: mean total=3332784.4 B, exact=3150/3150
+[fixed_g32_t16] 3200 scenes: mean total=3332563.1 B, exact=3200/3200
+[fixed_g32_t16] 3250 scenes: mean total=3332537.8 B, exact=3250/3250
+[fixed_g32_t16] 3300 scenes: mean total=3332637.9 B, exact=3300/3300
+[fixed_g32_t16] 3350 scenes: mean total=3332686.1 B, exact=3350/3350
+[fixed_g32_t16] 3400 scenes: mean total=3332657.9 B, exact=3400/3400
+[fixed_g32_t16] 3450 scenes: mean total=3332628.1 B, exact=3450/3450
+[fixed_g32_t16] 3500 scenes: mean total=3332557.7 B, exact=3500/3500
+[fixed_g32_t16] 3550 scenes: mean total=3332612.2 B, exact=3550/3550
+[fixed_g32_t16] 3600 scenes: mean total=3332454.1 B, exact=3600/3600
+[fixed_g32_t16] 3650 scenes: mean total=3332449.2 B, exact=3650/3650
+[fixed_g32_t16] 3700 scenes: mean total=3332419.6 B, exact=3700/3700
+[fixed_g32_t16] 3750 scenes: mean total=3332357.9 B, exact=3750/3750
+[fixed_g32_t16] 3800 scenes: mean total=3332416.0 B, exact=3800/3800
+[fixed_g32_t16] 3850 scenes: mean total=3332402.7 B, exact=3850/3850
+[fixed_g32_t16] 3900 scenes: mean total=3332289.7 B, exact=3900/3900
+[fixed_g32_t16] 3950 scenes: mean total=3332267.0 B, exact=3950/3950
+[fixed_g32_t16] 4000 scenes: mean total=3332202.1 B, exact=4000/4000
+[fixed_g32_t16] 4050 scenes: mean total=3332296.7 B, exact=4050/4050
+[fixed_g32_t16] 4100 scenes: mean total=3332420.9 B, exact=4100/4100
+[fixed_g32_t16] 4150 scenes: mean total=3332433.5 B, exact=4150/4150
+[fixed_g32_t16] 4200 scenes: mean total=3332310.1 B, exact=4200/4200
+[fixed_g32_t16] 4250 scenes: mean total=3332248.5 B, exact=4250/4250
+[fixed_g32_t16] 4300 scenes: mean total=3332235.6 B, exact=4300/4300
+[fixed_g32_t16] 4350 scenes: mean total=3332238.4 B, exact=4350/4350
+[fixed_g32_t16] 4400 scenes: mean total=3332357.8 B, exact=4400/4400
+[fixed_g32_t16] 4450 scenes: mean total=3332244.7 B, exact=4450/4450
+[fixed_g32_t16] 4500 scenes: mean total=3332177.7 B, exact=4500/4500
+[fixed_g32_t16] 4550 scenes: mean total=3332119.1 B, exact=4550/4550
+[fixed_g32_t16] 4600 scenes: mean total=3332015.7 B, exact=4600/4600
+[fixed_g32_t16] 4650 scenes: mean total=3332048.5 B, exact=4650/4650
+[fixed_g32_t16] 4700 scenes: mean total=3332046.4 B, exact=4700/4700
+[fixed_g32_t16] 4750 scenes: mean total=3332092.0 B, exact=4750/4750
+[fixed_g32_t16] 4800 scenes: mean total=3331948.1 B, exact=4800/4800
+[fixed_g32_t16] 4850 scenes: mean total=3331951.1 B, exact=4850/4850
+[fixed_g32_t16] 4900 scenes: mean total=3331909.3 B, exact=4900/4900
+[fixed_g32_t16] 4950 scenes: mean total=3331898.8 B, exact=4950/4950
+[fixed_g32_t16] 5000 scenes: mean total=3332044.5 B, exact=5000/5000
+[fixed_g32_t16] 5050 scenes: mean total=3332093.9 B, exact=5050/5050
+[fixed_g32_t16] 5100 scenes: mean total=3332174.2 B, exact=5100/5100
+[fixed_g32_t16] 5150 scenes: mean total=3332215.0 B, exact=5150/5150
+[fixed_g32_t16] 5200 scenes: mean total=3332244.4 B, exact=5200/5200
+[fixed_g32_t16] 5250 scenes: mean total=3332116.7 B, exact=5250/5250
+[fixed_g32_t16] 5300 scenes: mean total=3332166.7 B, exact=5300/5300
+[fixed_g32_t16] 5350 scenes: mean total=3332243.8 B, exact=5350/5350
+[fixed_g32_t16] 5400 scenes: mean total=3332382.3 B, exact=5400/5400
+[fixed_g32_t16] 5450 scenes: mean total=3332326.4 B, exact=5450/5450
+[fixed_g32_t16] 5500 scenes: mean total=3332334.2 B, exact=5500/5500
+[fixed_g32_t16] 5550 scenes: mean total=3332319.7 B, exact=5550/5550
+[fixed_g32_t16] 5600 scenes: mean total=3332296.1 B, exact=5600/5600
+{
+  "mode": "fixed_g32_t16",
+  "scenes": 5601,
+  "texture_bits": 7,
+  "geometry_bits": 9,
+  "scale_mode": "channel",
+  "format_version": 2,
+  "cdf_mode": "fixed_grouped",
+  "texture_groups": 16,
+  "geometry_groups": 32,
+  "shared_profile_bytes_raw": 75776,
+  "shared_profile_is_not_charged_per_scene": true,
+  "symbol_exact_scenes": 5601,
+  "symbol_exact_match": true,
+  "profile_id": "6ac21baee0cfaacb946c3c191988444e401835d65d23b55fd42b2ff52c9b9724",
+  "profile_source": "/ceph_data/clue9986/globalSplat/outputs/grouped_cdf/ctx12_g9_t7/grouped_cdf_profiles.npz",
+  "mean_bytes": 3332291.554008213,
+  "mean_payload_bytes": 3327537.554008213,
+  "mean_texture_payload_bytes": 1398266.418853776,
+  "mean_geometry_payload_bytes": 1929271.1351544368,
+  "mean_header_bytes": 4754.0,
+  "mean_json_header_bytes": 646.0,
+  "mean_scale_side_info_bytes": 4096.0,
+  "mean_cdf_side_info_bytes": 0.0,
+  "mean_other_metadata_bytes": 646.0,
+  "mean_framing_bytes": 12.0,
+  "mean_container_bytes": 658.0,
+  "mean_bits_per_value": 6.355841739670206,
+  "mean_rans_encode_seconds": 0.41768258998710567,
+  "mean_rans_decode_seconds": 0.6777807338881744,
+  "mean_texture_rans_encode_seconds": 0.19607284533972652,
+  "mean_geometry_rans_encode_seconds": 0.22160974464737912,
+  "mean_texture_rans_decode_seconds": 0.23202776946744305,
+  "mean_geometry_rans_decode_seconds": 0.4457529644207313,
+  "mean_group_dispatch_encode_seconds": 0.002550645957610619,
+  "mean_group_dispatch_decode_seconds": 0.0026037847475075407,
+  "mean_cdf_build_seconds": 0.0,
+  "mean_total_encode_seconds": 0.6650303909738815,
+  "mean_total_decode_seconds": 0.7541441258448436,
+  "mean_latent_extract_seconds": 0.24845288242111166
+}
+wrote actual codec results to /ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/fixed_g32_t16
+Completed: /ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/fixed_g32_t16
+/ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/fixed_g32_t16/per_scene.jsonl
+/ceph_data/clue9986/globalSplat/outputs/fixed_grouped_codec/ctx12_g9_t7/fixed_g32_t16/summary.json

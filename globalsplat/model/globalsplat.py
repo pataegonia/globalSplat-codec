@@ -54,6 +54,12 @@ class GlobalSplat(nn.Module):
         latent_codec_geometry_bits: int = 0,
         latent_codec_scale_mode: str = "global",
         latent_codec_clip_percentile: float | None = None,
+        latent_codec_cdf_mode: str = "adaptive_scene_k1",
+        latent_codec_profile_path: str | None = None,
+        latent_codec_texture_groups: int = 1,
+        latent_codec_geometry_groups: int = 1,
+        latent_codec_cdf_precision: int = 16,
+        latent_codec_cdf_alpha: float = 0.5,
     ):
         super().__init__()
 
@@ -73,7 +79,18 @@ class GlobalSplat(nn.Module):
         self.latent_codec_geometry_bits = int(latent_codec_geometry_bits)
         self.latent_codec_scale_mode = str(latent_codec_scale_mode)
         self.latent_codec_clip_percentile = latent_codec_clip_percentile
+        self.latent_codec_cdf_mode = str(latent_codec_cdf_mode)
+        self.latent_codec_profile_path = latent_codec_profile_path
+        self.latent_codec_texture_groups = int(latent_codec_texture_groups)
+        self.latent_codec_geometry_groups = int(latent_codec_geometry_groups)
+        self.latent_codec_cdf_precision = int(latent_codec_cdf_precision)
+        self.latent_codec_cdf_alpha = float(latent_codec_cdf_alpha)
+        self.latent_codec_fixed_profile = None
         self.last_codec_stats = None
+        # Enabled only by profiling evals; ordinary training/eval avoids the
+        # CUDA synchronizations and peak-counter resets used by the profiler.
+        self.profile_modules = False
+        self.last_module_profile = None
         codec_bit_values = (
             self.latent_codec_bits,
             self.latent_codec_texture_bits,
@@ -83,6 +100,25 @@ class GlobalSplat(nn.Module):
             raise ValueError("latent codec bit depths must be 0 or in [2, 12]")
         if bool(self.latent_codec_texture_bits) != bool(self.latent_codec_geometry_bits):
             raise ValueError("set both latent_codec_texture_bits and latent_codec_geometry_bits")
+        if self.latent_codec_cdf_mode not in ("adaptive_scene_k1", "fixed_grouped"):
+            raise ValueError(
+                "latent_codec_cdf_mode must be 'adaptive_scene_k1' or 'fixed_grouped'"
+            )
+        codec_enabled = self.latent_codec_bits or self.latent_codec_texture_bits
+        if codec_enabled and self.latent_codec_cdf_mode == "fixed_grouped":
+            if not self.latent_codec_profile_path:
+                raise ValueError(
+                    "fixed_grouped codec requires latent_codec_profile_path"
+                )
+            from ..compression import load_grouped_cdf_profile
+
+            self.latent_codec_fixed_profile = load_grouped_cdf_profile(
+                self.latent_codec_profile_path,
+                texture_groups=self.latent_codec_texture_groups,
+                geometry_groups=self.latent_codec_geometry_groups,
+                alpha=self.latent_codec_cdf_alpha,
+                precision=self.latent_codec_cdf_precision,
+            )
 
         ph, pw = self.patch_size
 
@@ -197,14 +233,31 @@ class GlobalSplat(nn.Module):
         cam_int = inputs["intrinsic"]
         c2w = inputs.get("c2w", None)
 
-        content_tokens = self._tokenize(images, cam_int, c2w)
+        self.last_module_profile = {} if self.profile_modules else None
+
+        def run_profiled(name, function):
+            if not self.profile_modules:
+                return function()
+            from ..misc.module_profiler import profile_call
+
+            output, profile = profile_call(function, device=images.device)
+            self.last_module_profile[name] = profile
+            return output
+
+        content_tokens = run_profiled(
+            "view_tokenizer",
+            lambda: self._tokenize(images, cam_int, c2w),
+        )
 
         batch_size = content_tokens.shape[0]
         scene_state = self.scene_tokens.unsqueeze(0).expand(batch_size, -1, -1)
 
         # The encoder also returns aggregate auxiliary tokens; they shape the
         # scene tokens via attention but are not decoded here.
-        _aux, encoded_patch, _global = self.slot_encoder(content_tokens, state=scene_state)
+        _aux, encoded_patch, _global = run_profiled(
+            "dual_stream_slot_encoder",
+            lambda: self.slot_encoder(content_tokens, state=scene_state),
+        )
 
         # Optional evaluation-only transform-free codec round-trip.  Geometry
         # and texture are flattened and arithmetic-coded independently, then
@@ -217,30 +270,72 @@ class GlobalSplat(nn.Module):
             texture, geometry = encoded_patch
             if texture.shape[0] != 1:
                 raise ValueError("latent codec currently expects evaluation batch size 1")
-            with tempfile.TemporaryDirectory(prefix="globalsplat-codec-") as tmp:
-                bitstream = Path(tmp) / "scene.gsac"
-                stats = encode_scene_latents(
-                    texture,
-                    geometry,
-                    bitstream,
-                    bits=self.latent_codec_bits,
-                    texture_bits=(self.latent_codec_texture_bits or self.latent_codec_bits),
-                    geometry_bits=(self.latent_codec_geometry_bits or self.latent_codec_bits),
-                    backend=self.latent_codec_backend,
-                    scale_mode=self.latent_codec_scale_mode,
-                    clip_percentile=self.latent_codec_clip_percentile,
+            def codec_roundtrip():
+                with tempfile.TemporaryDirectory(prefix="globalsplat-codec-") as tmp:
+                    bitstream = Path(tmp) / "scene.gsac"
+                    stats = encode_scene_latents(
+                        texture,
+                        geometry,
+                        bitstream,
+                        bits=self.latent_codec_bits,
+                        texture_bits=(
+                            self.latent_codec_texture_bits or self.latent_codec_bits
+                        ),
+                        geometry_bits=(
+                            self.latent_codec_geometry_bits or self.latent_codec_bits
+                        ),
+                        backend=self.latent_codec_backend,
+                        scale_mode=self.latent_codec_scale_mode,
+                        clip_percentile=self.latent_codec_clip_percentile,
+                        fixed_cdf_profile=self.latent_codec_fixed_profile,
+                    )
+                    texture_hat, geometry_hat, decode_stats = decode_scene_latents(
+                        bitstream,
+                        device=texture.device,
+                        fixed_cdf_profile=self.latent_codec_fixed_profile,
+                        return_stats=True,
+                    )
+                texture_symbol_exact = (
+                    stats["texture_symbol_sha256"]
+                    == decode_stats["texture_symbol_sha256"]
                 )
-                texture_hat, geometry_hat = decode_scene_latents(
-                    bitstream, device=texture.device
+                geometry_symbol_exact = (
+                    stats["geometry_symbol_sha256"]
+                    == decode_stats["geometry_symbol_sha256"]
                 )
-            stats.update({
-                "texture_mse": torch.mean((texture.float() - texture_hat) ** 2).item(),
-                "geometry_mse": torch.mean((geometry.float() - geometry_hat) ** 2).item(),
-            })
-            self.last_codec_stats = stats
-            encoded_patch = (texture_hat.to(texture.dtype), geometry_hat.to(geometry.dtype))
+                if not texture_symbol_exact or not geometry_symbol_exact:
+                    raise RuntimeError(
+                        "latent codec decoded non-identical quantized symbols"
+                    )
+                stats.update(decode_stats)
+                stats.update({
+                    "texture_symbol_exact": texture_symbol_exact,
+                    "geometry_symbol_exact": geometry_symbol_exact,
+                    "symbol_exact_match": (
+                        texture_symbol_exact and geometry_symbol_exact
+                    ),
+                    "texture_mse": torch.mean(
+                        (texture.float() - texture_hat) ** 2
+                    ).item(),
+                    "geometry_mse": torch.mean(
+                        (geometry.float() - geometry_hat) ** 2
+                    ).item(),
+                })
+                restored = (
+                    texture_hat.to(texture.dtype),
+                    geometry_hat.to(geometry.dtype),
+                )
+                return restored, stats
 
-        means, rotations, scales, sh, opacities, reg = self.gaussian_decoder(encoded_patch)
+            encoded_patch, stats = run_profiled(
+                "latent_codec_roundtrip", codec_roundtrip
+            )
+            self.last_codec_stats = stats
+
+        means, rotations, scales, sh, opacities, reg = run_profiled(
+            "gaussian_decoder",
+            lambda: self.gaussian_decoder(encoded_patch),
+        )
 
         return Gaussians(
             means=means,

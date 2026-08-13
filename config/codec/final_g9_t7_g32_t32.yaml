@@ -1,0 +1,16 @@
+# @package _global_
+# Final transform-free scene-latent codec selected on RE10K test (5,601 scenes).
+# Add with: +codec=final_g9_t7_g32_t32
+model:
+  latent_codec_bits: 0
+  latent_codec_geometry_bits: 9
+  latent_codec_texture_bits: 7
+  latent_codec_backend: compressai
+  latent_codec_scale_mode: channel
+  latent_codec_clip_percentile: null
+  latent_codec_cdf_mode: fixed_grouped
+  latent_codec_profile_path: ${oc.env:GLOBALSPLAT_CDF_PROFILE}
+  latent_codec_geometry_groups: 32
+  latent_codec_texture_groups: 32
+  latent_codec_cdf_precision: 16
+  latent_codec_cdf_alpha: 0.5
