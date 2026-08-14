@@ -38,3 +38,7 @@ latent_codec_texture_groups: 1
 latent_codec_geometry_groups: 1
 latent_codec_cdf_precision: 16
 latent_codec_cdf_alpha: 0.5
+# Codec insertion point: before_mixer applies it after slot_to_geo/slot_to_tex
+# and before the first encoder refinement round; after_mixer keeps the original
+# insertion point between the complete slot encoder and Gaussian decoder.
+latent_codec_placement: after_mixer

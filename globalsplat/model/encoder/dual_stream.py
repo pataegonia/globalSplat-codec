@@ -23,7 +23,7 @@ slots). ``scale_emb`` is the single global token consumed by the decoder.
 """
 from __future__ import annotations
 
-from typing import Optional, Tuple
+from typing import Callable, Optional, Tuple
 
 import torch
 import torch.nn as nn
@@ -422,6 +422,9 @@ class DualStreamSlotEncoder(nn.Module):
         camera_motion_tokens: Optional[torch.Tensor] = None,
         return_slot_regs: bool = False,
         mem_drop_p: float = 0.0,
+        pre_rounds_transform: Optional[
+            Callable[[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor]]
+        ] = None,
     ):
         """
         Args:
@@ -430,6 +433,9 @@ class DualStreamSlotEncoder(nn.Module):
             camera_motion_tokens: Optional motion tokens of shape [B, S, D_tok].
             return_slot_regs: Whether to also return slot register outputs.
             mem_drop_p: Drop probability applied to flattened token memory.
+            pre_rounds_transform: Optional transform applied to ``(geo, tex)``
+                immediately after the shared slots are projected into the two
+                streams and before the first refinement round/PairAdapter.
         """
         batch_size, num_frames, _, token_dim = x.shape
         if token_dim != self.D_tok:
@@ -447,6 +453,8 @@ class DualStreamSlotEncoder(nn.Module):
         slots0, cls_size, reg_start, reg_end = self._build_slots(batch_size, state)
         geo = self.slot_to_geo(slots0)
         tex = self.slot_to_tex(slots0)
+        if pre_rounds_transform is not None:
+            geo, tex = pre_rounds_transform(geo, tex)
         mem = self._build_memory(x, camera_motion_tokens, mem_drop_p)
         reg_mask = self._make_reg_mask(
             geo.size(1), reg_start, reg_end, device=geo.device, dtype=geo.dtype

@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=48G
 #SBATCH -p batch_ugrad
-#SBATCH -w ariel-v10
+#SBATCH -w ariel-v11
 #SBATCH -t 3-00:00:00
 #SBATCH -o logs/slurm/slurm-globalsplat-final-codec-%j.out
 #SBATCH -e logs/slurm/slurm-globalsplat-final-codec-%j.err
@@ -25,7 +25,8 @@ DATASET_ROOT="${DATASET_ROOT:-/data3/local_datasets/re10k}"
 EXPERIMENT="${EXPERIMENT:-re10k_32k}"
 CHECKPOINT="${CHECKPOINT:-${REPO_DIR}/checkpoints/globalsplat-re10k-32k.ckpt}"
 GLOBALSPLAT_CDF_PROFILE="${GLOBALSPLAT_CDF_PROFILE:-${REPO_DIR}/outputs/grouped_cdf/ctx12_g9_t7/grouped_cdf_profiles.npz}"
-OUTPUT_DIR="${OUTPUT_DIR:-${REPO_DIR}/outputs/latent_codec_final/ctx12_g9_t7_g32_t32}"
+CODEC_PLACEMENT="${CODEC_PLACEMENT:-after_mixer}"
+OUTPUT_DIR="${OUTPUT_DIR:-${REPO_DIR}/outputs/latent_codec_final/ctx12_g9_t7_g32_t32_${CODEC_PLACEMENT}}"
 CONTEXT="${CONTEXT:-12}"
 NUM_WORKERS="${NUM_WORKERS:-8}"
 PROFILE_WARMUP_STEPS="${PROFILE_WARMUP_STEPS:-5}"
@@ -51,6 +52,7 @@ python -c "from compressai.ans import RansEncoder, RansDecoder" || {
 mkdir -p "${OUTPUT_DIR}"
 cd "${REPO_DIR}"
 echo "Final codec: G9/T7, channel FP32 scale, fixed G32/T32 CDF16, rANS"
+echo "Codec placement: ${CODEC_PLACEMENT}"
 echo "Shared profile: ${GLOBALSPLAT_CDF_PROFILE}"
 echo "Node constraint: ariel-v10"
 echo "Output: ${OUTPUT_DIR}"
@@ -59,6 +61,7 @@ nvidia-smi
 srun python -m globalsplat.main \
     "+experiment=${EXPERIMENT}" \
     "+codec=final_g9_t7_g32_t32" \
+    "model.latent_codec_placement=${CODEC_PLACEMENT}" \
     "dataset=${DATASET_CONFIG}" \
     mode=test \
     "dataset.dataset_roots=['${DATASET_ROOT}']" \
