@@ -12,8 +12,10 @@
   `ariel-v10` measuring actual rANS payload/container/timing and exact symbol
   recovery for adaptive K1, fixed K1, fixed G32/T16, and fixed G32/T32.
 - `evaluation/eval_latent_codec_final_re10k.sbatch`: full rendered evaluation
-  of the selected G9/T7 + fixed G32/T32 codec on `ariel-v10`, including
-  synchronized per-module time and CUDA peak-memory profiling.
+  of the selected G9/T7 + fixed G32/T32 codec on `ariel-v10`; this measures
+  quality and rate without module-profiler synchronization.
+- `evaluation/profile_latent_codec_final_inference_re10k.sbatch`: inference-only
+  codec profiling with PSNR/SSIM/LPIPS disabled, avoiding metric-model memory.
 - `training/finetune_codec_qat_decoder_re10k.sbatch`: decoder-only QAT of the
   current post-Mixer G9/T7 codec; the representation and bitstream stay fixed.
 - `training/`: model training jobs.
@@ -30,6 +32,8 @@ bash slurm/submit.sh slurm/analysis/grouped_cdf_re10k.sbatch
 bash slurm/submit.sh slurm/analysis/fixed_grouped_codec_re10k.sbatch
 
 bash slurm/submit.sh slurm/evaluation/eval_latent_codec_final_re10k.sbatch
+
+bash slurm/submit.sh slurm/evaluation/profile_latent_codec_final_inference_re10k.sbatch
 
 bash slurm/submit.sh slurm/training/finetune_codec_qat_decoder_re10k.sbatch
 ```

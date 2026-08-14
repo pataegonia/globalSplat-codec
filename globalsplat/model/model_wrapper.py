@@ -859,6 +859,14 @@ class GlobalSplatModule(pl.LightningModule):
                 [row["modules"] for row in self.module_profile_outputs],
                 warmup_steps=self.module_profile_warmup_steps,
             )
+            module_profile_summary["compute_scores"] = bool(
+                self.test_cfg.get("compute_scores", True)
+            )
+            module_profile_summary["profile_scope"] = (
+                "evaluation_inclusive"
+                if module_profile_summary["compute_scores"]
+                else "inference_only"
+            )
             with (out_dir / "module_profile_summary.json").open("w") as f:
                 json.dump(module_profile_summary, f, indent=2)
             with (out_dir / "module_profile_per_scene.json").open("w") as f:
@@ -913,6 +921,12 @@ class GlobalSplatModule(pl.LightningModule):
                         json.dump(
                             {
                                 "source": "module profiler absolute peaks",
+                                "profile_scope": module_profile_summary[
+                                    "profile_scope"
+                                ],
+                                "compute_scores": module_profile_summary[
+                                    "compute_scores"
+                                ],
                                 "peak_allocated_bytes": peak_allocated,
                                 "peak_reserved_bytes": peak_reserved,
                                 "peak_allocated_mib": peak_allocated / (1024 ** 2),

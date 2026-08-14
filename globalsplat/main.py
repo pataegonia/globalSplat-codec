@@ -298,6 +298,15 @@ def main(cfg: DictConfig) -> None:
     )
 
     tr = cfg.trainer
+    test_batches = _eval_index_len(cfg, is_test)
+    configured_test_cap = int(cfg.test.get("max_batches", 0)) if is_test else 0
+    if configured_test_cap > 0:
+        test_batches = (
+            configured_test_cap
+            if test_batches is None
+            else min(test_batches, configured_test_cap)
+        )
+
     trainer = pl.Trainer(
         logger=logger,
         strategy=tr.strategy,
@@ -317,7 +326,7 @@ def main(cfg: DictConfig) -> None:
         limit_val_batches=tr.limit_val_batches,
         # Make the test progress-bar total match the scenes actually evaluated
         # (the eval index), not the full chunk set the upstream __len__ reports.
-        limit_test_batches=(_eval_index_len(cfg, is_test) or 1.0),
+        limit_test_batches=(test_batches or 1.0),
         num_sanity_val_steps=tr.num_sanity_val_steps,
         precision=tr.precision,
         # Exact mid-epoch resume needs each epoch's loader rebuilt so its

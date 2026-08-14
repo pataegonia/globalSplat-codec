@@ -59,16 +59,16 @@ Set `GLOBALSPLAT_CDF_PROFILE` to the Phase-2 profile bundle and compose the
 bash slurm/submit.sh slurm/evaluation/eval_latent_codec_final_re10k.sbatch
 ```
 
-This final job enables synchronized module profiling. After five warm-up scenes
-it reports mean/P50/P95/min/max time, CUDA peak allocated/reserved memory, and
-process RSS/high-water memory for:
+Module profiling is a separate inference-only job so metric networks do not
+contaminate the model's peak memory. After five warm-up scenes it reports
+mean/P50/P95/min/max time, CUDA peak allocated/reserved memory, and process
+RSS/high-water memory for:
 
 1. view tokenizer (RGB patches, Plucker rays, and camera conditioning),
 2. dual-stream slot encoder,
 3. complete latent codec round-trip,
 4. Gaussian decoder,
-5. gsplat rasterizer, and
-6. PSNR, SSIM, and LPIPS evaluation modules.
+5. gsplat rasterizer.
 
 Codec JSON additionally separates rANS encode/decode, geometry/texture stream
 times, CDF construction, and group-dispatch time. The relevant output files are:
@@ -80,6 +80,13 @@ times, CDF construction, and group-dispatch time. The relevant output files are:
 | `module_profile_summary.json` | aggregated module timing and memory |
 | `module_profile_per_scene.json` | raw per-scene module measurements |
 | `peak_memory.json` | largest absolute CUDA allocator peak |
+
+Run the inference-only profile (200 scenes by default) with:
+
+```bash
+bash slurm/submit.sh \
+    slurm/evaluation/profile_latent_codec_final_inference_re10k.sbatch
+```
 
 ## Decoder-only QAT fine-tuning
 

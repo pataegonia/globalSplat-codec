@@ -2,8 +2,10 @@
 #SBATCH -J globalsplat-codec-qat
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:4
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-gpu=8
+# Lightning DDP expects one externally launched Slurm task per requested GPU.
+# Each rank receives one GPU while Trainer(devices=4) describes the node total.
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=8
 #SBATCH --mem-per-gpu=48G
 #SBATCH -p batch_ugrad
 #SBATCH -w ariel-v8

@@ -28,7 +28,6 @@ GLOBALSPLAT_CDF_PROFILE="${GLOBALSPLAT_CDF_PROFILE:-${REPO_DIR}/outputs/grouped_
 OUTPUT_DIR="${OUTPUT_DIR:-${REPO_DIR}/outputs/latent_codec_final/ctx12_g9_t7_g32_t32}"
 CONTEXT="${CONTEXT:-12}"
 NUM_WORKERS="${NUM_WORKERS:-8}"
-PROFILE_WARMUP_STEPS="${PROFILE_WARMUP_STEPS:-5}"
 DATASET_CONFIG="re10k_eval_ctx${CONTEXT}"
 
 source "$(conda info --base)/etc/profile.d/conda.sh"
@@ -71,11 +70,9 @@ srun python -m globalsplat.main \
     test.save_gt_image=false \
     test.save_input_images=false \
     test.save_video=false \
-    test.profile_modules=true \
-    "test.profile_warmup_steps=${PROFILE_WARMUP_STEPS}" \
+    test.profile_modules=false \
     "test.output_path=${OUTPUT_DIR}"
 
 echo "Completed: ${OUTPUT_DIR}"
 find "${OUTPUT_DIR}" -type f \
-    \( -name 'scores_all_avg.json' -o -name 'codec_summary.json' \
-       -o -name 'module_profile_summary.json' -o -name 'peak_memory.json' \) -print
+    \( -name 'scores_all_avg.json' -o -name 'codec_summary.json' \) -print

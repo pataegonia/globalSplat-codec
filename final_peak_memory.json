@@ -1,0 +1,9 @@
+{
+  "source": "module profiler absolute peaks",
+  "peak_allocated_bytes": 946363392,
+  "peak_reserved_bytes": 1132462080,
+  "peak_allocated_mib": 902.5224609375,
+  "peak_reserved_mib": 1080.0,
+  "process_peak_rss_bytes": 2967863296,
+  "process_peak_rss_mib": 2830.375
+}

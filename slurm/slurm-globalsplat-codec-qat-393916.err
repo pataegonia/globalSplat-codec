@@ -1,0 +1,44 @@
+[rank: 0] Seed set to 0
+Using bfloat16 Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+`Trainer(limit_test_batches=1.0)` was configured so 100% of the batches will be used..
+Error executing job with overrides: ['+experiment=re10k_32k_codec_qat_decoder', "dataset.dataset_roots=['/data3/local_datasets/re10k']", 'checkpointing.load=/ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt', 'checkpointing.resume=false', 'checkpointing.auto_resume=false', 'output_dir=/ceph_data/clue9986/globalSplat/checkpoints/codec_qat', 'optimizer.lr=2e-5', 'optimizer.num_workers=8', 'trainer.max_steps=10000', 'trainer.devices=4', 'trainer.num_nodes=1', 'trainer.strategy=ddp', 'trainer.precision=bf16-mixed']
+Traceback (most recent call last):
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/ceph_data/clue9986/globalSplat/globalsplat/main.py", line 354, in <module>
+    main()
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/ceph_data/clue9986/globalSplat/globalsplat/main.py", line 350, in main
+    trainer.fit(lit, datamodule=datamodule, ckpt_path=run.resume_ckpt)
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 538, in fit
+    call._call_and_handle_interrupt(
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 46, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 99, in launch
+    self.cluster_environment.validate_settings(num_devices=self.num_processes, num_nodes=self.num_nodes)
+  File "/ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/lightning_fabric/plugins/environments/slurm.py", line 163, in validate_settings
+    raise ValueError(
+ValueError: You set `devices=4` in Lightning, but the number of tasks per node configured in SLURM `--ntasks-per-node=1` does not match. HINT: Set `devices=1`.
+srun: error: ariel-v8: task 0: Exited with exit code 1

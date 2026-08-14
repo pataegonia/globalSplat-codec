@@ -1,0 +1,155 @@
+Decoder-only QAT: post-Mixer G9/T7, fixed G32/T32 profile
+Frozen: tokenizer + scene tokens + dual-stream slot encoder
+Trainable: Gaussian decoder only
+Initial checkpoint: /ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt
+Shared profile: /ceph_data/clue9986/globalSplat/outputs/grouped_cdf/ctx12_g9_t7/grouped_cdf_profiles.npz
+Steps=10000, LR=2e-5, GPUs=4, node=ariel-v10
+Thu Aug 13 14:00:32 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.07             Driver Version: 535.161.07   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA RTX A5000               On  | 00000000:20:00.0 Off |                  Off |
+| 30%   36C    P8              28W / 230W |      1MiB / 24564MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   1  NVIDIA RTX A5000               On  | 00000000:21:00.0 Off |                  Off |
+| 30%   35C    P8              15W / 230W |      1MiB / 24564MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   2  NVIDIA RTX A5000               On  | 00000000:22:00.0 Off |                  Off |
+| 30%   34C    P8              13W / 230W |      1MiB / 24564MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   3  NVIDIA RTX A5000               On  | 00000000:23:00.0 Off |                  Off |
+| 30%   36C    P8              20W / 230W |      1MiB / 24564MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+model:
+  name: globalsplat
+  sh_degree: 3
+  static_only: true
+  patch_size: 8
+  latent_rep_token_amount: 4096
+  dim_latents: 512
+  dim_rays: 256
+  dim_rgb_feat: 512
+  rounds: 4
+  slot_calib_layers_per_round: 2
+  M_max: 16
+  use_camera_diff_as_input: false
+  latent_codec_bits: 0
+  latent_codec_backend: compressai
+  latent_codec_texture_bits: 7
+  latent_codec_geometry_bits: 9
+  latent_codec_scale_mode: channel
+  latent_codec_clip_percentile: null
+  latent_codec_cdf_mode: fixed_grouped
+  latent_codec_profile_path: ${oc.env:GLOBALSPLAT_CDF_PROFILE}
+  latent_codec_texture_groups: 32
+  latent_codec_geometry_groups: 32
+  latent_codec_cdf_precision: 16
+  latent_codec_cdf_alpha: 0.5
+  latent_codec_qat: true
+  latent_codec_qat_scope: decoder
+dataset:
+  name: re10k
+  mvsplat_root: ./third_party/ZPressor/mvsplat
+  dataset_roots:
+  - /data3/local_datasets/re10k
+  image_shape:
+  - 256
+  - 256
+  num_context_views: 24
+  num_target_views: 12
+  eval_index_path: null
+  min_distance_between_context_views: 40
+  max_distance_between_context_views: 220
+  initial_min_distance_between_context_views: 40
+  initial_max_distance_between_context_views: 220
+  context_gap_warm_up_steps: 0
+  max_distance_to_context_views: 0
+  target_gap_warm_up_steps: 0
+  initial_max_distance_to_context_views: 0
+  extra_views_sampling_strategy: farthest_point
+  target_views_replace_sample: false
+  near: 1.0
+  far: 100.0
+  make_baseline_1: false
+  baseline_scale_bounds: false
+  augment: true
+  scene_scale_factor: 1.0
+loss:
+  w_rgb: 2.0
+  w_mse: 1.0
+  w_depth: 0.0
+  subset_consistency: false
+  subset_alpha_consistency_w: 0.001
+  subset_depth_consistency_w: 0.01
+trainer:
+  devices: 4
+  num_nodes: 1
+  accelerator: gpu
+  strategy: ddp
+  max_steps: 10000
+  log_every_n_steps: 100
+  accumulate_grad_batches: 1
+  gradient_clip_val: 1.0
+  check_val_every_n_epoch: 1
+  limit_val_batches: 50
+  num_sanity_val_steps: 0
+  precision: bf16-mixed
+mode: train
+experiment_name: globalsplat_re10k_32k_codec_qat_decoder
+output_dir: /ceph_data/clue9986/globalSplat/checkpoints/codec_qat
+log_dir: ./logs/
+seed: 0
+quiet_skipped_examples: true
+optimizer:
+  lr: 2.0e-05
+  weight_decay: 1.0e-06
+  batch_size: 1
+  num_workers: 8
+  prefetch_factor: 2
+  warmup_pct: 0.05
+  min_lr_ratio: 0.05
+  min_lr_floor: 1.0e-06
+  warmup_epochs_fallback: 5
+checkpointing:
+  load: /ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt
+  resume: false
+  auto_resume: false
+  exact_resume: false
+  every_n_train_steps: 1000
+  save_top_k: -1
+test:
+  output_path: ./outputs/test
+  compute_scores: true
+  save_image: false
+  save_gt_image: false
+  save_input_images: false
+  save_video: false
+  eval_time_skip_steps: 5
+  profile_modules: false
+  profile_warmup_steps: 5
+curriculum:
+  boundaries:
+  - 0
+  - 0
+  - 0
+  ramp_iters: 0
+  final_stage: 3
+
+Loaded weights from /ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt (no optimizer/step state). missing=66 unexpected=0
+Starting training from scratch (version_0; checkpoints -> /ceph_data/clue9986/globalSplat/checkpoints/codec_qat/globalsplat_re10k_32k_codec_qat_decoder/version_0).

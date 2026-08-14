@@ -1,0 +1,11 @@
+{
+  "source": "module profiler absolute peaks",
+  "profile_scope": "inference_only",
+  "compute_scores": false,
+  "peak_allocated_bytes": 731564032,
+  "peak_reserved_bytes": 824180736,
+  "peak_allocated_mib": 697.673828125,
+  "peak_reserved_mib": 786.0,
+  "process_peak_rss_bytes": 2039091200,
+  "process_peak_rss_mib": 1944.62890625
+}

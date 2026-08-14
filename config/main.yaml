@@ -51,6 +51,7 @@ test:
   eval_time_skip_steps: 5   # ignore first N steps in timing benchmark
   profile_modules: false    # synchronized time + CUDA peak memory per module
   profile_warmup_steps: 5   # excluded from module-profile summary
+  max_batches: 0            # 0=full eval index; positive value caps profile/eval
 
 # Coarse-to-fine capacity curriculum (paper Sec 3.4 / Appendix B).
 # Gaussian budget = model.latent_rep_token_amount * 2**curriculum.final_stage
