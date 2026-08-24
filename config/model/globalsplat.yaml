@@ -38,3 +38,10 @@ latent_codec_texture_groups: 1
 latent_codec_geometry_groups: 1
 latent_codec_cdf_precision: 16
 latent_codec_cdf_alpha: 0.5
+# Enable only for correctness runs; hashes every encoded/decoded symbol.
+latent_codec_verify_symbols: false
+# Optional fixed, sensitivity-derived 16-channel quantization allocation.
+# baseline preserves the exact existing quantizer and bitstream metadata.
+latent_codec_group_quant_profile_path: null
+latent_codec_group_quant_policy: baseline  # baseline | conservative | moderate | aggressive
+latent_codec_group_quant_ablation: joint   # joint | geometry_only | texture_only

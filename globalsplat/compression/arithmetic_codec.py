@@ -215,6 +215,7 @@ def _quantize(
     bits: int,
     scale_mode: str,
     clip_percentile: float | None,
+    channel_step_multipliers: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
     qmax = (1 << (bits - 1)) - 1
     array = x.detach().float().cpu().numpy()
@@ -235,6 +236,18 @@ def _quantize(
         np.asarray(threshold, dtype=np.float32) / qmax,
         np.finfo(np.float32).tiny,
     )
+    if channel_step_multipliers is not None:
+        if scale_mode != "channel":
+            raise ValueError("group-variable quantization requires scale_mode='channel'")
+        multipliers = np.asarray(channel_step_multipliers, dtype=np.float32)
+        if multipliers.shape != (array.shape[-1],):
+            raise ValueError(
+                "channel_step_multipliers must have shape "
+                f"{(array.shape[-1],)}, got {multipliers.shape}"
+            )
+        if not np.all(np.isfinite(multipliers)) or np.any(multipliers <= 0):
+            raise ValueError("channel step multipliers must be finite and positive")
+        scale = scale * multipliers
     signed = np.clip(np.rint(array / scale), -qmax, qmax).astype(np.int64)
     return (signed + qmax).reshape(-1), scale
 
@@ -336,6 +349,7 @@ def load_grouped_cdf_profile(
                 "groups": groups,
                 "channels": int(mapping.size),
                 "alphabet": int(counts.shape[1]),
+                "index_cache": {},
             }
     selected["profile_id"] = digest.hexdigest()
     selected["precision"] = int(precision)
@@ -349,6 +363,92 @@ def load_grouped_cdf_profile(
         )
     )
     return selected
+
+
+def load_group_quantization_profile(
+    path: str | Path,
+    *,
+    policy: str,
+    ablation: str = "joint",
+    channels: int = 512,
+) -> dict:
+    """Load a fixed sensitivity-derived group-step allocation.
+
+    The JSON profile stores one rendering-sensitivity value per contiguous
+    channel group plus policy multipliers for four evidence-derived tiers.
+    The expanded channel table is shared codec state and is not written into
+    each scene bitstream; V2 already serializes the effective per-channel step.
+    """
+    path = Path(path).expanduser().resolve()
+    profile = json.loads(path.read_text(encoding="utf-8"))
+    group_size = int(profile["group_size"])
+    if channels % group_size:
+        raise ValueError(f"{channels} channels are not divisible by group_size={group_size}")
+    explicit_policies = profile.get("policy_group_multipliers", {})
+    tier_policies = profile.get("policies", {})
+    if policy not in explicit_policies and policy not in tier_policies:
+        raise ValueError(f"unknown group quantization policy {policy!r}")
+    if ablation not in ("joint", "geometry_only", "texture_only"):
+        raise ValueError("ablation must be joint, geometry_only, or texture_only")
+    tier_values = tier_policies.get(policy)
+    streams = {}
+    digest = hashlib.sha256()
+    for stream in ("texture", "geometry"):
+        expected_groups = channels // group_size
+        sensitivity_values = profile.get("sensitivity_psnr_drop", {}).get(stream)
+        sensitivity = np.asarray(
+            np.zeros(expected_groups) if sensitivity_values is None else sensitivity_values,
+            dtype=np.float64,
+        )
+        if sensitivity.shape != (expected_groups,):
+            raise ValueError(f"{stream} sensitivity must contain {expected_groups} groups")
+        median = float(np.median(sensitivity)) if sensitivity.size else 0.0
+        enabled = ablation == "joint" or ablation == f"{stream}_only"
+        if policy in explicit_policies:
+            tiers = np.full(expected_groups, "optimized", dtype=object)
+            group_multipliers = np.asarray(
+                explicit_policies[policy][stream], dtype=np.float32
+            )
+            if group_multipliers.shape != (expected_groups,):
+                raise ValueError(
+                    f"explicit {stream} policy {policy!r} must contain "
+                    f"{expected_groups} multipliers"
+                )
+            if np.any(group_multipliers < 1.0):
+                raise ValueError(
+                    "optimized group quantization multipliers must be >= 1.0 "
+                    "to avoid max-range clipping"
+                )
+            if not enabled:
+                group_multipliers = np.ones(expected_groups, dtype=np.float32)
+        else:
+            # Thresholds came from the measured distribution: the critical
+            # outliers exceed 20x median, high groups exceed 5x median, and
+            # medium groups are at least median.
+            tiers = np.full(expected_groups, "low", dtype=object)
+            tiers[sensitivity >= median] = "medium"
+            tiers[sensitivity >= 5.0 * median] = "high"
+            tiers[sensitivity >= 20.0 * median] = "critical"
+            group_multipliers = np.asarray(
+                [float(tier_values[str(tier)]) if enabled else 1.0 for tier in tiers],
+                dtype=np.float32,
+            )
+        channel_multipliers = np.repeat(group_multipliers, group_size)
+        digest.update(stream.encode())
+        digest.update(channel_multipliers.astype("<f4", copy=False).tobytes())
+        streams[stream] = {
+            "sensitivity": sensitivity,
+            "median_sensitivity": median,
+            "tiers": tiers.tolist(),
+            "group_multipliers": group_multipliers,
+            "channel_multipliers": channel_multipliers,
+        }
+    digest.update(policy.encode()); digest.update(ablation.encode())
+    return {
+        "profile_id": digest.hexdigest(), "source": str(path), "policy": policy,
+        "ablation": ablation, "group_size": group_size, "groups": channels // group_size,
+        "streams": streams,
+    }
 
 
 def _rans_encode(symbols: np.ndarray, cdf: np.ndarray) -> bytes:
@@ -386,6 +486,17 @@ def _group_indexes(count: int, mapping: np.ndarray) -> np.ndarray:
             f"symbol count {count} is incompatible with {mapping.size} channels"
         )
     return np.tile(mapping, count // mapping.size)
+
+
+def _cached_group_indexes(count: int, profile: dict) -> np.ndarray:
+    """Build the immutable fixed-profile dispatch vector once per shape."""
+    cache = profile.setdefault("index_cache", {})
+    indexes = cache.get(int(count))
+    if indexes is None:
+        indexes = _group_indexes(count, profile["mapping"])
+        indexes.setflags(write=False)
+        cache[int(count)] = indexes
+    return indexes
 
 
 def _rans_encode_grouped(
@@ -431,8 +542,14 @@ def _encode_stream(
     scale_mode: str,
     clip_percentile: float | None,
     fixed_profile: dict | None = None,
+    verify_symbols: bool = True,
+    channel_step_multipliers: np.ndarray | None = None,
 ) -> tuple[dict, bytes, np.ndarray, dict]:
-    symbols, scale = _quantize(x, bits, scale_mode, clip_percentile)
+    quantize_start = time.perf_counter()
+    symbols, scale = _quantize(
+        x, bits, scale_mode, clip_percentile, channel_step_multipliers
+    )
+    quantize_seconds = time.perf_counter() - quantize_start
     alphabet = (1 << bits) - 1
     timing = {"group_dispatch_seconds": 0.0, "cdf_build_seconds": 0.0}
     if fixed_profile is not None:
@@ -446,7 +563,7 @@ def _encode_stream(
         if int(fixed_profile["channels"]) != int(x.shape[-1]):
             raise ValueError("profile channel count does not match latent shape")
         dispatch_start = time.perf_counter()
-        indexes = _group_indexes(symbols.size, fixed_profile["mapping"])
+        indexes = _cached_group_indexes(symbols.size, fixed_profile)
         timing["group_dispatch_seconds"] = time.perf_counter() - dispatch_start
         rans_start = time.perf_counter()
         payload = _rans_encode_grouped(symbols, indexes, fixed_profile["cdfs"])
@@ -483,14 +600,15 @@ def _encode_stream(
     if fixed_profile is not None:
         meta["cdf_mode"] = "fixed_grouped"
         meta["groups"] = int(fixed_profile["groups"])
-    timing["symbol_sha256"] = _symbol_sha256(symbols)
+    timing["quantize_seconds"] = quantize_seconds
+    if verify_symbols:
+        timing["symbol_sha256"] = _symbol_sha256(symbols)
     return meta, payload, np.atleast_1d(scale).astype("<f4", copy=False), timing
 
 
-def encode_scene_latents(
+def encode_scene_latents_to_bytes(
     texture: torch.Tensor,
     geometry: torch.Tensor,
-    path: str | Path,
     *,
     bits: int = 8,
     texture_bits: int | None = None,
@@ -500,8 +618,10 @@ def encode_scene_latents(
     clip_percentile: float | None = None,
     format_version: int = 2,
     fixed_cdf_profile: dict | None = None,
-) -> dict:
-    """Encode `[L,C]` or `[1,L,C]` texture/geometry tensors to one file.
+    group_quantization_profile: dict | None = None,
+    verify_symbols: bool = True,
+) -> tuple[bytes, dict]:
+    """Encode `[L,C]` or `[1,L,C]` latents to an in-memory bitstream.
 
     ``format_version=2`` stores per-scene scales as raw little-endian FP32;
     version 1 is retained only for compatibility experiments.
@@ -518,11 +638,18 @@ def encode_scene_latents(
         raise ValueError("fixed grouped CDF profiles require format_version=2")
     tex_profile = None if fixed_cdf_profile is None else fixed_cdf_profile["texture"]
     geo_profile = None if fixed_cdf_profile is None else fixed_cdf_profile["geometry"]
+    tex_steps = None
+    geo_steps = None
+    if group_quantization_profile is not None:
+        tex_steps = group_quantization_profile["streams"]["texture"]["channel_multipliers"]
+        geo_steps = group_quantization_profile["streams"]["geometry"]["channel_multipliers"]
     tex_meta, tex_payload, tex_scale, tex_timing = _encode_stream(
-        texture, texture_bits, backend, scale_mode, clip_percentile, tex_profile
+        texture, texture_bits, backend, scale_mode, clip_percentile, tex_profile,
+        verify_symbols, tex_steps,
     )
     geo_meta, geo_payload, geo_scale, geo_timing = _encode_stream(
-        geometry, geometry_bits, backend, scale_mode, clip_percentile, geo_profile
+        geometry, geometry_bits, backend, scale_mode, clip_percentile, geo_profile,
+        verify_symbols, geo_steps,
     )
     magic = MAGIC_V1 if format_version == 1 else MAGIC_V2
     scale_blobs: list[bytes] = []
@@ -543,29 +670,34 @@ def encode_scene_latents(
             "texture_groups": int(tex_profile["groups"]),
             "geometry_groups": int(geo_profile["groups"]),
         }
+    if group_quantization_profile is not None:
+        header_meta["group_quantization"] = {
+            "profile_id": group_quantization_profile["profile_id"],
+            "policy": group_quantization_profile["policy"],
+            "ablation": group_quantization_profile["ablation"],
+            "group_size": int(group_quantization_profile["group_size"]),
+            "groups": int(group_quantization_profile["groups"]),
+        }
     header = _serialize_header(header_meta)
     binary_scale_bytes = sum(len(blob) for blob in scale_blobs)
     header_stats = _header_byte_breakdown(
         header_meta, header, external_scale_bytes=binary_scale_bytes
     )
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("wb") as f:
-        f.write(magic)
-        f.write(struct.pack("<I", len(header)))
-        f.write(header)
-        for blob in scale_blobs:
-            f.write(blob)
-        f.write(tex_payload)
-        f.write(geo_payload)
+    pack_start = time.perf_counter()
+    data = b"".join(
+        [magic, struct.pack("<I", len(header)), header]
+        + scale_blobs
+        + [tex_payload, geo_payload]
+    )
+    pack_seconds = time.perf_counter() - pack_start
     payload_bytes = len(tex_payload) + len(geo_payload)
     stats = {
-        "bytes": path.stat().st_size,
+        "bytes": len(data),
         "payload_bytes": payload_bytes,
         "texture_payload_bytes": len(tex_payload),
         "geometry_payload_bytes": len(geo_payload),
         "num_values": texture.numel() + geometry.numel(),
-        "bits_per_value": 8.0 * path.stat().st_size / (texture.numel() + geometry.numel()),
+        "bits_per_value": 8.0 * len(data) / (texture.numel() + geometry.numel()),
         "backend": backend,
         "texture_bits": texture_bits,
         "geometry_bits": geometry_bits,
@@ -578,6 +710,18 @@ def encode_scene_latents(
         "shared_profile_bytes_raw": (
             0 if fixed_cdf_profile is None else int(fixed_cdf_profile["profile_bytes_raw"])
         ),
+        "group_quantization_profile_id": (
+            None if group_quantization_profile is None
+            else group_quantization_profile["profile_id"]
+        ),
+        "group_quantization_policy": (
+            "baseline" if group_quantization_profile is None
+            else group_quantization_profile["policy"]
+        ),
+        "group_quantization_ablation": (
+            "none" if group_quantization_profile is None
+            else group_quantization_profile["ablation"]
+        ),
         "texture_rans_encode_seconds": float(tex_timing["rans_seconds"]),
         "geometry_rans_encode_seconds": float(geo_timing["rans_seconds"]),
         "rans_encode_seconds": float(
@@ -589,24 +733,52 @@ def encode_scene_latents(
         "cdf_build_seconds": float(
             tex_timing["cdf_build_seconds"] + geo_timing["cdf_build_seconds"]
         ),
-        "texture_symbol_sha256": tex_timing["symbol_sha256"],
-        "geometry_symbol_sha256": geo_timing["symbol_sha256"],
+        "quantize_seconds": float(
+            tex_timing["quantize_seconds"] + geo_timing["quantize_seconds"]
+        ),
+        "bitstream_pack_seconds": float(pack_seconds),
+        "verify_symbols": bool(verify_symbols),
     }
+    if verify_symbols:
+        stats["texture_symbol_sha256"] = tex_timing["symbol_sha256"]
+        stats["geometry_symbol_sha256"] = geo_timing["symbol_sha256"]
     stats.update(header_stats)
+    stats["total_encode_seconds"] = float(
+        stats["quantize_seconds"] + stats["cdf_build_seconds"]
+        + stats["group_dispatch_encode_seconds"] + stats["rans_encode_seconds"]
+        + stats["bitstream_pack_seconds"]
+    )
     if stats["bytes"] != stats["payload_bytes"] + stats["header_bytes"]:
         raise RuntimeError("internal codec byte accounting mismatch")
+    return data, stats
+
+
+def encode_scene_latents(
+    texture: torch.Tensor,
+    geometry: torch.Tensor,
+    path: str | Path,
+    **kwargs,
+) -> dict:
+    """Encode to a file while sharing the in-memory implementation."""
+    data, stats = encode_scene_latents_to_bytes(texture, geometry, **kwargs)
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    io_start = time.perf_counter()
+    path.write_bytes(data)
+    stats["file_write_seconds"] = time.perf_counter() - io_start
     return stats
 
 
-def decode_scene_latents(
-    path: str | Path,
+def decode_scene_latents_from_bytes(
+    data: bytes,
     *,
     device: str | torch.device = "cpu",
     fixed_cdf_profile: dict | None = None,
     return_stats: bool = False,
+    verify_symbols: bool = True,
 ) -> tuple[torch.Tensor, torch.Tensor] | tuple[torch.Tensor, torch.Tensor, dict]:
-    """Decode a file and return `(texture, geometry)` float32 tensors."""
-    data = Path(path).read_bytes()
+    """Decode an in-memory bitstream to `(texture, geometry)` tensors."""
+    total_decode_start = time.perf_counter()
     magic = data[: len(MAGIC)]
     if magic not in (MAGIC_V1, MAGIC_V2):
         raise ValueError("not a GlobalSplat arithmetic-coded latent file")
@@ -654,7 +826,7 @@ def decode_scene_latents(
             if int(meta["groups"]) != int(stream_profile["groups"]):
                 raise ValueError(f"{name} group count does not match fixed profile")
             dispatch_start = time.perf_counter()
-            indexes = _group_indexes(int(meta["count"]), stream_profile["mapping"])
+            indexes = _cached_group_indexes(int(meta["count"]), stream_profile)
             decode_stats["group_dispatch_decode_seconds"] += (
                 time.perf_counter() - dispatch_start
             )
@@ -674,7 +846,9 @@ def decode_scene_latents(
             elapsed = time.perf_counter() - rans_start
         decode_stats[f"{name}_rans_decode_seconds"] = float(elapsed)
         decode_stats["rans_decode_seconds"] += float(elapsed)
-        decode_stats[f"{name}_symbol_sha256"] = _symbol_sha256(symbols)
+        if verify_symbols:
+            decode_stats[f"{name}_symbol_sha256"] = _symbol_sha256(symbols)
+        dequantize_start = time.perf_counter()
         qmax = (1 << (int(meta["bits"]) - 1)) - 1
         signed = (symbols - qmax).astype(np.float32).reshape(meta["shape"])
         scales = (
@@ -688,8 +862,40 @@ def decode_scene_latents(
         else:
             array = signed * float(scales.reshape(-1)[0])
         outputs.append(torch.from_numpy(array.copy()).to(device))
+        decode_stats[f"{name}_dequantize_seconds"] = float(
+            time.perf_counter() - dequantize_start
+        )
     if offset != len(data):
         raise ValueError(f"unexpected trailing bitstream bytes: {len(data) - offset}")
+    decode_stats["total_decode_seconds"] = float(
+        time.perf_counter() - total_decode_start
+    )
     if return_stats:
         return outputs[0], outputs[1], decode_stats
     return outputs[0], outputs[1]
+
+
+def decode_scene_latents(
+    path: str | Path,
+    *,
+    device: str | torch.device = "cpu",
+    fixed_cdf_profile: dict | None = None,
+    return_stats: bool = False,
+    verify_symbols: bool = True,
+):
+    """Decode a file while sharing the in-memory implementation."""
+    io_start = time.perf_counter()
+    data = Path(path).read_bytes()
+    file_read_seconds = time.perf_counter() - io_start
+    result = decode_scene_latents_from_bytes(
+        data,
+        device=device,
+        fixed_cdf_profile=fixed_cdf_profile,
+        return_stats=return_stats,
+        verify_symbols=verify_symbols,
+    )
+    if return_stats:
+        texture, geometry, stats = result
+        stats["file_read_seconds"] = file_read_seconds
+        return texture, geometry, stats
+    return result

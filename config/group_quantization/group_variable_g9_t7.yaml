@@ -1,0 +1,6 @@
+# @package _global_
+# Compose with +codec=final_g9_t7_g32_t32 +group_quantization=group_variable_g9_t7.
+model:
+  latent_codec_group_quant_profile_path: ${oc.env:GLOBALSPLAT_GROUP_QUANT_PROFILE,config/codec/group_variable_sensitivity_v1.json}
+  latent_codec_group_quant_policy: moderate
+  latent_codec_group_quant_ablation: joint

@@ -16,8 +16,6 @@ gsplat renderer consumes directly. The rasterizer itself lives in
 from __future__ import annotations
 
 from typing import Tuple
-import tempfile
-from pathlib import Path
 
 import torch
 import torch.nn as nn
@@ -60,6 +58,10 @@ class GlobalSplat(nn.Module):
         latent_codec_geometry_groups: int = 1,
         latent_codec_cdf_precision: int = 16,
         latent_codec_cdf_alpha: float = 0.5,
+        latent_codec_verify_symbols: bool = False,
+        latent_codec_group_quant_profile_path: str | None = None,
+        latent_codec_group_quant_policy: str = "baseline",
+        latent_codec_group_quant_ablation: str = "joint",
     ):
         super().__init__()
 
@@ -85,7 +87,12 @@ class GlobalSplat(nn.Module):
         self.latent_codec_geometry_groups = int(latent_codec_geometry_groups)
         self.latent_codec_cdf_precision = int(latent_codec_cdf_precision)
         self.latent_codec_cdf_alpha = float(latent_codec_cdf_alpha)
+        self.latent_codec_verify_symbols = bool(latent_codec_verify_symbols)
+        self.latent_codec_group_quant_profile_path = latent_codec_group_quant_profile_path
+        self.latent_codec_group_quant_policy = str(latent_codec_group_quant_policy)
+        self.latent_codec_group_quant_ablation = str(latent_codec_group_quant_ablation)
         self.latent_codec_fixed_profile = None
+        self.latent_codec_group_quant_profile = None
         self.last_codec_stats = None
         # Enabled only by profiling evals; ordinary training/eval avoids the
         # CUDA synchronizations and peak-counter resets used by the profiler.
@@ -118,6 +125,19 @@ class GlobalSplat(nn.Module):
                 geometry_groups=self.latent_codec_geometry_groups,
                 alpha=self.latent_codec_cdf_alpha,
                 precision=self.latent_codec_cdf_precision,
+            )
+        if self.latent_codec_group_quant_policy != "baseline":
+            if not codec_enabled:
+                raise ValueError("group-variable quantization requires the latent codec")
+            if not self.latent_codec_group_quant_profile_path:
+                raise ValueError("group-variable quantization requires a profile path")
+            from ..compression import load_group_quantization_profile
+
+            self.latent_codec_group_quant_profile = load_group_quantization_profile(
+                self.latent_codec_group_quant_profile_path,
+                policy=self.latent_codec_group_quant_policy,
+                ablation=self.latent_codec_group_quant_ablation,
+                channels=self.dim_latents,
             )
 
         ph, pw = self.patch_size
@@ -265,55 +285,60 @@ class GlobalSplat(nn.Module):
         self.last_codec_stats = None
         codec_enabled = self.latent_codec_bits or self.latent_codec_texture_bits
         if codec_enabled:
-            from ..compression import decode_scene_latents, encode_scene_latents
+            from ..compression import (
+                decode_scene_latents_from_bytes,
+                encode_scene_latents_to_bytes,
+            )
 
             texture, geometry = encoded_patch
             if texture.shape[0] != 1:
                 raise ValueError("latent codec currently expects evaluation batch size 1")
+
             def codec_roundtrip():
-                with tempfile.TemporaryDirectory(prefix="globalsplat-codec-") as tmp:
-                    bitstream = Path(tmp) / "scene.gsac"
-                    stats = encode_scene_latents(
-                        texture,
-                        geometry,
-                        bitstream,
-                        bits=self.latent_codec_bits,
-                        texture_bits=(
-                            self.latent_codec_texture_bits or self.latent_codec_bits
-                        ),
-                        geometry_bits=(
-                            self.latent_codec_geometry_bits or self.latent_codec_bits
-                        ),
-                        backend=self.latent_codec_backend,
-                        scale_mode=self.latent_codec_scale_mode,
-                        clip_percentile=self.latent_codec_clip_percentile,
-                        fixed_cdf_profile=self.latent_codec_fixed_profile,
-                    )
-                    texture_hat, geometry_hat, decode_stats = decode_scene_latents(
-                        bitstream,
-                        device=texture.device,
-                        fixed_cdf_profile=self.latent_codec_fixed_profile,
-                        return_stats=True,
-                    )
-                texture_symbol_exact = (
-                    stats["texture_symbol_sha256"]
-                    == decode_stats["texture_symbol_sha256"]
+                bitstream, stats = encode_scene_latents_to_bytes(
+                    texture,
+                    geometry,
+                    bits=self.latent_codec_bits,
+                    texture_bits=(
+                        self.latent_codec_texture_bits or self.latent_codec_bits
+                    ),
+                    geometry_bits=(
+                        self.latent_codec_geometry_bits or self.latent_codec_bits
+                    ),
+                    backend=self.latent_codec_backend,
+                    scale_mode=self.latent_codec_scale_mode,
+                    clip_percentile=self.latent_codec_clip_percentile,
+                    fixed_cdf_profile=self.latent_codec_fixed_profile,
+                    group_quantization_profile=self.latent_codec_group_quant_profile,
+                    verify_symbols=self.latent_codec_verify_symbols,
                 )
-                geometry_symbol_exact = (
-                    stats["geometry_symbol_sha256"]
-                    == decode_stats["geometry_symbol_sha256"]
+                texture_hat, geometry_hat, decode_stats = decode_scene_latents_from_bytes(
+                    bitstream,
+                    device=texture.device,
+                    fixed_cdf_profile=self.latent_codec_fixed_profile,
+                    return_stats=True,
+                    verify_symbols=self.latent_codec_verify_symbols,
                 )
-                if not texture_symbol_exact or not geometry_symbol_exact:
-                    raise RuntimeError(
-                        "latent codec decoded non-identical quantized symbols"
+                if self.latent_codec_verify_symbols:
+                    texture_symbol_exact = (
+                        stats["texture_symbol_sha256"]
+                        == decode_stats["texture_symbol_sha256"]
                     )
+                    geometry_symbol_exact = (
+                        stats["geometry_symbol_sha256"]
+                        == decode_stats["geometry_symbol_sha256"]
+                    )
+                    if not texture_symbol_exact or not geometry_symbol_exact:
+                        raise RuntimeError(
+                            "latent codec decoded non-identical quantized symbols"
+                        )
+                    stats.update({
+                        "texture_symbol_exact": texture_symbol_exact,
+                        "geometry_symbol_exact": geometry_symbol_exact,
+                        "symbol_exact_match": texture_symbol_exact and geometry_symbol_exact,
+                    })
                 stats.update(decode_stats)
                 stats.update({
-                    "texture_symbol_exact": texture_symbol_exact,
-                    "geometry_symbol_exact": geometry_symbol_exact,
-                    "symbol_exact_match": (
-                        texture_symbol_exact and geometry_symbol_exact
-                    ),
                     "texture_mse": torch.mean(
                         (texture.float() - texture_hat) ** 2
                     ).item(),

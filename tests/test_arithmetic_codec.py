@@ -7,9 +7,59 @@ import torch
 
 from globalsplat.compression import (
     decode_scene_latents,
+    decode_scene_latents_from_bytes,
     encode_scene_latents,
+    encode_scene_latents_to_bytes,
+    load_group_quantization_profile,
     load_grouped_cdf_profile,
 )
+
+
+def test_memory_api_matches_file_api_and_can_skip_hashes(tmp_path):
+    generator = torch.Generator().manual_seed(11)
+    tex = torch.randn(1, 17, 8, generator=generator)
+    geo = torch.randn(1, 17, 8, generator=generator)
+    path = tmp_path / "memory-equivalent.gsac"
+
+    file_stats = encode_scene_latents(tex, geo, path, bits=8, backend="python")
+    data, memory_stats = encode_scene_latents_to_bytes(
+        tex, geo, bits=8, backend="python", verify_symbols=False
+    )
+    tex_hat, geo_hat, decode_stats = decode_scene_latents_from_bytes(
+        data, return_stats=True, verify_symbols=False
+    )
+
+    assert data == path.read_bytes()
+    assert memory_stats["bytes"] == file_stats["bytes"] == len(data)
+    assert "texture_symbol_sha256" not in memory_stats
+    assert "texture_symbol_sha256" not in decode_stats
+    assert tex_hat.shape == tex.shape
+    assert geo_hat.shape == geo.shape
+
+
+def test_fixed_group_index_vector_is_cached(tmp_path):
+    pytest.importorskip("compressai.ans")
+    bundle = tmp_path / "cache-profile.npz"
+    counts = np.ones((2, 7), dtype=np.int64)
+    np.savez_compressed(
+        bundle,
+        texture_mapping_k2=np.asarray([0, 1], dtype=np.uint16),
+        texture_calibration_counts_k2=counts,
+        geometry_mapping_k2=np.asarray([1, 0], dtype=np.uint16),
+        geometry_calibration_counts_k2=counts,
+    )
+    profile = load_grouped_cdf_profile(bundle, texture_groups=2, geometry_groups=2)
+    tex = torch.randn(1, 5, 2)
+    geo = torch.randn(1, 5, 2)
+
+    data, _ = encode_scene_latents_to_bytes(
+        tex, geo, texture_bits=3, geometry_bits=3, backend="compressai",
+        scale_mode="channel", fixed_cdf_profile=profile,
+    )
+    texture_indexes = profile["texture"]["index_cache"][tex.numel()]
+    decode_scene_latents_from_bytes(data, fixed_cdf_profile=profile)
+
+    assert profile["texture"]["index_cache"][tex.numel()] is texture_indexes
 
 
 def test_arithmetic_codec_roundtrip(tmp_path):
@@ -225,3 +275,85 @@ def test_fixed_grouped_compressai_roundtrip_and_zero_cdf_side_info(tmp_path):
     assert "counts" not in header["geometry"]
     assert header["fixed_cdf"]["profile_id"] == profile["profile_id"]
     assert encoded["bytes"] == encoded["payload_bytes"] + encoded["header_bytes"]
+
+
+def test_group_variable_quantization_is_opt_in_and_roundtrips(tmp_path):
+    profile_path = tmp_path / "group-quant.json"
+    profile_path.write_text(json.dumps({
+        "group_size": 2,
+        "sensitivity_psnr_drop": {
+            "texture": [0.1, 0.001], "geometry": [0.2, 0.002],
+        },
+        "policies": {
+            "moderate": {"critical": 1.0, "high": 1.25, "medium": 1.5, "low": 2.0},
+        },
+    }))
+    profile = load_group_quantization_profile(
+        profile_path, policy="moderate", ablation="joint", channels=4
+    )
+    tex = torch.tensor([[[-1.0, -0.5, 0.25, 0.1], [0.8, 0.4, -0.2, -0.05]]])
+    geo = 2.0 * tex
+
+    baseline, _ = encode_scene_latents_to_bytes(
+        tex, geo, texture_bits=4, geometry_bits=5, scale_mode="channel",
+        backend="python",
+    )
+    baseline_again, baseline_stats = encode_scene_latents_to_bytes(
+        tex, geo, texture_bits=4, geometry_bits=5, scale_mode="channel",
+        backend="python", group_quantization_profile=None,
+    )
+    varied, stats = encode_scene_latents_to_bytes(
+        tex, geo, texture_bits=4, geometry_bits=5, scale_mode="channel",
+        backend="python", group_quantization_profile=profile,
+    )
+    tex_hat, geo_hat = decode_scene_latents_from_bytes(varied)
+
+    assert baseline == baseline_again
+    assert baseline_stats["group_quantization_policy"] == "baseline"
+    assert stats["group_quantization_policy"] == "moderate"
+    assert stats["group_quantization_ablation"] == "joint"
+    assert tex_hat.shape == tex.shape and geo_hat.shape == geo.shape
+    assert not torch.equal(tex_hat, decode_scene_latents_from_bytes(baseline)[0])
+
+
+def test_group_quantization_ablation_leaves_other_stream_at_one(tmp_path):
+    profile_path = tmp_path / "group-quant.json"
+    profile_path.write_text(json.dumps({
+        "group_size": 2,
+        "sensitivity_psnr_drop": {
+            "texture": [0.1, 0.001], "geometry": [0.2, 0.002],
+        },
+        "policies": {
+            "aggressive": {"critical": 0.75, "high": 1.0, "medium": 1.75, "low": 2.5},
+        },
+    }))
+    profile = load_group_quantization_profile(
+        profile_path, policy="aggressive", ablation="geometry_only", channels=4
+    )
+    assert np.all(profile["streams"]["texture"]["channel_multipliers"] == 1)
+    assert np.any(profile["streams"]["geometry"]["channel_multipliers"] != 1)
+
+
+def test_optimized_explicit_group_tables_and_no_clipping_constraint(tmp_path):
+    profile_path = tmp_path / "optimized.json"
+    payload = {
+        "group_size": 2,
+        "policy_group_multipliers": {
+            "target_5pct": {
+                "texture": [1.0, 2.0], "geometry": [1.25, 1.0],
+            }
+        },
+    }
+    profile_path.write_text(json.dumps(payload))
+    profile = load_group_quantization_profile(
+        profile_path, policy="target_5pct", channels=4
+    )
+    assert profile["streams"]["texture"]["group_multipliers"].tolist() == [1.0, 2.0]
+    assert profile["streams"]["geometry"]["group_multipliers"].tolist() == [1.25, 1.0]
+
+    payload["policy_group_multipliers"]["target_5pct"]["geometry"][0] = 0.75
+    profile_path.write_text(json.dumps(payload))
+    with pytest.raises(ValueError, match=">= 1.0"):
+        load_group_quantization_profile(
+            profile_path, policy="target_5pct", channels=4
+        )

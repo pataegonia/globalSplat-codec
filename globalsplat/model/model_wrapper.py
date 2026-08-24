@@ -930,6 +930,15 @@ class GlobalSplatModule(pl.LightningModule):
             json.dump(saved, f)
 
         if self.codec_step_outputs:
+            symbol_verification_enabled = all(
+                bool(row.get("verify_symbols", False))
+                for row in self.codec_step_outputs
+            )
+            symbol_exact_values = [
+                bool(row["symbol_exact_match"])
+                for row in self.codec_step_outputs
+                if "symbol_exact_match" in row
+            ]
             codec_summary = {
                 "scenes": len(self.codec_step_outputs),
                 "texture_bits": self.codec_step_outputs[0]["texture_bits"],
@@ -945,11 +954,23 @@ class GlobalSplatModule(pl.LightningModule):
                     "shared_profile_bytes_raw"
                 ],
                 "shared_profile_is_not_charged_per_scene": True,
-                "symbol_exact_scenes": sum(
-                    bool(row["symbol_exact_match"]) for row in self.codec_step_outputs
+                "group_quantization_profile_id": self.codec_step_outputs[0][
+                    "group_quantization_profile_id"
+                ],
+                "group_quantization_policy": self.codec_step_outputs[0][
+                    "group_quantization_policy"
+                ],
+                "group_quantization_ablation": self.codec_step_outputs[0][
+                    "group_quantization_ablation"
+                ],
+                "symbol_verification_enabled": symbol_verification_enabled,
+                # null means verification was intentionally disabled; it must
+                # not be reported as either success or failure.
+                "symbol_exact_scenes": (
+                    sum(symbol_exact_values) if symbol_verification_enabled else None
                 ),
-                "symbol_exact_match": all(
-                    bool(row["symbol_exact_match"]) for row in self.codec_step_outputs
+                "symbol_exact_match": (
+                    all(symbol_exact_values) if symbol_verification_enabled else None
                 ),
             }
             for key in (
@@ -963,6 +984,7 @@ class GlobalSplatModule(pl.LightningModule):
                 "texture_rans_decode_seconds", "geometry_rans_decode_seconds",
                 "group_dispatch_encode_seconds", "group_dispatch_decode_seconds",
                 "cdf_build_seconds",
+                "quantize_seconds", "total_encode_seconds", "total_decode_seconds",
             ):
                 values = [float(row[key]) for row in self.codec_step_outputs]
                 codec_summary[f"mean_{key}"] = sum(values) / len(values)
