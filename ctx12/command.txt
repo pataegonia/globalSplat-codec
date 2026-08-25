@@ -1,0 +1,1 @@
+python scripts/analysis/analyze_codec_decorrelation.py --checkpoint /ceph_data/clue9986/globalSplat/checkpoints/globalsplat-re10k-32k.ckpt --dataset-root /data3/local_datasets/re10k --output /ceph_data/clue9986/globalSplat/outputs/codec_decorrelation/ctx12

@@ -8,6 +8,12 @@ from .arithmetic_codec import (
     load_group_quantization_profile,
     load_grouped_cdf_profile,
 )
+from .learned_transform import (
+    FactorizedLogisticEntropyModel,
+    LearnedLatentTransformCodec,
+    QuantizedLatent,
+    TokenResidualMLP,
+)
 
 __all__ = [
     "encode_scene_latents",
@@ -15,4 +21,9 @@ __all__ = [
     "decode_scene_latents",
     "decode_scene_latents_from_bytes",
     "load_grouped_cdf_profile",
+    "load_group_quantization_profile",
+    "FactorizedLogisticEntropyModel",
+    "LearnedLatentTransformCodec",
+    "QuantizedLatent",
+    "TokenResidualMLP",
 ]

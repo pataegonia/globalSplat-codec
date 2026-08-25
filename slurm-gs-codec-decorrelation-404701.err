@@ -1,0 +1,2 @@
+reshape 32x64 does not contain 4096 tokens
+srun: error: ariel-v10: task 0: Exited with exit code 1

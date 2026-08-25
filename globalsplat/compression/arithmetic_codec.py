@@ -357,7 +357,8 @@ def load_grouped_cdf_profile(
     selected["source"] = str(path)
     selected["profile_bytes_raw"] = int(
         sum(
-            value["mapping"].astype(np.uint16).nbytes + value["cdfs"].nbytes
+            value["mapping"].astype(np.uint16).nbytes
+            + value["cdfs"].astype(np.int32).nbytes
             for key, value in selected.items()
             if key in ("texture", "geometry")
         )

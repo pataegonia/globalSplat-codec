@@ -27,6 +27,7 @@ CHECKPOINT="${CHECKPOINT:-${REPO_DIR}/checkpoints/globalsplat-re10k-32k.ckpt}"
 OUTPUT_ROOT="${OUTPUT_ROOT:-${REPO_DIR}/outputs/eval/re10k-32k}"
 NUM_WORKERS="${NUM_WORKERS:-8}"
 SAVE_IMAGE="${SAVE_IMAGE:-false}"
+CONTEXT_VIEWS_LIST="${CONTEXT_VIEWS_LIST:-12 24 36}"
 
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate "${CONDA_ENV_NAME}"
@@ -53,7 +54,7 @@ echo "Model:      ${MODEL_VARIANT}"
 echo "Output:     ${OUTPUT_ROOT}"
 nvidia-smi
 
-for CONTEXT_VIEWS in 12 24 36; do
+for CONTEXT_VIEWS in ${CONTEXT_VIEWS_LIST}; do
     DATASET_CONFIG="re10k_eval_ctx${CONTEXT_VIEWS}"
     OUTPUT_DIR="${OUTPUT_ROOT}/ctx${CONTEXT_VIEWS}"
 

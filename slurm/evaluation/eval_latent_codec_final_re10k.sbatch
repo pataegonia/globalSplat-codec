@@ -52,7 +52,7 @@ mkdir -p "${OUTPUT_DIR}"
 cd "${REPO_DIR}"
 echo "Final codec: G9/T7, channel FP32 scale, fixed G32/T32 CDF16, rANS"
 echo "Shared profile: ${GLOBALSPLAT_CDF_PROFILE}"
-echo "Node constraint: ariel-v10"
+echo "Node: ${SLURMD_NODENAME:-unknown}"
 echo "Output: ${OUTPUT_DIR}"
 nvidia-smi
 

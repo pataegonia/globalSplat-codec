@@ -156,3 +156,44 @@ This is the final tuning result for decoder-aware scalar/group-variable
 quantization. Do not continue tuning this quantizer. The next research stage
 is a lightweight learned analysis/synthesis transform at the codec boundary,
 with the pretrained GlobalSplat model frozen.
+
+## E8: Learned-transform Stage A implementation (pending cluster smoke result)
+
+The first learned-transform experiment is implemented but has not yet produced
+a training result. Separate geometry/texture analysis and synthesis transforms
+use identity-initialized token-wise residual MLPs (`512 -> 256 -> 512`). The
+four transforms contain 1,055,744 parameters. A training-only per-channel
+factorized logistic rate model adds 2,048 parameters, for 1,057,792 trainable
+codec parameters total. No pretrained GlobalSplat parameters are trainable.
+
+The repository audit found no existing differentiable entropy-rate estimator.
+The new estimator must show positive Pearson and Spearman correlation with
+actual rANS payload on a training/calibration subset before the smoke test can
+update parameters. Identity-initialized `R0` and rendered `D0` determine
+`lambda0=R0/D0`; the exact 0.25x/0.5x/1x/2x/4x values are saved at runtime.
+
+The training path uses G9/T7 per-scene/per-channel max quantization with all
+group multipliers fixed at 1.0, STE rounding for training reconstruction, hard
+rounding for validation, and `R + lambda * 255^2 * RGB_MSE`. The slot encoder
+runs without gradients; the frozen Gaussian decoder/renderer remain in the
+autograd graph. Calibration and validation reserve disjoint training scenes;
+the held-out test split is not used for training or model selection.
+
+Stage A is a 300-step, one-GPU smoke job. Later SLURM stages are gated as
+2,000-step five-lambda pilot, 10,000-step best-three screening, and up to
+40,000-step best-two training. Each final checkpoint gets a newly calibrated
+K=32 transformed-symbol entropy profile from 1,000 training scenes before the
+same 5,601-scene actual-rANS evaluation.
+
+Files: `globalsplat/compression/learned_transform.py`,
+`scripts/learned_codec/`, `slurm/learned_codec/`,
+`tests/test_learned_transform_codec.py`, and
+`docs/learned_latent_transform.md`.
+
+## Current decision and next measurement
+
+Submit only the Stage A 300-step central-lambda smoke job. It must record
+finite `R0`, `D0`, the exact lambda sweep, positive rate/rANS Pearson and
+Spearman correlations, transform gradients, no pretrained gradients, finite
+optimization, hard validation quantization, and successful checkpoint
+round-trip. Do not submit the five-lambda pilot until every smoke gate passes.

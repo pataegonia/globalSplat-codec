@@ -1,0 +1,401 @@
+{
+  "names": [
+    "g_a_geometry.norm.weight",
+    "g_a_geometry.norm.bias",
+    "g_a_geometry.fc1.weight",
+    "g_a_geometry.fc1.bias",
+    "g_a_geometry.fc2.weight",
+    "g_a_geometry.fc2.bias",
+    "g_s_geometry.norm.weight",
+    "g_s_geometry.norm.bias",
+    "g_s_geometry.fc1.weight",
+    "g_s_geometry.fc1.bias",
+    "g_s_geometry.fc2.weight",
+    "g_s_geometry.fc2.bias",
+    "g_a_texture.norm.weight",
+    "g_a_texture.norm.bias",
+    "g_a_texture.fc1.weight",
+    "g_a_texture.fc1.bias",
+    "g_a_texture.fc2.weight",
+    "g_a_texture.fc2.bias",
+    "g_s_texture.norm.weight",
+    "g_s_texture.norm.bias",
+    "g_s_texture.fc1.weight",
+    "g_s_texture.fc1.bias",
+    "g_s_texture.fc2.weight",
+    "g_s_texture.fc2.bias",
+    "geometry_entropy.location",
+    "geometry_entropy.log_scale",
+    "texture_entropy.location",
+    "texture_entropy.log_scale"
+  ],
+  "transform_parameters": 1055744,
+  "entropy_parameters": 2048,
+  "total_trainable_parameters": 1057792,
+  "pretrained_trainable_parameters": 0
+}
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/lpips/weights/v0.1/vgg.pth
+{
+  "identity_equivalence": {
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "production_mean": {
+      "psnr": 29.035279154777527,
+      "ssim": 0.9033570364117622,
+      "lpips": 0.11255828221328557,
+      "estimated_rate_bits_per_scalar": 6.406156361103058,
+      "actual_total_bytes": 3333935.75,
+      "actual_payload_bytes": 3329181.75,
+      "texture_mse": 3.415737137402175e-05,
+      "geometry_mse": 1.053451532584404e-05
+    },
+    "learned_identity_mean": {
+      "psnr": 29.035279154777527,
+      "ssim": 0.9033570364117622,
+      "lpips": 0.11255828221328557,
+      "estimated_rate_bits_per_scalar": 6.406156361103058,
+      "actual_total_bytes": 3333935.75,
+      "actual_payload_bytes": 3329181.75,
+      "texture_mse": 3.415737137402175e-05,
+      "geometry_mse": 1.053451532584404e-05
+    },
+    "metric_max_abs_difference": {
+      "psnr": 0.0,
+      "ssim": 0.0,
+      "lpips": 0.0,
+      "estimated_rate_bits_per_scalar": 0.0
+    },
+    "reconstructed_latent_max_abs_difference": 0.0,
+    "reconstructed_latent_mean_abs_difference": 0.0,
+    "actual_bitstream_exact_match": true,
+    "symbol_exact_match_rate": 1.0,
+    "latent_tolerance": 1e-06,
+    "metric_tolerance": 1e-06,
+    "pass": true
+  }
+}
+{
+  "R0_bits_per_scalar": 6.43658310174942,
+  "D0_255_squared_rgb_mse": 134.53184419870377,
+  "lambda0": 0.047844308833249735,
+  "planned_lambda_sweep": {
+    "0.25x": 0.011961077208312434,
+    "0.5x": 0.023922154416624868,
+    "1x": 0.047844308833249735,
+    "2x": 0.09568861766649947,
+    "4x": 0.19137723533299894
+  },
+  "mean_estimated_bits_per_scalar": 6.43658310174942,
+  "mean_actual_rans_payload_bits_per_scalar": 6.401549339294434,
+  "mean_actual_rans_payload_bytes": 3356255.5,
+  "estimated_vs_actual_payload_pearson": 0.9963286873658584,
+  "estimated_vs_actual_payload_spearman": 0.988235294117647,
+  "minimum_required_correlation": 0.2,
+  "pass": true
+}
+{
+  "initial_gradient_audit": {
+    "trainable_codec_tensor_count": 28,
+    "trainable_codec_tensors_with_gradients": 28,
+    "trainable_codec_tensors_without_gradients": 0,
+    "trainable_codec_tensors_with_nonfinite_gradients": 0,
+    "trainable_codec_tensors_with_zero_gradients": 16,
+    "tensors_without_gradients": [],
+    "tensors_with_nonfinite_gradients": [],
+    "tensors_with_zero_gradients": [
+      "g_a_geometry.norm.weight",
+      "g_a_geometry.norm.bias",
+      "g_a_geometry.fc1.weight",
+      "g_a_geometry.fc1.bias",
+      "g_s_geometry.norm.weight",
+      "g_s_geometry.norm.bias",
+      "g_s_geometry.fc1.weight",
+      "g_s_geometry.fc1.bias",
+      "g_a_texture.norm.weight",
+      "g_a_texture.norm.bias",
+      "g_a_texture.fc1.weight",
+      "g_a_texture.fc1.bias",
+      "g_s_texture.norm.weight",
+      "g_s_texture.norm.bias",
+      "g_s_texture.fc1.weight",
+      "g_s_texture.fc1.bias"
+    ],
+    "module_has_finite_nonzero_gradient": {
+      "g_a_geometry": true,
+      "g_s_geometry": true,
+      "g_a_texture": true,
+      "g_s_texture": true,
+      "geometry_entropy": true,
+      "texture_entropy": true
+    },
+    "pretrained_tensors_with_non_none_gradients": 0,
+    "pretrained_tensors_with_gradients": [],
+    "all_codec_tensors_have_finite_nonzero_gradients": false,
+    "all_codec_modules_have_finite_nonzero_gradient": true,
+    "zero_pretrained_gradients": true,
+    "scene_id": "0e3c0134e244b22b",
+    "rate_bits_per_scalar": 6.389591217041016,
+    "distortion_255_squared_rgb_mse": 194.38336181640625,
+    "lambda_distortion": 9.300137519836426,
+    "total_rd_loss": 15.689728736877441,
+    "gradient_norm": 536.3577270507812,
+    "pass": true,
+    "note": "At exact identity, zero-initialized final residual layers can make some upstream tensor gradients numerically zero. A second audit after optimizer step 1 requires finite nonzero gradients for every trainable codec tensor."
+  }
+}
+{
+  "initial_validation": {
+    "mean_rate": 6.406156361103058,
+    "mean_distortion": 130.13562858104706,
+    "mean_lambda_distortion": 6.226249299943447,
+    "mean_loss": 12.632405519485474,
+    "mean_psnr": 29.03526997566223,
+    "mean_ssim": 0.9033567346632481,
+    "mean_lpips": 0.11256199469789863,
+    "mean_texture_mse": 3.415737592149526e-05,
+    "mean_geometry_mse": 1.0534515979543357e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 0,
+    "gradient_norm": 536.3577270507812,
+    "gradient_source": "identity_preoptimization_probe"
+  }
+}
+{
+  "post_update_gradient_audit": {
+    "trainable_codec_tensor_count": 28,
+    "trainable_codec_tensors_with_gradients": 28,
+    "trainable_codec_tensors_without_gradients": 0,
+    "trainable_codec_tensors_with_nonfinite_gradients": 0,
+    "trainable_codec_tensors_with_zero_gradients": 0,
+    "tensors_without_gradients": [],
+    "tensors_with_nonfinite_gradients": [],
+    "tensors_with_zero_gradients": [],
+    "module_has_finite_nonzero_gradient": {
+      "g_a_geometry": true,
+      "g_s_geometry": true,
+      "g_a_texture": true,
+      "g_s_texture": true,
+      "geometry_entropy": true,
+      "texture_entropy": true
+    },
+    "pretrained_tensors_with_non_none_gradients": 0,
+    "pretrained_tensors_with_gradients": [],
+    "all_codec_tensors_have_finite_nonzero_gradients": true,
+    "all_codec_modules_have_finite_nonzero_gradient": true,
+    "zero_pretrained_gradients": true,
+    "scene_id": "0e3c0134e244b22b",
+    "rate_bits_per_scalar": 6.389588356018066,
+    "distortion_255_squared_rgb_mse": 194.11721801757812,
+    "lambda_distortion": 9.28740406036377,
+    "total_rd_loss": 15.676992416381836,
+    "gradient_norm": 533.4710083007812,
+    "pass": true
+  }
+}
+{"step": 1, "loss": 10.019733428955078, "rate_bits_per_scalar": 6.397116661071777, "distortion_255_squared_rgb_mse": 75.71678161621094, "lambda_distortion": 3.62261700630188, "gradient_norm": 81.3387680053711, "learning_rate": 2.0000000000000002e-07}
+{"step": 10, "loss": 13.99150276184082, "rate_bits_per_scalar": 6.415969371795654, "distortion_255_squared_rgb_mse": 158.33717346191406, "lambda_distortion": 7.575532913208008, "gradient_norm": 78.77935791015625, "learning_rate": 1.1e-06}
+{"step": 20, "loss": 11.33686637878418, "rate_bits_per_scalar": 6.420375823974609, "distortion_255_squared_rgb_mse": 102.76019287109375, "lambda_distortion": 4.91649055480957, "gradient_norm": 45.876644134521484, "learning_rate": 2.1000000000000002e-06}
+{"step": 30, "loss": 8.299168586730957, "rate_bits_per_scalar": 6.325429916381836, "distortion_255_squared_rgb_mse": 41.25335693359375, "lambda_distortion": 1.9737383127212524, "gradient_norm": 124.55455017089844, "learning_rate": 3.1e-06}
+{"step": 40, "loss": 10.514656066894531, "rate_bits_per_scalar": 6.390165328979492, "distortion_255_squared_rgb_mse": 86.20651245117188, "lambda_distortion": 4.124491214752197, "gradient_norm": 140.6928253173828, "learning_rate": 4.1000000000000006e-06}
+{"step": 50, "loss": 18.989238739013672, "rate_bits_per_scalar": 6.3990583419799805, "distortion_255_squared_rgb_mse": 263.14898681640625, "lambda_distortion": 12.590181350708008, "gradient_norm": 116.27517700195312, "learning_rate": 5.1e-06}
+{"step": 60, "loss": 9.466813087463379, "rate_bits_per_scalar": 6.3683390617370605, "distortion_255_squared_rgb_mse": 64.76160430908203, "lambda_distortion": 3.0984742641448975, "gradient_norm": 99.30014038085938, "learning_rate": 6.1e-06}
+{"step": 70, "loss": 8.314948081970215, "rate_bits_per_scalar": 6.355654716491699, "distortion_255_squared_rgb_mse": 40.95143508911133, "lambda_distortion": 1.9592931270599365, "gradient_norm": 154.1669158935547, "learning_rate": 7.1e-06}
+{"step": 80, "loss": 13.643293380737305, "rate_bits_per_scalar": 6.45709228515625, "distortion_255_squared_rgb_mse": 150.19969177246094, "lambda_distortion": 7.1862006187438965, "gradient_norm": 152.35043334960938, "learning_rate": 8.1e-06}
+{"step": 90, "loss": 7.112621307373047, "rate_bits_per_scalar": 6.286446571350098, "distortion_255_squared_rgb_mse": 17.267982482910156, "lambda_distortion": 0.8261746764183044, "gradient_norm": 83.60819244384766, "learning_rate": 9.100000000000001e-06}
+{"step": 100, "loss": 16.74660873413086, "rate_bits_per_scalar": 6.3643693923950195, "distortion_255_squared_rgb_mse": 217.00050354003906, "lambda_distortion": 10.38223934173584, "gradient_norm": 64.97921752929688, "learning_rate": 1.0100000000000002e-05}
+{
+  "validation": {
+    "mean_rate": 6.401439279317856,
+    "mean_distortion": 129.36847484111786,
+    "mean_lambda_distortion": 6.189545340836048,
+    "mean_loss": 12.590984582901001,
+    "mean_psnr": 29.013511419296265,
+    "mean_ssim": 0.9031549654901028,
+    "mean_lpips": 0.11450324207544327,
+    "mean_texture_mse": 4.175641902293137e-05,
+    "mean_geometry_mse": 2.3336949197982904e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 100,
+    "gradient_norm": 64.97921752929688,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"malformed_example": {"scene_id": "283b06c640f9da60", "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).", "phase": "train"}}
+{"step": 110, "loss": 7.206636428833008, "rate_bits_per_scalar": 6.318134307861328, "distortion_255_squared_rgb_mse": 18.57069206237793, "lambda_distortion": 0.8885019421577454, "gradient_norm": 257.8511047363281, "learning_rate": 1.11e-05}
+{"step": 120, "loss": 8.221263885498047, "rate_bits_per_scalar": 6.382139205932617, "distortion_255_squared_rgb_mse": 38.439788818359375, "lambda_distortion": 1.839125156402588, "gradient_norm": 63.54580307006836, "learning_rate": 1.2100000000000001e-05}
+{"step": 130, "loss": 8.366416931152344, "rate_bits_per_scalar": 6.2955217361450195, "distortion_255_squared_rgb_mse": 43.28403854370117, "lambda_distortion": 2.070894956588745, "gradient_norm": 350.3207092285156, "learning_rate": 1.3100000000000002e-05}
+{"step": 140, "loss": 10.156682968139648, "rate_bits_per_scalar": 6.425705909729004, "distortion_255_squared_rgb_mse": 77.98163604736328, "lambda_distortion": 3.7309775352478027, "gradient_norm": 93.05892944335938, "learning_rate": 1.4099999999999999e-05}
+{"step": 150, "loss": 10.36214828491211, "rate_bits_per_scalar": 6.342606544494629, "distortion_255_squared_rgb_mse": 84.01295471191406, "lambda_distortion": 4.0195417404174805, "gradient_norm": 52.09684753417969, "learning_rate": 1.51e-05}
+{"step": 160, "loss": 15.705219268798828, "rate_bits_per_scalar": 6.561793804168701, "distortion_255_squared_rgb_mse": 191.10789489746094, "lambda_distortion": 9.143424987792969, "gradient_norm": 185.2435302734375, "learning_rate": 1.6100000000000002e-05}
+{"step": 170, "loss": 12.052330017089844, "rate_bits_per_scalar": 6.3442487716674805, "distortion_255_squared_rgb_mse": 119.3053207397461, "lambda_distortion": 5.708080768585205, "gradient_norm": 106.10611724853516, "learning_rate": 1.7100000000000002e-05}
+{"step": 180, "loss": 9.386738777160645, "rate_bits_per_scalar": 6.362039566040039, "distortion_255_squared_rgb_mse": 63.21961975097656, "lambda_distortion": 3.0246989727020264, "gradient_norm": 162.6435089111328, "learning_rate": 1.81e-05}
+{"step": 190, "loss": 17.466480255126953, "rate_bits_per_scalar": 6.397880554199219, "distortion_255_squared_rgb_mse": 231.34619140625, "lambda_distortion": 11.068598747253418, "gradient_norm": 255.28680419921875, "learning_rate": 1.91e-05}
+{"step": 200, "loss": 6.986185073852539, "rate_bits_per_scalar": 6.35953426361084, "distortion_255_squared_rgb_mse": 13.097713470458984, "lambda_distortion": 0.6266510486602783, "gradient_norm": 132.31517028808594, "learning_rate": 2.01e-05}
+{
+  "validation": {
+    "mean_rate": 6.387838006019592,
+    "mean_distortion": 133.57776618003845,
+    "mean_lambda_distortion": 6.390935987234116,
+    "mean_loss": 12.778773844242096,
+    "mean_psnr": 28.810351014137268,
+    "mean_ssim": 0.900760468095541,
+    "mean_lpips": 0.11619913671165705,
+    "mean_texture_mse": 6.0690142163366545e-05,
+    "mean_geometry_mse": 4.757471970151528e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 200,
+    "gradient_norm": 132.31517028808594,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"step": 210, "loss": 14.25373363494873, "rate_bits_per_scalar": 6.754826545715332, "distortion_255_squared_rgb_mse": 156.73561096191406, "lambda_distortion": 7.498907089233398, "gradient_norm": 99.0682373046875, "learning_rate": 2.11e-05}
+{"step": 220, "loss": 9.988372802734375, "rate_bits_per_scalar": 6.3437676429748535, "distortion_255_squared_rgb_mse": 76.17635345458984, "lambda_distortion": 3.6446049213409424, "gradient_norm": 149.5438232421875, "learning_rate": 2.2100000000000002e-05}
+{"step": 230, "loss": 6.765912055969238, "rate_bits_per_scalar": 6.308555603027344, "distortion_255_squared_rgb_mse": 9.559264183044434, "lambda_distortion": 0.45735639333724976, "gradient_norm": 82.9337387084961, "learning_rate": 2.3100000000000002e-05}
+{"step": 240, "loss": 9.339754104614258, "rate_bits_per_scalar": 6.411074638366699, "distortion_255_squared_rgb_mse": 61.212703704833984, "lambda_distortion": 2.9286794662475586, "gradient_norm": 85.35383605957031, "learning_rate": 2.41e-05}
+{"step": 250, "loss": 7.646121025085449, "rate_bits_per_scalar": 6.429923057556152, "distortion_255_squared_rgb_mse": 25.41991424560547, "lambda_distortion": 1.216198205947876, "gradient_norm": 200.41629028320312, "learning_rate": 2.51e-05}
+{"step": 260, "loss": 7.552962303161621, "rate_bits_per_scalar": 6.311150550842285, "distortion_255_squared_rgb_mse": 25.955270767211914, "lambda_distortion": 1.241811990737915, "gradient_norm": 51.077396392822266, "learning_rate": 2.61e-05}
+{"malformed_example": {"scene_id": "b5def210b7135f41", "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).", "phase": "train"}}
+{"step": 270, "loss": 8.824827194213867, "rate_bits_per_scalar": 6.357412338256836, "distortion_255_squared_rgb_mse": 51.57176208496094, "lambda_distortion": 2.4674153327941895, "gradient_norm": 99.45426940917969, "learning_rate": 2.7100000000000005e-05}
+{"step": 280, "loss": 8.630170822143555, "rate_bits_per_scalar": 6.290536880493164, "distortion_255_squared_rgb_mse": 48.900997161865234, "lambda_distortion": 2.339634418487549, "gradient_norm": 153.31146240234375, "learning_rate": 2.8100000000000005e-05}
+{"step": 290, "loss": 7.5594329833984375, "rate_bits_per_scalar": 6.203769683837891, "distortion_255_squared_rgb_mse": 28.33488655090332, "lambda_distortion": 1.3556630611419678, "gradient_norm": 98.23607635498047, "learning_rate": 2.91e-05}
+{"step": 300, "loss": 11.055875778198242, "rate_bits_per_scalar": 6.374418258666992, "distortion_255_squared_rgb_mse": 97.84774017333984, "lambda_distortion": 4.68145751953125, "gradient_norm": 173.0155792236328, "learning_rate": 3.01e-05}
+{
+  "validation": {
+    "mean_rate": 6.36445689201355,
+    "mean_distortion": 130.96606576442719,
+    "mean_lambda_distortion": 6.26598097383976,
+    "mean_loss": 12.630437940359116,
+    "mean_psnr": 28.847148060798645,
+    "mean_ssim": 0.9019610323011875,
+    "mean_lpips": 0.117298171389848,
+    "mean_texture_mse": 0.00010586292182779289,
+    "mean_geometry_mse": 6.730618815709022e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 300,
+    "gradient_norm": 173.0155792236328,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{
+  "checkpoint_roundtrip": {
+    "checkpoint": "/ceph_data/clue9986/globalSplat/outputs/learned_transform/smoke_stage_a_v2_lambda_1/smoke_checkpoint.pt",
+    "scene_id": "cb64aaa680fba010",
+    "quantization_mode": "hard_round_clamp",
+    "estimated_rate_before_reload": 6.382377624511719,
+    "estimated_rate_after_reload": 6.382377624511719,
+    "estimated_rate_abs_difference": 0.0,
+    "psnr_before_reload": 24.471477508544922,
+    "psnr_after_reload": 24.471477508544922,
+    "psnr_abs_difference": 0.0,
+    "reconstructed_latent_max_abs_difference": 0.0,
+    "reconstructed_latent_mean_abs_difference": 0.0,
+    "tolerance": 1e-06,
+    "pass": true
+  }
+}
+{
+  "malformed_data": {
+    "records": [
+      {
+        "scene_id": "283b06c640f9da60",
+        "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).",
+        "phase": "train"
+      },
+      {
+        "scene_id": "b5def210b7135f41",
+        "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).",
+        "phase": "train"
+      }
+    ],
+    "by_phase": {
+      "calibration": {
+        "yielded_examples": 16,
+        "skipped_examples": 0,
+        "skipped_fraction": 0.0,
+        "systematic": false
+      },
+      "validation": {
+        "yielded_examples": 16,
+        "skipped_examples": 0,
+        "skipped_fraction": 0.0,
+        "systematic": false
+      },
+      "train": {
+        "yielded_examples": 1201,
+        "skipped_examples": 2,
+        "skipped_fraction": 0.0016625103906899418,
+        "systematic": false
+      }
+    },
+    "maximum_allowed_fraction": 0.05,
+    "systematic_data_loader_problem": false,
+    "pass": true
+  }
+}
+{
+  "optimization_sanity": {
+    "initial_step": 0,
+    "final_step": 300,
+    "initial": {
+      "mean_rate": 6.406156361103058,
+      "mean_distortion": 130.13562858104706,
+      "mean_lambda_distortion": 6.226249299943447,
+      "mean_loss": 12.632405519485474,
+      "mean_psnr": 29.03526997566223,
+      "mean_ssim": 0.9033567346632481,
+      "mean_lpips": 0.11256199469789863,
+      "mean_texture_mse": 3.415737592149526e-05,
+      "mean_geometry_mse": 1.0534515979543357e-05,
+      "scenes": 16,
+      "quantization_mode": "hard_round_clamp",
+      "straight_through_used": false,
+      "step": 0,
+      "gradient_norm": 536.3577270507812,
+      "gradient_source": "identity_preoptimization_probe"
+    },
+    "final": {
+      "mean_rate": 6.36445689201355,
+      "mean_distortion": 130.96606576442719,
+      "mean_lambda_distortion": 6.26598097383976,
+      "mean_loss": 12.630437940359116,
+      "mean_psnr": 28.847148060798645,
+      "mean_ssim": 0.9019610323011875,
+      "mean_lpips": 0.117298171389848,
+      "mean_texture_mse": 0.00010586292182779289,
+      "mean_geometry_mse": 6.730618815709022e-05,
+      "scenes": 16,
+      "quantization_mode": "hard_round_clamp",
+      "straight_through_used": false,
+      "step": 300,
+      "gradient_norm": 173.0155792236328,
+      "gradient_source": "accumulated_training_step"
+    },
+    "rate_change_bits_per_scalar": -0.04169946908950806,
+    "psnr_drop_db": 0.18812191486358643,
+    "ssim_change": -0.0013957023620605469,
+    "lpips_change": 0.0047361766919493675,
+    "rd_loss_change": -0.0019675791263580322,
+    "maximum_allowed_psnr_drop_db": 0.05,
+    "lower_rate_with_substantially_worse_quality": true,
+    "pass": false
+  }
+}
+SMOKE GATE
+Identity equivalence: PASS
+Rate-vs-rANS correlation: PASS
+Finite codec gradients: PASS
+Zero pretrained gradients: PASS
+Hard validation quantization: PASS
+Checkpoint round-trip: PASS
+Malformed-data handling: PASS
+Optimization sanity: FAIL
+Do not submit Stage B. Run one additional 300-step smoke at 2*lambda0; consider 4*lambda0 only if 2*lambda0 remains too rate-heavy. Do not launch either automatically.

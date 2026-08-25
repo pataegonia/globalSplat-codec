@@ -1,0 +1,655 @@
+resume step: 300; reference step: 0; lambda: 0.047844308833249735
+{
+  "names": [
+    "g_a_geometry.norm.weight",
+    "g_a_geometry.norm.bias",
+    "g_a_geometry.fc1.weight",
+    "g_a_geometry.fc1.bias",
+    "g_a_geometry.fc2.weight",
+    "g_a_geometry.fc2.bias",
+    "g_s_geometry.norm.weight",
+    "g_s_geometry.norm.bias",
+    "g_s_geometry.fc1.weight",
+    "g_s_geometry.fc1.bias",
+    "g_s_geometry.fc2.weight",
+    "g_s_geometry.fc2.bias",
+    "g_a_texture.norm.weight",
+    "g_a_texture.norm.bias",
+    "g_a_texture.fc1.weight",
+    "g_a_texture.fc1.bias",
+    "g_a_texture.fc2.weight",
+    "g_a_texture.fc2.bias",
+    "g_s_texture.norm.weight",
+    "g_s_texture.norm.bias",
+    "g_s_texture.fc1.weight",
+    "g_s_texture.fc1.bias",
+    "g_s_texture.fc2.weight",
+    "g_s_texture.fc2.bias",
+    "geometry_entropy.location",
+    "geometry_entropy.log_scale",
+    "texture_entropy.location",
+    "texture_entropy.log_scale"
+  ],
+  "transform_parameters": 1055744,
+  "entropy_parameters": 2048,
+  "total_trainable_parameters": 1057792,
+  "pretrained_trainable_parameters": 0
+}
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /ceph_data/clue9986/anaconda3/envs/globalsplat/lib/python3.10/site-packages/lpips/weights/v0.1/vgg.pth
+{
+  "identity_equivalence": {
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "production_mean": {
+      "psnr": 29.035279154777527,
+      "ssim": 0.9033570364117622,
+      "lpips": 0.11255817441269755,
+      "estimated_rate_bits_per_scalar": 6.406156361103058,
+      "actual_total_bytes": 3333935.75,
+      "actual_payload_bytes": 3329181.75,
+      "texture_mse": 3.415737137402175e-05,
+      "geometry_mse": 1.053451532584404e-05
+    },
+    "learned_identity_mean": {
+      "psnr": 29.035279154777527,
+      "ssim": 0.9033570364117622,
+      "lpips": 0.11255817441269755,
+      "estimated_rate_bits_per_scalar": 6.406156361103058,
+      "actual_total_bytes": 3333935.75,
+      "actual_payload_bytes": 3329181.75,
+      "texture_mse": 3.415737137402175e-05,
+      "geometry_mse": 1.053451532584404e-05
+    },
+    "metric_max_abs_difference": {
+      "psnr": 0.0,
+      "ssim": 0.0,
+      "lpips": 0.0,
+      "estimated_rate_bits_per_scalar": 0.0
+    },
+    "reconstructed_latent_max_abs_difference": 0.0,
+    "reconstructed_latent_mean_abs_difference": 0.0,
+    "actual_bitstream_exact_match": true,
+    "symbol_exact_match_rate": 1.0,
+    "latent_tolerance": 1e-06,
+    "metric_tolerance": 1e-06,
+    "pass": true
+  }
+}
+{
+  "R0_bits_per_scalar": 6.43658310174942,
+  "D0_255_squared_rgb_mse": 134.53184419870377,
+  "lambda0": 0.047844308833249735,
+  "planned_lambda_sweep": {
+    "0.25x": 0.011961077208312434,
+    "0.5x": 0.023922154416624868,
+    "1x": 0.047844308833249735,
+    "2x": 0.09568861766649947,
+    "4x": 0.19137723533299894
+  },
+  "mean_estimated_bits_per_scalar": 6.43658310174942,
+  "mean_actual_rans_payload_bits_per_scalar": 6.401549339294434,
+  "mean_actual_rans_payload_bytes": 3356255.5,
+  "estimated_vs_actual_payload_pearson": 0.9963286873658584,
+  "estimated_vs_actual_payload_spearman": 0.988235294117647,
+  "minimum_required_correlation": 0.2,
+  "pass": true
+}
+{
+  "initial_gradient_audit": {
+    "trainable_codec_tensor_count": 28,
+    "trainable_codec_tensors_with_gradients": 28,
+    "trainable_codec_tensors_without_gradients": 0,
+    "trainable_codec_tensors_with_nonfinite_gradients": 0,
+    "trainable_codec_tensors_with_zero_gradients": 0,
+    "tensors_without_gradients": [],
+    "tensors_with_nonfinite_gradients": [],
+    "tensors_with_zero_gradients": [],
+    "module_has_finite_nonzero_gradient": {
+      "g_a_geometry": true,
+      "g_s_geometry": true,
+      "g_a_texture": true,
+      "g_s_texture": true,
+      "geometry_entropy": true,
+      "texture_entropy": true
+    },
+    "pretrained_tensors_with_non_none_gradients": 0,
+    "pretrained_tensors_with_gradients": [],
+    "all_codec_tensors_have_finite_nonzero_gradients": true,
+    "all_codec_modules_have_finite_nonzero_gradient": true,
+    "zero_pretrained_gradients": true,
+    "scene_id": "0e3c0134e244b22b",
+    "rate_bits_per_scalar": 6.379338264465332,
+    "distortion_255_squared_rgb_mse": 179.50596618652344,
+    "lambda_distortion": 8.588338851928711,
+    "total_rd_loss": 14.967677116394043,
+    "gradient_norm": 332.25885009765625,
+    "pass": true,
+    "note": "Resume-state preoptimization audit."
+  }
+}
+{
+  "initial_validation": {
+    "mean_rate": 6.393011927604675,
+    "mean_distortion": 128.68586122989655,
+    "mean_lambda_distortion": 6.156886130571365,
+    "mean_loss": 12.549898207187653,
+    "mean_psnr": 29.001289129257202,
+    "mean_ssim": 0.9032359980046749,
+    "mean_lpips": 0.11563451401889324,
+    "mean_texture_mse": 5.173213480702543e-05,
+    "mean_geometry_mse": 4.1893108345902874e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 300,
+    "gradient_norm": 332.25885009765625,
+    "pre_clip_gradient_norm": 332.25885009765625,
+    "post_clip_gradient_norm": 1.0,
+    "gradient_clipping_active": true,
+    "learning_rate": 9e-06,
+    "gradient_source": "resume_preoptimization_probe"
+  }
+}
+{
+  "post_update_gradient_audit": {
+    "trainable_codec_tensor_count": 28,
+    "trainable_codec_tensors_with_gradients": 28,
+    "trainable_codec_tensors_without_gradients": 0,
+    "trainable_codec_tensors_with_nonfinite_gradients": 0,
+    "trainable_codec_tensors_with_zero_gradients": 0,
+    "tensors_without_gradients": [],
+    "tensors_with_nonfinite_gradients": [],
+    "tensors_with_zero_gradients": [],
+    "module_has_finite_nonzero_gradient": {
+      "g_a_geometry": true,
+      "g_s_geometry": true,
+      "g_a_texture": true,
+      "g_s_texture": true,
+      "geometry_entropy": true,
+      "texture_entropy": true
+    },
+    "pretrained_tensors_with_non_none_gradients": 0,
+    "pretrained_tensors_with_gradients": [],
+    "all_codec_tensors_have_finite_nonzero_gradients": true,
+    "all_codec_modules_have_finite_nonzero_gradient": true,
+    "zero_pretrained_gradients": true,
+    "scene_id": "0e3c0134e244b22b",
+    "rate_bits_per_scalar": 6.379278182983398,
+    "distortion_255_squared_rgb_mse": 178.7622528076172,
+    "lambda_distortion": 8.552756309509277,
+    "total_rd_loss": 14.932034492492676,
+    "gradient_norm": 322.3502197265625,
+    "pass": true
+  }
+}
+{"step": 310, "loss": 7.500385761260986, "rate_bits_per_scalar": 6.263278961181641, "distortion_255_squared_rgb_mse": 25.856929779052734, "lambda_distortion": 1.2371069192886353, "pre_clip_gradient_norm": 116.7586669921875, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 116.7586669921875, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 320, "loss": 8.149067878723145, "rate_bits_per_scalar": 6.32014274597168, "distortion_255_squared_rgb_mse": 38.22658920288086, "lambda_distortion": 1.8289247751235962, "pre_clip_gradient_norm": 176.75473022460938, "post_clip_gradient_norm": 1.0, "gradient_norm": 176.75473022460938, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 330, "loss": 9.750165939331055, "rate_bits_per_scalar": 6.316335201263428, "distortion_255_squared_rgb_mse": 71.77093505859375, "lambda_distortion": 3.433830738067627, "pre_clip_gradient_norm": 59.43894958496094, "post_clip_gradient_norm": 1.0, "gradient_norm": 59.43894958496094, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 340, "loss": 8.557523727416992, "rate_bits_per_scalar": 6.332119464874268, "distortion_255_squared_rgb_mse": 46.51344680786133, "lambda_distortion": 2.2254037857055664, "pre_clip_gradient_norm": 44.01842498779297, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 44.01842498779297, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 350, "loss": 7.658841609954834, "rate_bits_per_scalar": 6.3356242179870605, "distortion_255_squared_rgb_mse": 27.656734466552734, "lambda_distortion": 1.3232173919677734, "pre_clip_gradient_norm": 97.6421127319336, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 97.6421127319336, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 360, "loss": 9.716991424560547, "rate_bits_per_scalar": 6.248729705810547, "distortion_255_squared_rgb_mse": 72.49058532714844, "lambda_distortion": 3.468261957168579, "pre_clip_gradient_norm": 28.123804092407227, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 28.123804092407227, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 370, "loss": 8.604724884033203, "rate_bits_per_scalar": 6.253989219665527, "distortion_255_squared_rgb_mse": 49.13303756713867, "lambda_distortion": 2.350736141204834, "pre_clip_gradient_norm": 133.73355102539062, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 133.73355102539062, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 380, "loss": 8.808144569396973, "rate_bits_per_scalar": 6.4024200439453125, "distortion_255_squared_rgb_mse": 50.28235626220703, "lambda_distortion": 2.40572452545166, "pre_clip_gradient_norm": 64.99368286132812, "post_clip_gradient_norm": 1.0, "gradient_norm": 64.99368286132812, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 390, "loss": 11.720298767089844, "rate_bits_per_scalar": 6.2895965576171875, "distortion_255_squared_rgb_mse": 113.5077896118164, "lambda_distortion": 5.430701732635498, "pre_clip_gradient_norm": 103.73660278320312, "post_clip_gradient_norm": 1.0, "gradient_norm": 103.73660278320312, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 400, "loss": 8.211213111877441, "rate_bits_per_scalar": 6.349541664123535, "distortion_255_squared_rgb_mse": 38.91102600097656, "lambda_distortion": 1.8616712093353271, "pre_clip_gradient_norm": 63.63755416870117, "post_clip_gradient_norm": 1.0, "gradient_norm": 63.63755416870117, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{
+  "validation": {
+    "mean_rate": 6.382795661687851,
+    "mean_distortion": 127.88512396812439,
+    "mean_lambda_distortion": 6.118575423955917,
+    "mean_loss": 12.501371085643768,
+    "mean_psnr": 29.076659083366394,
+    "mean_ssim": 0.9034298583865166,
+    "mean_lpips": 0.115517383441329,
+    "mean_texture_mse": 5.906108640374441e-05,
+    "mean_geometry_mse": 5.191827358430601e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 400,
+    "pre_clip_gradient_norm": 63.63755416870117,
+    "post_clip_gradient_norm": 1.0,
+    "gradient_clipping_active": true,
+    "gradient_norm": 63.63755416870117,
+    "learning_rate": 9e-06,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"malformed_example": {"scene_id": "283b06c640f9da60", "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).", "phase": "train"}}
+{"step": 410, "loss": 14.985326766967773, "rate_bits_per_scalar": 6.326051712036133, "distortion_255_squared_rgb_mse": 180.98861694335938, "lambda_distortion": 8.65927505493164, "pre_clip_gradient_norm": 116.49765014648438, "post_clip_gradient_norm": 1.0, "gradient_norm": 116.49765014648438, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 420, "loss": 8.655607223510742, "rate_bits_per_scalar": 6.305655002593994, "distortion_255_squared_rgb_mse": 49.11664962768555, "lambda_distortion": 2.349952220916748, "pre_clip_gradient_norm": 148.9528045654297, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 148.9528045654297, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 430, "loss": 6.926140785217285, "rate_bits_per_scalar": 6.275060653686523, "distortion_255_squared_rgb_mse": 13.608311653137207, "lambda_distortion": 0.6510802507400513, "pre_clip_gradient_norm": 79.15267181396484, "post_clip_gradient_norm": 1.0, "gradient_norm": 79.15267181396484, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 440, "loss": 21.826234817504883, "rate_bits_per_scalar": 6.406866073608398, "distortion_255_squared_rgb_mse": 322.2821960449219, "lambda_distortion": 15.419368743896484, "pre_clip_gradient_norm": 288.1099548339844, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 288.1099548339844, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 450, "loss": 8.387433052062988, "rate_bits_per_scalar": 6.4171857833862305, "distortion_255_squared_rgb_mse": 41.180389404296875, "lambda_distortion": 1.9702472686767578, "pre_clip_gradient_norm": 26.471986770629883, "post_clip_gradient_norm": 1.0, "gradient_norm": 26.471986770629883, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 460, "loss": 8.372245788574219, "rate_bits_per_scalar": 6.361688137054443, "distortion_255_squared_rgb_mse": 42.022911071777344, "lambda_distortion": 2.010557174682617, "pre_clip_gradient_norm": 87.25856018066406, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 87.25856018066406, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 470, "loss": 8.138338088989258, "rate_bits_per_scalar": 6.266718864440918, "distortion_255_squared_rgb_mse": 39.118953704833984, "lambda_distortion": 1.8716193437576294, "pre_clip_gradient_norm": 141.73876953125, "post_clip_gradient_norm": 1.0, "gradient_norm": 141.73876953125, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 480, "loss": 9.681045532226562, "rate_bits_per_scalar": 6.427186012268066, "distortion_255_squared_rgb_mse": 68.00933074951172, "lambda_distortion": 3.253859519958496, "pre_clip_gradient_norm": 494.5080871582031, "post_clip_gradient_norm": 1.0, "gradient_norm": 494.5080871582031, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 490, "loss": 12.25922966003418, "rate_bits_per_scalar": 6.478029251098633, "distortion_255_squared_rgb_mse": 120.8336181640625, "lambda_distortion": 5.781200885772705, "pre_clip_gradient_norm": 104.15814971923828, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 104.15814971923828, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 500, "loss": 10.137662887573242, "rate_bits_per_scalar": 6.418239593505859, "distortion_255_squared_rgb_mse": 77.7401351928711, "lambda_distortion": 3.7194230556488037, "pre_clip_gradient_norm": 37.9222526550293, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 37.9222526550293, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{
+  "validation": {
+    "mean_rate": 6.373540073633194,
+    "mean_distortion": 128.71297669410706,
+    "mean_lambda_distortion": 6.158183507621288,
+    "mean_loss": 12.531723529100418,
+    "mean_psnr": 29.045578241348267,
+    "mean_ssim": 0.9034027867019176,
+    "mean_lpips": 0.11605890048667789,
+    "mean_texture_mse": 7.265338831530244e-05,
+    "mean_geometry_mse": 5.7491762163408566e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 500,
+    "pre_clip_gradient_norm": 37.9222526550293,
+    "post_clip_gradient_norm": 0.9999999403953552,
+    "gradient_clipping_active": true,
+    "gradient_norm": 37.9222526550293,
+    "learning_rate": 9e-06,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"step": 510, "loss": 7.049904823303223, "rate_bits_per_scalar": 6.376520156860352, "distortion_255_squared_rgb_mse": 14.07450008392334, "lambda_distortion": 0.6733847260475159, "pre_clip_gradient_norm": 71.96989440917969, "post_clip_gradient_norm": 1.0, "gradient_norm": 71.96989440917969, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 520, "loss": 11.981006622314453, "rate_bits_per_scalar": 6.37664270401001, "distortion_255_squared_rgb_mse": 117.13751220703125, "lambda_distortion": 5.604363441467285, "pre_clip_gradient_norm": 72.46714782714844, "post_clip_gradient_norm": 1.0, "gradient_norm": 72.46714782714844, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 530, "loss": 6.918787479400635, "rate_bits_per_scalar": 6.2381062507629395, "distortion_255_squared_rgb_mse": 14.22700309753418, "lambda_distortion": 0.6806811094284058, "pre_clip_gradient_norm": 114.6100845336914, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 114.6100845336914, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 540, "loss": 7.992868900299072, "rate_bits_per_scalar": 6.282419204711914, "distortion_255_squared_rgb_mse": 35.75032424926758, "lambda_distortion": 1.7104495763778687, "pre_clip_gradient_norm": 72.82576751708984, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 72.82576751708984, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 550, "loss": 8.149216651916504, "rate_bits_per_scalar": 6.387127876281738, "distortion_255_squared_rgb_mse": 36.82963562011719, "lambda_distortion": 1.7620885372161865, "pre_clip_gradient_norm": 115.98030853271484, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 115.98030853271484, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 560, "loss": 7.503024578094482, "rate_bits_per_scalar": 6.229991912841797, "distortion_255_squared_rgb_mse": 26.607820510864258, "lambda_distortion": 1.273032784461975, "pre_clip_gradient_norm": 145.8283233642578, "post_clip_gradient_norm": 1.0, "gradient_norm": 145.8283233642578, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"malformed_example": {"scene_id": "b5def210b7135f41", "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).", "phase": "train"}}
+{"step": 570, "loss": 14.776707649230957, "rate_bits_per_scalar": 6.676362991333008, "distortion_255_squared_rgb_mse": 169.30633544921875, "lambda_distortion": 8.10034465789795, "pre_clip_gradient_norm": 147.3766632080078, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 147.3766632080078, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 580, "loss": 6.800455093383789, "rate_bits_per_scalar": 6.251639366149902, "distortion_255_squared_rgb_mse": 11.470869064331055, "lambda_distortion": 0.5488157868385315, "pre_clip_gradient_norm": 128.01577758789062, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 128.01577758789062, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 590, "loss": 7.602701663970947, "rate_bits_per_scalar": 6.186186790466309, "distortion_255_squared_rgb_mse": 29.606760025024414, "lambda_distortion": 1.4165149927139282, "pre_clip_gradient_norm": 132.6934051513672, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 132.6934051513672, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 600, "loss": 9.293447494506836, "rate_bits_per_scalar": 6.354778289794922, "distortion_255_squared_rgb_mse": 61.42149353027344, "lambda_distortion": 2.938668966293335, "pre_clip_gradient_norm": 57.2549934387207, "post_clip_gradient_norm": 1.0, "gradient_norm": 57.2549934387207, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{
+  "validation": {
+    "mean_rate": 6.362647235393524,
+    "mean_distortion": 128.32769429683685,
+    "mean_lambda_distortion": 6.139749951660633,
+    "mean_loss": 12.502397060394287,
+    "mean_psnr": 29.079237699508667,
+    "mean_ssim": 0.9039997197687626,
+    "mean_lpips": 0.11580860475078225,
+    "mean_texture_mse": 9.516405043541454e-05,
+    "mean_geometry_mse": 6.386372638189641e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 600,
+    "pre_clip_gradient_norm": 57.2549934387207,
+    "post_clip_gradient_norm": 1.0,
+    "gradient_clipping_active": true,
+    "gradient_norm": 57.2549934387207,
+    "learning_rate": 9e-06,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"step": 610, "loss": 9.148168563842773, "rate_bits_per_scalar": 6.329105377197266, "distortion_255_squared_rgb_mse": 58.921607971191406, "lambda_distortion": 2.819063663482666, "pre_clip_gradient_norm": 92.40155029296875, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 92.40155029296875, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 620, "loss": 22.911026000976562, "rate_bits_per_scalar": 6.48972225189209, "distortion_255_squared_rgb_mse": 343.2237243652344, "lambda_distortion": 16.421302795410156, "pre_clip_gradient_norm": 200.87295532226562, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 200.87295532226562, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 630, "loss": 13.0938720703125, "rate_bits_per_scalar": 6.408785820007324, "distortion_255_squared_rgb_mse": 139.725830078125, "lambda_distortion": 6.685085773468018, "pre_clip_gradient_norm": 99.05595397949219, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 99.05595397949219, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 640, "loss": 11.569934844970703, "rate_bits_per_scalar": 6.509566307067871, "distortion_255_squared_rgb_mse": 105.76740264892578, "lambda_distortion": 5.060368537902832, "pre_clip_gradient_norm": 125.81800079345703, "post_clip_gradient_norm": 0.9999998211860657, "gradient_norm": 125.81800079345703, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 650, "loss": 7.65200138092041, "rate_bits_per_scalar": 6.267809867858887, "distortion_255_squared_rgb_mse": 28.93115997314453, "lambda_distortion": 1.3841913938522339, "pre_clip_gradient_norm": 59.95929718017578, "post_clip_gradient_norm": 1.0, "gradient_norm": 59.95929718017578, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 660, "loss": 19.587087631225586, "rate_bits_per_scalar": 6.36945915222168, "distortion_255_squared_rgb_mse": 276.2633361816406, "lambda_distortion": 13.217628479003906, "pre_clip_gradient_norm": 265.7566223144531, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 265.7566223144531, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 670, "loss": 8.291703224182129, "rate_bits_per_scalar": 6.304090976715088, "distortion_255_squared_rgb_mse": 41.543331146240234, "lambda_distortion": 1.987612009048462, "pre_clip_gradient_norm": 78.73609161376953, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 78.73609161376953, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 680, "loss": 11.927217483520508, "rate_bits_per_scalar": 6.453106880187988, "distortion_255_squared_rgb_mse": 114.41509246826172, "lambda_distortion": 5.474111080169678, "pre_clip_gradient_norm": 120.9550552368164, "post_clip_gradient_norm": 1.0, "gradient_norm": 120.9550552368164, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 690, "loss": 13.745978355407715, "rate_bits_per_scalar": 6.469143390655518, "distortion_255_squared_rgb_mse": 152.09405517578125, "lambda_distortion": 7.276834964752197, "pre_clip_gradient_norm": 88.54097747802734, "post_clip_gradient_norm": 1.0, "gradient_norm": 88.54097747802734, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 700, "loss": 10.45655345916748, "rate_bits_per_scalar": 6.458549499511719, "distortion_255_squared_rgb_mse": 83.56278228759766, "lambda_distortion": 3.9980037212371826, "pre_clip_gradient_norm": 147.11106872558594, "post_clip_gradient_norm": 1.0, "gradient_norm": 147.11106872558594, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{
+  "validation": {
+    "mean_rate": 6.352537959814072,
+    "mean_distortion": 128.09427285194397,
+    "mean_lambda_distortion": 6.128582023084164,
+    "mean_loss": 12.481119900941849,
+    "mean_psnr": 29.03929853439331,
+    "mean_ssim": 0.9035861194133759,
+    "mean_lpips": 0.11579645611345768,
+    "mean_texture_mse": 0.00012311231603234774,
+    "mean_geometry_mse": 6.789645885874052e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 700,
+    "pre_clip_gradient_norm": 147.11106872558594,
+    "post_clip_gradient_norm": 1.0,
+    "gradient_clipping_active": true,
+    "gradient_norm": 147.11106872558594,
+    "learning_rate": 9e-06,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"step": 710, "loss": 8.778267860412598, "rate_bits_per_scalar": 6.321030139923096, "distortion_255_squared_rgb_mse": 51.359031677246094, "lambda_distortion": 2.457237482070923, "pre_clip_gradient_norm": 108.0536117553711, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 108.0536117553711, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 720, "loss": 16.183420181274414, "rate_bits_per_scalar": 6.3419928550720215, "distortion_255_squared_rgb_mse": 205.69692993164062, "lambda_distortion": 9.84142780303955, "pre_clip_gradient_norm": 61.84872055053711, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 61.84872055053711, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 730, "loss": 9.798527717590332, "rate_bits_per_scalar": 6.307930946350098, "distortion_255_squared_rgb_mse": 72.95740509033203, "lambda_distortion": 3.4905967712402344, "pre_clip_gradient_norm": 56.536678314208984, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 56.536678314208984, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 740, "loss": 17.75151252746582, "rate_bits_per_scalar": 6.412439346313477, "distortion_255_squared_rgb_mse": 236.99942016601562, "lambda_distortion": 11.339073181152344, "pre_clip_gradient_norm": 42.650184631347656, "post_clip_gradient_norm": 1.0, "gradient_norm": 42.650184631347656, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 750, "loss": 13.444343566894531, "rate_bits_per_scalar": 6.372604846954346, "distortion_255_squared_rgb_mse": 147.80731201171875, "lambda_distortion": 7.0717387199401855, "pre_clip_gradient_norm": 114.49854278564453, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 114.49854278564453, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 760, "loss": 27.58551788330078, "rate_bits_per_scalar": 6.41203498840332, "distortion_255_squared_rgb_mse": 442.5496520996094, "lambda_distortion": 21.17348289489746, "pre_clip_gradient_norm": 227.2418975830078, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 227.2418975830078, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 770, "loss": 6.664109230041504, "rate_bits_per_scalar": 6.239686012268066, "distortion_255_squared_rgb_mse": 8.870926856994629, "lambda_distortion": 0.42442336678504944, "pre_clip_gradient_norm": 47.81254959106445, "post_clip_gradient_norm": 1.0, "gradient_norm": 47.81254959106445, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 780, "loss": 9.189497947692871, "rate_bits_per_scalar": 6.336337089538574, "distortion_255_squared_rgb_mse": 59.63428497314453, "lambda_distortion": 2.853161096572876, "pre_clip_gradient_norm": 128.695556640625, "post_clip_gradient_norm": 0.9999998807907104, "gradient_norm": 128.695556640625, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 790, "loss": 8.867877960205078, "rate_bits_per_scalar": 6.261392593383789, "distortion_255_squared_rgb_mse": 54.478477478027344, "lambda_distortion": 2.60648512840271, "pre_clip_gradient_norm": 146.40753173828125, "post_clip_gradient_norm": 1.0, "gradient_norm": 146.40753173828125, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 800, "loss": 10.750503540039062, "rate_bits_per_scalar": 6.49719762802124, "distortion_255_squared_rgb_mse": 88.89888763427734, "lambda_distortion": 4.253305912017822, "pre_clip_gradient_norm": 114.55254364013672, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 114.55254364013672, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{
+  "validation": {
+    "mean_rate": 6.342602014541626,
+    "mean_distortion": 129.0753526687622,
+    "mean_lambda_distortion": 6.175521142780781,
+    "mean_loss": 12.518123060464859,
+    "mean_psnr": 29.036439776420593,
+    "mean_ssim": 0.9034639485180378,
+    "mean_lpips": 0.11587998317554593,
+    "mean_texture_mse": 0.00015635348063369747,
+    "mean_geometry_mse": 7.002452548476867e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 800,
+    "pre_clip_gradient_norm": 114.55254364013672,
+    "post_clip_gradient_norm": 0.9999999403953552,
+    "gradient_clipping_active": true,
+    "gradient_norm": 114.55254364013672,
+    "learning_rate": 9e-06,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"step": 810, "loss": 10.378523826599121, "rate_bits_per_scalar": 6.30525541305542, "distortion_255_squared_rgb_mse": 85.13590240478516, "lambda_distortion": 4.073268413543701, "pre_clip_gradient_norm": 89.46932983398438, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 89.46932983398438, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 820, "loss": 12.748563766479492, "rate_bits_per_scalar": 6.355942726135254, "distortion_255_squared_rgb_mse": 133.6129913330078, "lambda_distortion": 6.3926215171813965, "pre_clip_gradient_norm": 229.64678955078125, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 229.64678955078125, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 830, "loss": 11.607446670532227, "rate_bits_per_scalar": 6.411568641662598, "distortion_255_squared_rgb_mse": 108.59969329833984, "lambda_distortion": 5.195877552032471, "pre_clip_gradient_norm": 78.4017562866211, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 78.4017562866211, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 840, "loss": 8.181584358215332, "rate_bits_per_scalar": 6.179607391357422, "distortion_255_squared_rgb_mse": 41.84357833862305, "lambda_distortion": 2.0019772052764893, "pre_clip_gradient_norm": 100.03533935546875, "post_clip_gradient_norm": 1.0, "gradient_norm": 100.03533935546875, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 850, "loss": 12.669731140136719, "rate_bits_per_scalar": 6.35176420211792, "distortion_255_squared_rgb_mse": 132.05264282226562, "lambda_distortion": 6.317967414855957, "pre_clip_gradient_norm": 73.6286849975586, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 73.6286849975586, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 860, "loss": 10.136198997497559, "rate_bits_per_scalar": 6.328544616699219, "distortion_255_squared_rgb_mse": 79.58426666259766, "lambda_distortion": 3.80765438079834, "pre_clip_gradient_norm": 209.02821350097656, "post_clip_gradient_norm": 1.0, "gradient_norm": 209.02821350097656, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 870, "loss": 7.890883922576904, "rate_bits_per_scalar": 6.260450839996338, "distortion_255_squared_rgb_mse": 34.07788848876953, "lambda_distortion": 1.6304330825805664, "pre_clip_gradient_norm": 290.6023864746094, "post_clip_gradient_norm": 1.0, "gradient_norm": 290.6023864746094, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 880, "loss": 13.146340370178223, "rate_bits_per_scalar": 6.514962673187256, "distortion_255_squared_rgb_mse": 138.603271484375, "lambda_distortion": 6.631377696990967, "pre_clip_gradient_norm": 49.19407272338867, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 49.19407272338867, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 890, "loss": 9.994943618774414, "rate_bits_per_scalar": 6.314077377319336, "distortion_255_squared_rgb_mse": 76.93424224853516, "lambda_distortion": 3.68086576461792, "pre_clip_gradient_norm": 38.360076904296875, "post_clip_gradient_norm": 1.0, "gradient_norm": 38.360076904296875, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 900, "loss": 12.406009674072266, "rate_bits_per_scalar": 6.346688270568848, "distortion_255_squared_rgb_mse": 126.64664459228516, "lambda_distortion": 6.059321403503418, "pre_clip_gradient_norm": 45.47421646118164, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 45.47421646118164, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{
+  "validation": {
+    "mean_rate": 6.332131177186966,
+    "mean_distortion": 129.18402552604675,
+    "mean_lambda_distortion": 6.180720381438732,
+    "mean_loss": 12.512851625680923,
+    "mean_psnr": 29.060669898986816,
+    "mean_ssim": 0.9036809541285038,
+    "mean_lpips": 0.11565903062000871,
+    "mean_texture_mse": 0.0002027726950473152,
+    "mean_geometry_mse": 7.47324538679095e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 900,
+    "pre_clip_gradient_norm": 45.47421646118164,
+    "post_clip_gradient_norm": 1.0000001192092896,
+    "gradient_clipping_active": true,
+    "gradient_norm": 45.47421646118164,
+    "learning_rate": 9e-06,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{"malformed_example": {"scene_id": "16a7fa7b03b81b1d", "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).", "phase": "train"}}
+{"step": 910, "loss": 11.055985450744629, "rate_bits_per_scalar": 6.34503698348999, "distortion_255_squared_rgb_mse": 98.4641342163086, "lambda_distortion": 4.710948467254639, "pre_clip_gradient_norm": 61.346946716308594, "post_clip_gradient_norm": 1.0, "gradient_norm": 61.346946716308594, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 920, "loss": 15.593446731567383, "rate_bits_per_scalar": 6.33310604095459, "distortion_255_squared_rgb_mse": 193.5515594482422, "lambda_distortion": 9.260340690612793, "pre_clip_gradient_norm": 64.81095123291016, "post_clip_gradient_norm": 1.0, "gradient_norm": 64.81095123291016, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 930, "loss": 9.736554145812988, "rate_bits_per_scalar": 6.329924583435059, "distortion_255_squared_rgb_mse": 71.20240020751953, "lambda_distortion": 3.4066295623779297, "pre_clip_gradient_norm": 374.2401428222656, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 374.2401428222656, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 940, "loss": 9.88721752166748, "rate_bits_per_scalar": 6.308448791503906, "distortion_255_squared_rgb_mse": 74.80030059814453, "lambda_distortion": 3.578768730163574, "pre_clip_gradient_norm": 67.42539978027344, "post_clip_gradient_norm": 1.0000001192092896, "gradient_norm": 67.42539978027344, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 950, "loss": 8.12791919708252, "rate_bits_per_scalar": 6.316972255706787, "distortion_255_squared_rgb_mse": 37.850830078125, "lambda_distortion": 1.8109468221664429, "pre_clip_gradient_norm": 69.85810852050781, "post_clip_gradient_norm": 1.0, "gradient_norm": 69.85810852050781, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 960, "loss": 9.01672077178955, "rate_bits_per_scalar": 6.329172611236572, "distortion_255_squared_rgb_mse": 56.17278289794922, "lambda_distortion": 2.6875479221343994, "pre_clip_gradient_norm": 130.68666076660156, "post_clip_gradient_norm": 1.0, "gradient_norm": 130.68666076660156, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 970, "loss": 12.523324012756348, "rate_bits_per_scalar": 6.33030891418457, "distortion_255_squared_rgb_mse": 129.4409942626953, "lambda_distortion": 6.193015098571777, "pre_clip_gradient_norm": 103.70071411132812, "post_clip_gradient_norm": 1.0, "gradient_norm": 103.70071411132812, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"malformed_example": {"scene_id": "7ab1ca08282c3433", "reason": "Context shape was torch.Size([12, 3, 360, 480]) and target shape was torch.Size([3, 3, 360, 480]).", "phase": "train"}}
+{"step": 980, "loss": 8.500703811645508, "rate_bits_per_scalar": 6.318845748901367, "distortion_255_squared_rgb_mse": 45.60328674316406, "lambda_distortion": 2.1818578243255615, "pre_clip_gradient_norm": 69.84111785888672, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 69.84111785888672, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 990, "loss": 8.228253364562988, "rate_bits_per_scalar": 6.283283233642578, "distortion_255_squared_rgb_mse": 40.652061462402344, "lambda_distortion": 1.9449697732925415, "pre_clip_gradient_norm": 161.38406372070312, "post_clip_gradient_norm": 1.0, "gradient_norm": 161.38406372070312, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{"step": 1000, "loss": 11.963001251220703, "rate_bits_per_scalar": 6.2546281814575195, "distortion_255_squared_rgb_mse": 119.31143951416016, "lambda_distortion": 5.708373546600342, "pre_clip_gradient_norm": 103.32784271240234, "post_clip_gradient_norm": 0.9999999403953552, "gradient_norm": 103.32784271240234, "gradient_clip_max_norm": 1.0, "gradient_clipping_active": true, "learning_rate": 9e-06}
+{
+  "validation": {
+    "mean_rate": 6.320089489221573,
+    "mean_distortion": 130.14113914966583,
+    "mean_lambda_distortion": 6.226512871682644,
+    "mean_loss": 12.546602249145508,
+    "mean_psnr": 28.931169748306274,
+    "mean_ssim": 0.903183601796627,
+    "mean_lpips": 0.11587518965825438,
+    "mean_texture_mse": 0.000269950943220465,
+    "mean_geometry_mse": 7.732285712336306e-05,
+    "scenes": 16,
+    "quantization_mode": "hard_round_clamp",
+    "straight_through_used": false,
+    "step": 1000,
+    "pre_clip_gradient_norm": 103.32784271240234,
+    "post_clip_gradient_norm": 0.9999999403953552,
+    "gradient_clipping_active": true,
+    "gradient_norm": 103.32784271240234,
+    "learning_rate": 9e-06,
+    "gradient_source": "accumulated_training_step"
+  }
+}
+{
+  "checkpoint_roundtrip": {
+    "checkpoint": "/ceph_data/clue9986/globalSplat/outputs/learned_transform/continuation_stage_a_v1_lambda_1_lr9e6_step300_1000/smoke_checkpoint.pt",
+    "scene_id": "cb64aaa680fba010",
+    "quantization_mode": "hard_round_clamp",
+    "estimated_rate_before_reload": 6.339600086212158,
+    "estimated_rate_after_reload": 6.339600086212158,
+    "estimated_rate_abs_difference": 0.0,
+    "psnr_before_reload": 24.644332885742188,
+    "psnr_after_reload": 24.644332885742188,
+    "psnr_abs_difference": 0.0,
+    "reconstructed_latent_max_abs_difference": 0.0,
+    "reconstructed_latent_mean_abs_difference": 0.0,
+    "tolerance": 1e-06,
+    "pass": true
+  }
+}
+{
+  "checkpoint_rate_diagnostics_summary": {
+    "all_validation_steps": {
+      "0": {
+        "validation": {
+          "mean_rate": 6.406156361103058,
+          "mean_distortion": 130.13562858104706,
+          "mean_lambda_distortion": 6.226249299943447,
+          "mean_loss": 12.632405519485474,
+          "mean_psnr": 29.03526997566223,
+          "mean_ssim": 0.9033567346632481,
+          "mean_lpips": 0.11256200284697115,
+          "mean_texture_mse": 3.415737592149526e-05,
+          "mean_geometry_mse": 1.0534515979543357e-05,
+          "scenes": 16,
+          "quantization_mode": "hard_round_clamp",
+          "straight_through_used": false,
+          "step": 0,
+          "gradient_source": "selection_reference_checkpoint"
+        },
+        "estimated_bits_per_scalar": 6.40615639090538,
+        "actual_rans_payload_bits_per_scalar": 6.349910259246826,
+        "mean_actual_rans_payload_bytes_per_scene": 3329181.75,
+        "geometry": {
+          "actual_rans_payload_bits_per_scalar": 7.3468523025512695,
+          "mean_actual_rans_payload_bytes_per_scene": 1925933.25
+        },
+        "texture": {
+          "actual_rans_payload_bits_per_scalar": 5.352968215942383,
+          "mean_actual_rans_payload_bytes_per_scene": 1403248.5
+        }
+      },
+      "300": {
+        "validation": {
+          "mean_rate": 6.393011927604675,
+          "mean_distortion": 128.68586122989655,
+          "mean_lambda_distortion": 6.156886130571365,
+          "mean_loss": 12.549898207187653,
+          "mean_psnr": 29.001289129257202,
+          "mean_ssim": 0.9032359980046749,
+          "mean_lpips": 0.11563451401889324,
+          "mean_texture_mse": 5.173213480702543e-05,
+          "mean_geometry_mse": 4.1893108345902874e-05,
+          "scenes": 16,
+          "quantization_mode": "hard_round_clamp",
+          "straight_through_used": false,
+          "step": 300,
+          "gradient_norm": 332.25885009765625,
+          "pre_clip_gradient_norm": 332.25885009765625,
+          "post_clip_gradient_norm": 1.0,
+          "gradient_clipping_active": true,
+          "learning_rate": 9e-06,
+          "gradient_source": "resume_preoptimization_probe"
+        },
+        "estimated_bits_per_scalar": 6.3930119425058365,
+        "actual_rans_payload_bits_per_scalar": 6.33774995803833,
+        "mean_actual_rans_payload_bytes_per_scene": 3322806.25,
+        "geometry": {
+          "actual_rans_payload_bits_per_scalar": 7.344910621643066,
+          "mean_actual_rans_payload_bytes_per_scene": 1925424.25
+        },
+        "texture": {
+          "actual_rans_payload_bits_per_scalar": 5.330589294433594,
+          "mean_actual_rans_payload_bytes_per_scene": 1397382.0
+        }
+      },
+      "400": {
+        "validation": {
+          "mean_rate": 6.382795661687851,
+          "mean_distortion": 127.88512396812439,
+          "mean_lambda_distortion": 6.118575423955917,
+          "mean_loss": 12.501371085643768,
+          "mean_psnr": 29.076659083366394,
+          "mean_ssim": 0.9034298583865166,
+          "mean_lpips": 0.115517383441329,
+          "mean_texture_mse": 5.906108640374441e-05,
+          "mean_geometry_mse": 5.191827358430601e-05,
+          "scenes": 16,
+          "quantization_mode": "hard_round_clamp",
+          "straight_through_used": false,
+          "step": 400,
+          "pre_clip_gradient_norm": 63.63755416870117,
+          "post_clip_gradient_norm": 1.0,
+          "gradient_clipping_active": true,
+          "gradient_norm": 63.63755416870117,
+          "learning_rate": 9e-06,
+          "gradient_source": "accumulated_training_step"
+        },
+        "estimated_bits_per_scalar": 6.382795661687851,
+        "actual_rans_payload_bits_per_scalar": 6.327254295349121,
+        "mean_actual_rans_payload_bytes_per_scene": 3317303.5,
+        "geometry": {
+          "actual_rans_payload_bits_per_scalar": 7.343232154846191,
+          "mean_actual_rans_payload_bytes_per_scene": 1924984.25
+        },
+        "texture": {
+          "actual_rans_payload_bits_per_scalar": 5.311276435852051,
+          "mean_actual_rans_payload_bytes_per_scene": 1392319.25
+        }
+      },
+      "500": {
+        "validation": {
+          "mean_rate": 6.373540073633194,
+          "mean_distortion": 128.71297669410706,
+          "mean_lambda_distortion": 6.158183507621288,
+          "mean_loss": 12.531723529100418,
+          "mean_psnr": 29.045578241348267,
+          "mean_ssim": 0.9034027867019176,
+          "mean_lpips": 0.11605890048667789,
+          "mean_texture_mse": 7.265338831530244e-05,
+          "mean_geometry_mse": 5.7491762163408566e-05,
+          "scenes": 16,
+          "quantization_mode": "hard_round_clamp",
+          "straight_through_used": false,
+          "step": 500,
+          "pre_clip_gradient_norm": 37.9222526550293,
+          "post_clip_gradient_norm": 0.9999999403953552,
+          "gradient_clipping_active": true,
+          "gradient_norm": 37.9222526550293,
+          "learning_rate": 9e-06,
+          "gradient_source": "accumulated_training_step"
+        },
+        "estimated_bits_per_scalar": 6.37354002892971,
+        "actual_rans_payload_bits_per_scalar": 6.317409515380859,
+        "mean_actual_rans_payload_bytes_per_scene": 3312142.0,
+        "geometry": {
+          "actual_rans_payload_bits_per_scalar": 7.341592788696289,
+          "mean_actual_rans_payload_bytes_per_scene": 1924554.5
+        },
+        "texture": {
+          "actual_rans_payload_bits_per_scalar": 5.29322624206543,
+          "mean_actual_rans_payload_bytes_per_scene": 1387587.5
+        }
+      },
+      "600": {
+        "validation": {
+          "mean_rate": 6.362647235393524,
+          "mean_distortion": 128.32769429683685,
+          "mean_lambda_distortion": 6.139749951660633,
+          "mean_loss": 12.502397060394287,
+          "mean_psnr": 29.079237699508667,
+          "mean_ssim": 0.9039997197687626,
+          "mean_lpips": 0.11580860475078225,
+          "mean_texture_mse": 9.516405043541454e-05,
+          "mean_geometry_mse": 6.386372638189641e-05,
+          "scenes": 16,
+          "quantization_mode": "hard_round_clamp",
+          "straight_through_used": false,
+          "step": 600,
+          "pre_clip_gradient_norm": 57.2549934387207,
+          "post_clip_gradient_norm": 1.0,
+          "gradient_clipping_active": true,
+          "gradient_norm": 57.2549934387207,
+          "learning_rate": 9e-06,
+          "gradient_source": "accumulated_training_step"
+        },
+        "estimated_bits_per_scalar": 6.362647220492363,
+        "actual_rans_payload_bits_per_scalar": 6.3053717613220215,
+        "mean_actual_rans_payload_bytes_per_scene": 3305830.75,
+        "geometry": {
+          "actual_rans_payload_bits_per_scalar": 7.339191436767578,
+          "mean_actual_rans_payload_bytes_per_scene": 1923925.0
+        },
+        "texture": {
+          "actual_rans_payload_bits_per_scalar": 5.271552085876465,
+          "mean_actual_rans_payload_bytes_per_scene": 1381905.75
+        }
+      },
+      "700": {
+        "validation": {
+          "mean_rate": 6.352537959814072,
+          "mean_distortion": 128.09427285194397,
+          "mean_lambda_distortion": 6.128582023084164,
+          "mean_loss": 12.481119900941849,
+          "mean_psnr": 29.03929853439331,
+          "mean_ssim": 0.9035861194133759,
+          "mean_lpips": 0.11579645611345768,
+          "mean_texture_mse": 0.00012311231603234774,
+          "mean_geometry_mse": 6.789645885874052e-05,
+          "scenes": 16,
+          "quantization_mode": "hard_round_clamp",
+          "straight_through_used": false,
+          "step": 700,
+          "pre_clip_gradient_norm": 147.11106872558594,
+          "post_clip_gradient_norm": 1.0,
+          "gradient_clipping_active": true,
+          "gradient_norm": 147.11106872558594,
+          "learning_rate": 9e-06,
+          "gradient_source": "accumulated_training_step"
+        },
+        "estimated_bits_per_scalar": 6.352537974715233,
+        "actual_rans_payload_bits_per_scalar": 6.2939958572387695,
+        "mean_actual_rans_payload_bytes_per_scene": 3299866.5,
+        "geometry": {
+          "actual_rans_payload_bits_per_scalar": 7.33640193939209,
+          "mean_actual_rans_payload_bytes_per_scene": 1923193.75
+        },
+        "texture": {
+          "actual_rans_payload_bits_per_scalar": 5.251589775085449,
+          "mean_actual_rans_payload_bytes_per_scene": 1376672.75
+        }
+      },
+      "800": {
+        "validation": {
+          "mean_rate": 6.342602014541626,
+          "mean_distortion": 129.0753526687622,
+          "mean_lambda_distortion": 6.175521142780781,
+          "mean_loss": 12.518123060464859,
+          "mean_psnr": 29.036439776420593,
+          "mean_ssim": 0.9034639485180378,
+          "mean_lpips": 0.11587998317554593,
+          "mean_texture_mse": 0.00015635348063369747,
+          "mean_geometry_mse": 7.002452548476867e-05,
+          "scenes": 16,
+          "quantization_mode": "hard_round_clamp",
+          "straight_through_used": false,
+          "step": 800,
+          "pre_clip_gradient_norm": 114.55254364013672,
