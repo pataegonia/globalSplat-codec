@@ -38,11 +38,11 @@ classifiers = [
 ]
 dependencies = [
     # Install torch/torchvision for CUDA 12.1 FIRST, from the PyTorch index:
-    #   pip install torch==2.5.1 torchvision==0.20.1 \
+    #   pip install torch==2.13.0 torchvision==0.20.1 \
     #       --index-url https://download.pytorch.org/whl/cu121
     # The pins below are then satisfied by the cu121 build (PyPI only ships the
     # default-CUDA wheel, so a bare install would pull the wrong CUDA).
-    "torch==2.5.1",
+    "torch==2.13.0",
     "torchvision==0.20.1",
     "pytorch-lightning==2.4.0",
     "einops==0.8.0",
