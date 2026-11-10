@@ -50,7 +50,7 @@ dependencies = [
     "lpips==0.1.4",
     "scipy==1.14.1",
     "numpy==1.26.3",
-    "hydra-core==1.3.2",
+    "hydra-core==1.3.8",
     "omegaconf==2.3.0",
     "tensorboard==2.20.0",
     "imageio==2.36.0",
